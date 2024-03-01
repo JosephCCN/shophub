@@ -1,10 +1,10 @@
 # ShopHub
 
 ## Git Regulation
-- we are using github flow, you may search about that online, but in short, you should fork a branch from master, and do your coding there
-- **NEVER EVER** do changes to master directly
+- we are using github flow, you may search about that online, but in short, you should fork a branch from main, and do your coding there
+- **NEVER EVER** do changes to main directly
 - `rebase` will be used for merging 2 branchs, instead of `merge`, to keep all the commits
-- please tell everyone if you want to merge your branch with master
+- please tell everyone if you want to merge your branch with main
   
 ## setup DBMS
 - we are using [postgres](https://www.postgresql.org/download/)
