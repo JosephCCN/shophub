@@ -1,3 +1,6 @@
+CREATE DATABASE shophub;
+\c shophub
+
 CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,

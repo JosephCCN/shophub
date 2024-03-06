@@ -7,9 +7,9 @@
 - please tell everyone if you want to merge your branch with main
   
 ## setup DBMS
-- we are using [postgres](https://www.postgresql.org/download/)
+- we are using [postgres14](https://www.postgresql.org/download/)
 - please set all password to `admin`  
-- please set the DB server port as `5433`  
+- please set the DB server port as `5432`  
 - to setup the tables, please login to psql with CLI, and run `\i {path of setup.sql}`, the `setup.sql` is in server folder
   
 ## setup server and client  
