@@ -1,4 +1,4 @@
-CREATE TABLE if not exists user_info(
+CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
     password VARCHAR(30) NOT NULL ,
@@ -24,13 +24,13 @@ CREATE TABLE if not exists cart(
     product_id integer NOT NULL,
     user_id integer NOT NULL,
     quantity integer NOT NULL,
-    CONSTRAINT no_duplicate UNIQUE (user_id, product_id) 
+    CONSTRAINT cart_no_duplicate UNIQUE (user_id, product_id) 
 );
 
-CREATE TABLE if not exists wish_list(
+CREATE TABLE if not exists wishlist(
     product_id integer NOT NULL,
     user_id integer NOT NULL,
-    CONSTRAINT no_duplicate UNIQUE (user_id, product_id) 
+    CONSTRAINT wishlist_no_duplicate UNIQUE (user_id, product_id) 
 );
 
 CREATE TABLE if not exists comment(
@@ -38,5 +38,5 @@ CREATE TABLE if not exists comment(
     user_id integer NOT NULL,
     context varchar(400),
     rating integer CHECK (0 <= rating and rating <= 5),
-    CONSTRAINT no_duplicate_2 UNIQUE (user_id, product_id) 
+    CONSTRAINT comment_no_duplicate UNIQUE (user_id, product_id) 
 );
