@@ -5,11 +5,16 @@ CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
     password VARCHAR(30) NOT NULL ,
-    CONSTRAINT id_username UNIQUE (user_id, username) 
+    is_admin boolean NOT NULL,
+    CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
 );
 
+INSERT INTO users (username, password, is_admin)
+VALUES ('admin', 'admin', TRUE);
+
 CREATE TABLE if not exists history(
-    product_id serial PRIMARY KEY NOT NULL,
+    order_id integer NOT NULL,
+    product_id integer NOT NULL,
     buyer integer NOT NULL ,
     seller integer NOT NULL,
     order_date timestamp NOT NULL,
@@ -18,7 +23,7 @@ CREATE TABLE if not exists history(
 
 CREATE TABLE if not exists product(
     product_id serial PRIMARY KEY NOT NULL,
-    product_name varchar(100) NOT NULL ,
+    product_name varchar(100) NOT NULL,
     price DECIMAL(19, 4) NOT NULL,
     category varchar(100)
 );
@@ -36,10 +41,10 @@ CREATE TABLE if not exists wishlist(
     CONSTRAINT wishlist_no_duplicate UNIQUE (user_id, product_id) 
 );
 
-CREATE TABLE if not exists comment(
+CREATE TABLE if not exists review(
     product_id integer NOT NULL,
     user_id integer NOT NULL,
     context varchar(400),
-    rating integer CHECK (0 <= rating and rating <= 5),
-    CONSTRAINT comment_no_duplicate UNIQUE (user_id, product_id) 
+    rating integer CHECK (1 <= rating and rating <= 5),
+    CONSTRAINT review_no_duplicate UNIQUE (user_id, product_id) 
 );
