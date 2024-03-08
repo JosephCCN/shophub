@@ -7,15 +7,9 @@ const Home = () => {
     return (
       <div>
         <h1>Home Page</h1>
-        <br />
         <ul>
           <li>
-            {/* Endpoint to route to Home component */}
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            {/* Endpoint to route to About component */}
-            <Link to="/test">Test</Link>
+            <Link to='/login'>Login</Link>
           </li>
         </ul>
       </div>
