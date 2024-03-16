@@ -21,11 +21,26 @@ app.get('/cart', (req, res) => {
     res.json(result.rows)
 })
 
-app.post('/login', (req, res) => {
+app.post('/login', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
     console.log(username, pwd);
-    res.json({userid: 3});
+    var result = await db.query(`select password from users where username='${username}'`)
+    if(result.rows.length != 1) {
+        res.json({err: 'No Such User'});
+        return;
+    }
+    real_password = result.rows[0]['password'];
+    if(pwd != real_password) {
+        res.json({err: 'Wrong Password'});
+        return;
+    }
+    result = await db.query(`select user_id from users where username='${username}'`)
+    res.json(result.rows[0])
+})
+
+app.post('/register', (req, res) => {
+    res.sendStatus(200);
 })
 
 app.listen(port, (err) => {
