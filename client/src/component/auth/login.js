@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import Reg from './register'
 
 function Login() {
 
@@ -20,7 +21,6 @@ function Login() {
     .then(res => {
       if(res.data['err']) {
         setErr(res.data['err'])    //set error msg
-        firsterr = 1;
         return //cannot login, thus return
       }
       const userid = res.data['user_id'];
