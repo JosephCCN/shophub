@@ -1,11 +1,18 @@
 CREATE DATABASE shophub;
 \c shophub
 
+DROP TABLE if exists users;
+DROP TABLE if exists history;
+DROP TABLE if exists product;
+DROP TABLE if exists cart;
+DROP TABLE if exists wishlist;
+DROP TABLE if exists review;
+
 CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
     password VARCHAR(30) NOT NULL ,
-    is_admin boolean NOT NULL,
+    is_admin boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
 );
 
