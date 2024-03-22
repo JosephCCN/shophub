@@ -29,7 +29,7 @@ function Reg() {
         setErr(res.data['err'])    //set error msg
         return //cannot login, thus return
       }
-      setErr('Successful!\nRedicting to login page...');
+      setErr('Successful! Redicting to login page...');
       await delay(1000);
       navigate('/login');  //able to login, then redirect to home page
     })

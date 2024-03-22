@@ -1,12 +1,18 @@
 // Importing Link from react-router-dom to 
 // navigate to different end points.
 import { Navigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
+import Bar from '../search-bar/bar'
+import ListProduct from "../search-bar/list_product";
 
 function Actual_home() {
+  const [product_info, setProductInfo] = useState();
   return (
     <div>
-      <p>Actual Home</p>
+      <h1>ShopHub</h1>
+      <Bar setProductInfo={setProductInfo}/><br/>
+      <ListProduct products={product_info}/>
     </div>
   )
 }
