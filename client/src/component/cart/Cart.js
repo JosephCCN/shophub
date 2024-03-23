@@ -3,15 +3,15 @@
 import { Navigate, Link } from "react-router-dom";
 import Cookies from 'universal-cookie'
 
-function Actual_home() {
+function Show_Cart() {
   return (
     <div>
-      <p>Actual Home</p>
+      <p>This is the cart.</p>
     </div>
   )
 }
 
-function Home(){
+function Cart(){
 
   const cookies = new Cookies();
   const userid = cookies.get('userid');
@@ -20,8 +20,8 @@ function Home(){
     return (<Navigate to='/login'/>);
   }
   else {
-    return(<Actual_home/>);
+    return(<Show_Cart/>);
   }
 };
  
-export default Home;
+export default Cart;
