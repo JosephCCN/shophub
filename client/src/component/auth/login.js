@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import Reg from './register'
 
 function Login() {
 

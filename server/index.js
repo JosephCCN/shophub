@@ -59,6 +59,26 @@ app.post('/register', async(req, res) => {
     }
 })
 
+app.get('/search', async(req, res) => {
+    key = req.query.key;
+    const l = key.length;
+    var result;
+    try{
+        if(Number(key)) result = await db.query(`select * from product where product_id=${key}`);
+        else result = await db.query(`select * from product where LEFT(product_name, ${l})='${key}'`);
+    }
+    catch (err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+})
+
+app.get('/product_img', async(req, res) => {
+    id = req.query.id;
+    res.download(`./img/${id}.png`);
+})
+
 
 app.listen(port, (err) => {
     console.log('running...')

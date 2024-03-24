@@ -1,10 +1,17 @@
 import { useState } from "react";
+import axios from 'axios'
 
 function Bar(props) {
     const [search_key, setSearchKey] = useState();
 
     const search = () => {
-        props.setProductInfo({'item1':'fuck', 'item2':'test2'});
+        axios(`http://localhost:3030/search?key=${search_key}`)
+        .then((res) => {
+            props.setProductInfo(res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     return (
