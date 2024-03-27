@@ -79,6 +79,59 @@ app.get('/product_img', async(req, res) => {
     res.download(`./img/${id}.png`);
 })
 
+app.get('/seller_history', async(req, res) => {
+    id = req.query.id;
+    amount = req.query.top;
+    var result;
+    try{
+        result = await db.query(`select * from history where seller=${id} order by order_date desc limit ${amount}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+
+})
+
+app.get('/buyer_history', async(req, res) => {
+    id = req.query.id;
+    amount = req.query.top;
+    var result;
+    try{
+        result = await db.query(`select * from history where buyer=${id} order by order_date desc limit ${amount}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+
+})
+
+app.get('/username', async(req, res) => {
+    id = req.query.id;
+    try{
+        result = await db.query(`select username from users where user_id=${id}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+})
+
+app.get('/productname', async(req, res) => {
+    id = req.query.id;
+    try{
+        result = await db.query(`select product_name from product where product_id=${id}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+})
 
 app.listen(port, (err) => {
     console.log('running...')

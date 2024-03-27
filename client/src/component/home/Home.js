@@ -11,10 +11,15 @@ function Actual_home() {
   const cookies = new Cookies();
   const navigate = useNavigate();
   const [logOut, setLogout] = useState(0);
+  var [gotoSell, setGoToSell] = useState(0);
 
   const logout = () => {
     setLogout(1);
   };
+
+  const GotoSell = () => {
+    setGoToSell(1);
+  }
 
   useEffect(() => {
     if(!logOut) return
@@ -24,12 +29,18 @@ function Actual_home() {
     navigate('/login');
   }, [logOut])
 
+  useEffect(() => {
+      if(!gotoSell) return;
+      gotoSell = 0;
+      navigate('/sell');
+  }, [gotoSell])
+
   return (
     <div>
       <h1>ShopHub</h1>
       <Bar setProductInfo={setProductInfo}/> 
       <button onClick={logout}>Logout</button>
-      <button>Seller</button>
+      <button onClick={GotoSell}>Seller</button>
       <br/>
       <ListProduct products={product_info}/>
     </div>
