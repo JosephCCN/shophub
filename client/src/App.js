@@ -2,6 +2,7 @@ import './App.css';
 import Login from './component/auth/login'
 import Reg from './component/auth/register'
 import Home from './component/home/Home'
+import Sell from './component/seller/seller'
 import {Route, Routes, Navigate, BrowserRouter as Router} from 'react-router-dom'
 
 
@@ -14,6 +15,7 @@ function App() {
           <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path='/registration' element={<Reg/>}/>
+          <Route path='/sell' element={<Sell/>}/>
         </Routes>
       </Router>
     </div>
