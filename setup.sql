@@ -21,18 +21,21 @@ VALUES ('admin', 'admin', TRUE);
 
 CREATE TABLE if not exists history(
     order_id integer NOT NULL,
-    product_id integer NOT NULL,
-    buyer integer NOT NULL ,
     seller integer NOT NULL,
     order_date timestamp NOT NULL,
-    price DECIMAL(19, 4) NOT NULL
+    price DECIMAL(19, 4) NOT NULL,
+    CONSTRAINT buyer_id FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT seller_id FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT product_id FOREIGN KEY (product_id) REFERENCES product(product_id),
+
 );
 
 CREATE TABLE if not exists product(
     product_id serial PRIMARY KEY NOT NULL,
     product_name varchar(100) NOT NULL,
     price DECIMAL(19, 4) NOT NULL,
-    category varchar(100)
+    category varchar(100),
+    CONSTRAINT seller_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE if not exists cart(
