@@ -16,39 +16,43 @@ CREATE TABLE if not exists users(
     CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
 );
 
-INSERT INTO users (username, password, is_admin)
-VALUES ('admin', 'admin', TRUE);
-
-CREATE TABLE if not exists history(
-    order_id integer NOT NULL,
-    seller integer NOT NULL,
-    order_date timestamp NOT NULL,
-    price DECIMAL(19, 4) NOT NULL,
-    CONSTRAINT buyer_id FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CONSTRAINT seller_id FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CONSTRAINT product_id FOREIGN KEY (product_id) REFERENCES product(product_id),
-
-);
-
 CREATE TABLE if not exists product(
     product_id serial PRIMARY KEY NOT NULL,
     product_name varchar(100) NOT NULL,
+    seller_id integer NOT NULL,
     price DECIMAL(19, 4) NOT NULL,
     category varchar(100),
-    CONSTRAINT seller_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+    CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE if not exists history(
+    order_id integer NOT NULL,
+    buyer_id integer NOT NULL,
+    seller_id integer NOT NULL,
+    product_id integer NOT NULL,
+    order_date timestamp NOT NULL,
+    quantity integer CHECK (1 <= quantity),
+    price DECIMAL(19, 4) NOT NULL,
+    CONSTRAINT history_buyer_id_exist FOREIGN KEY (buyer_id) REFERENCES users(user_id),
+    CONSTRAINT history_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id),
+    CONSTRAINT history_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
 CREATE TABLE if not exists cart(
     product_id integer NOT NULL,
     user_id integer NOT NULL,
     quantity integer NOT NULL,
-    CONSTRAINT cart_no_duplicate UNIQUE (user_id, product_id) 
+    CONSTRAINT cart_no_duplicate UNIQUE (user_id, product_id),
+    CONSTRAINT cart_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
+    CONSTRAINT cart_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE if not exists wishlist(
     product_id integer NOT NULL,
     user_id integer NOT NULL,
-    CONSTRAINT wishlist_no_duplicate UNIQUE (user_id, product_id) 
+    CONSTRAINT wishlist_no_duplicate UNIQUE (user_id, product_id),
+    CONSTRAINT wishlist_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
+    CONSTRAINT wishlist_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE if not exists review(
@@ -56,5 +60,10 @@ CREATE TABLE if not exists review(
     user_id integer NOT NULL,
     context varchar(400),
     rating integer CHECK (1 <= rating and rating <= 5),
-    CONSTRAINT review_no_duplicate UNIQUE (user_id, product_id) 
+    CONSTRAINT review_no_duplicate UNIQUE (user_id, product_id),
+    CONSTRAINT review_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
+    CONSTRAINT review_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+INSERT INTO users (username, password, is_admin)
+VALUES ('admin', 'admin', TRUE);
