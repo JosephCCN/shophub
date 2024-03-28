@@ -79,6 +79,19 @@ app.get('/product_img', async(req, res) => {
     res.download(`./img/${id}.png`);
 })
 
+app.get('/seller_product', async(req, res) => {
+    id = req.query.id;
+    try{
+        result = await db.query(`select product_id from product where seller_id=${id}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+}
+)
+
 app.get('/seller_history', async(req, res) => {
     id = req.query.id;
     amount = req.query.top;

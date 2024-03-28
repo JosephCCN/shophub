@@ -32,7 +32,7 @@ function Actual_home() {
   useEffect(() => {
       if(!gotoSell) return;
       gotoSell = 0;
-      navigate('/sell');
+      navigate('/seller');
   }, [gotoSell])
 
   return (
