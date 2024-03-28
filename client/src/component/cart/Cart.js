@@ -11,7 +11,6 @@ function Show_Cart(props) {
     })
     .then(res => {
       if(res.data['err']) {
-        setErr(res.data['err'])    //set error msg
         return //cannot retrieve cart, thus return
       }
     })
