@@ -1,3 +1,5 @@
+\c postgres
+DROP DATABASE IF EXISTS shophub;
 CREATE DATABASE shophub;
 \c shophub
 
@@ -68,5 +70,6 @@ CREATE TABLE if not exists review(
 INSERT INTO users (username, password, is_admin)
 VALUES ('admin', 'admin', TRUE);
 
+insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
 insert into product (product_name, seller_id, price, category) values ('item1', 2, 12.2, 'fuck');
 insert into product (product_name, seller_id, price, category) values ('item2', 2, 2.4, 'hell');
