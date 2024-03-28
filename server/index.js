@@ -82,7 +82,7 @@ app.get('/product_img', async(req, res) => {
 app.get('/seller_product', async(req, res) => {
     id = req.query.id;
     try{
-        result = await db.query(`select product_id from product where seller_id=${id}`);
+        result = await db.query(`select * from product where seller_id=${id}`);
     }
     catch(err) {
         res.json({'err': err});
@@ -134,7 +134,7 @@ app.get('/username', async(req, res) => {
     res.json(result.rows);
 })
 
-app.get('/productname', async(req, res) => {
+app.get('/product_name', async(req, res) => {
     id = req.query.id;
     try{
         result = await db.query(`select product_name from product where product_id=${id}`);
