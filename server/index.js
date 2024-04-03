@@ -1,4 +1,5 @@
 const express = require('express')
+const multer = require('multer')
 const cors = require('cors')
 const db = require('./db')
 const app = express()
@@ -97,14 +98,13 @@ app.get('/seller_history', async(req, res) => {
     amount = req.query.top;
     var result;
     try{
-        result = await db.query(`select * from history where seller=${id} order by order_date desc limit ${amount}`);
+        result = await db.query(`select * from history where seller_id=${id} order by order_date desc limit ${amount}`);
     }
     catch(err) {
         res.json({'err': err});
         return;
     }
     res.json(result.rows);
-
 })
 
 app.get('/buyer_history', async(req, res) => {
@@ -146,6 +146,45 @@ app.get('/product_name', async(req, res) => {
     res.json(result.rows);
 })
 
+const image_storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'img');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+const upload = multer({
+    storage: image_storage,
+    limits:{fileSize:'1000000'},
+    fileFilter:(req, file, callback)=>{
+        const fileType = /jpeg|jpg|png|gif/
+        const mimeType = fileType.test(file.mimetype)
+        const extname = fileType.test(path.extname(file.originalname))
+        if(mimeType && extname){
+            return callback(null, true)
+        }
+        callback('Give proper file format to upload')
+    }
+}).single('image')
+app.post('/add_product', async(req, res) => {
+    userid = req.body.userid;
+    productname = req.body.productname;
+    productinfo = req.body.productinfo;
+    price = req.body.price;
+    quantity = req.body.quantity;
+    category = req.body.category;
+    result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ('${userid}', '${productname}', '${productinfo}', '${price}', '${quantity}', '${category}')`);
+    // upload.single(image);
+    if(result.rows[0] == 'INSERT 0 1') {
+        res.json({});
+        return;
+    }
+    else {
+        res.json({err: result.rows[0]});
+        return;
+    }
+})
 app.listen(port, (err) => {
     console.log('running...')
 })
