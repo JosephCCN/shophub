@@ -26,6 +26,9 @@ function Actual_home() {
     cookies.remove('userid', {
       path: '/'
     });
+    cookies.remove('admin', {
+      path: '/'
+    });
     navigate('/login');
   }, [logOut])
 

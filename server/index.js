@@ -146,6 +146,29 @@ app.get('/product_name', async(req, res) => {
     res.json(result.rows);
 })
 
+app.get('/all_users', async(req, res) => {
+    try {
+        result = await db.query(`select * from users`);
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    res.json(result.rows);
+})
+
+app.get('/all_products', async(req, res) => {
+    try {
+        result = await db.query(`select * from product`);
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    res.json(result.rows);
+})
+
+
 app.listen(port, (err) => {
     console.log('running...')
 })

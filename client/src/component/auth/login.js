@@ -22,16 +22,21 @@ function Login() {
         setErr(res.data['err'])    //set error msg
         return //cannot login, thus return
       }
+      console.log(res.data)
       const userid = res.data['user_id'];
       cookies.set('userid', userid, {  //set cookies
         path: '/'
       });
-      if(res.data['is_admin'] == 't') {
-          cookies.set('is_admin', 't', {
+      if(res.data['is_admin']) {
+          cookies.set('admin', true, {
             path: '/'
           });
+          navigate('/admin');
       }
-      navigate('/home');  //able to login, then redirect to home page
+      else {
+        navigate('/home');  //able to login, then redirect to home page
+      }
+      
     })
     .catch(err => {
       console.log(err);
