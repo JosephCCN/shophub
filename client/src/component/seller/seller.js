@@ -3,13 +3,24 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 
-
-// const DeleteProduct
-
 function FetchProductID(props){
     const userid = props.userid
     const [isLoading, setLoading] = useState(true);
     const [productlist, setlist] = useState([]);
+    var [deleteproduct, setdeleteproduct] = useState(0);
+    function gotodeleteproduct(productid){
+        setdeleteproduct(productid);
+    }
+    useEffect(() => {
+        if(!deleteproduct) return;
+        const del_product = async() => {
+            const res = await axios.get(`http://localhost:3030/delete_product?productid=${deleteproduct}`) //fetch seller products product_id
+            setLoading(false)
+        }
+        del_product();
+        deleteproduct=0;
+        window.location.reload(false);
+    }, [deleteproduct])
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}`) //fetch seller products product_id
@@ -26,13 +37,14 @@ function FetchProductID(props){
         var L = Object.keys(productlist).length;
         for(var i=0;i<L;i++) {
             const cur = productlist[i];
+            const productid = cur['product_id']
             //console.log(cur['product_id']);
             list.push(
                 <p>{cur['product_id']}:</p>)
-            // list.push(<button onClick={EditProduct}>Edit Product</button>)
-            // list.push(<button onClick={DeleteProduct}>Delete Product</button>)
             list.push(<p>name: {cur['product_name']}, price: {cur['price']}, quantity left: {cur['quantity']}, category: {cur['category']}</p>
             )   
+            // list.push(<button onClick={() => gotoeditproduct()}>Edit Product</button>)
+            list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
         }
         return list
     }

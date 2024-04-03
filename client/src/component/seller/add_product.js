@@ -6,7 +6,9 @@ import axios from 'axios'
 
 function AddProduct(props) {
     const cookies = new Cookies();
+    const navigate = useNavigate();
     const userid = cookies.get('userid');
+    if(!userid) navigate('/login');
     const [productname, setproductname] = useState();
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
@@ -29,8 +31,7 @@ function AddProduct(props) {
                 setErr(res.data['err'])    //set error msg
                 return //cannot login, thus return
             }
-            console.log('added')
-            return <p>added successfully</p>
+            navigate('/seller')
         })
         .catch(err =>{
             console.log(err);

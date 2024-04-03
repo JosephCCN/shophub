@@ -185,6 +185,18 @@ app.post('/add_product', async(req, res) => {
         return;
     }
 })
+
+app.get('/delete_product', async(req, res) => {
+    productid = req.query.productid;
+    try{
+        result = await db.query(`delete from product where product_id=${productid}`);
+        console.log(productid, result)
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+})
 app.listen(port, (err) => {
     console.log('running...')
 })
