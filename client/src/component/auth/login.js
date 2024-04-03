@@ -26,6 +26,11 @@ function Login() {
       cookies.set('userid', userid, {  //set cookies
         path: '/'
       });
+      if(res.data['is_admin'] == 't') {
+          cookies.set('is_admin', 't', {
+            path: '/'
+          });
+      }
       navigate('/home');  //able to login, then redirect to home page
     })
     .catch(err => {

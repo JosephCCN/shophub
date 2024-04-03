@@ -35,7 +35,7 @@ app.post('/login', async(req, res) => {
         res.json({err: 'Wrong Password'});
         return;
     }
-    result = await db.query(`select user_id from users where username='${username}'`)
+    result = await db.query(`select user_id, is_admin from users where username='${username}'`)
     res.json(result.rows[0])
 })
 
