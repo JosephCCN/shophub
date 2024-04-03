@@ -2,9 +2,6 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import beforeImage from '../../image/image.png';
 
 
 function AddProduct(props) {
