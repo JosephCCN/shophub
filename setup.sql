@@ -20,9 +20,11 @@ CREATE TABLE if not exists users(
 
 CREATE TABLE if not exists product(
     product_id serial PRIMARY KEY NOT NULL,
-    product_name varchar(100) NOT NULL,
     seller_id integer NOT NULL,
-    price DECIMAL(19, 4) NOT NULL,
+    product_name varchar(100) NOT NULL,
+    info varchar(200),
+    price DECIMAL(19, 1) NOT NULL,
+    quantity integer CHECK (1 <= quantity),
     category varchar(100),
     CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
@@ -34,7 +36,7 @@ CREATE TABLE if not exists history(
     product_id integer NOT NULL,
     order_date timestamp NOT NULL,
     quantity integer CHECK (1 <= quantity),
-    price DECIMAL(19, 4) NOT NULL,
+    price DECIMAL(19, 1) NOT NULL,
     CONSTRAINT history_buyer_id_exist FOREIGN KEY (buyer_id) REFERENCES users(user_id),
     CONSTRAINT history_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id),
     CONSTRAINT history_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id)
@@ -71,5 +73,5 @@ INSERT INTO users (username, password, is_admin)
 VALUES ('admin', 'admin', TRUE);
 
 insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
-insert into product (product_name, seller_id, price, category) values ('item1', 2, 12.2, 'fuck');
-insert into product (product_name, seller_id, price, category) values ('item2', 2, 2.4, 'hell');
+insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, 'fuck');
+insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, 'hell');
