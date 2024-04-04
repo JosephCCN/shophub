@@ -1,5 +1,6 @@
 // Importing Link from react-router-dom to 
 // navigate to different end points.
+import './css/Home.css';
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
@@ -36,14 +37,41 @@ function Actual_home() {
   }, [gotoSell])
 
   return (
-    <div>
-      <h1>ShopHub</h1>
-      <Bar setProductInfo={setProductInfo}/> 
-      <button onClick={logout}>Logout</button>
-      <button onClick={GotoSell}>Seller</button>
-      <br/>
-      <ListProduct products={product_info}/>
-    </div>
+    <body>
+      <nav className='header'>
+        <div className='clearfix'>
+          <div className='hometopright'>
+            <ul>
+                <li>
+                  <button onClick={logout}>Logout</button>
+                </li>
+                <li>
+                  <button>Wishlist</button>
+                </li>
+                <li>
+                  <button>Shopping Cart</button>
+                </li>
+                <li>
+                <button onClick={GotoSell}>Sell History</button>
+                </li>
+                <li>
+                  <button>History</button>
+                </li>
+                <li>
+                  <button>Profile</button>
+                </li>
+              </ul>
+          </div>   
+        </div>
+      </nav>
+      <div className='searching'>
+        <h1>Home Page</h1>
+        <Bar setProductInfo={setProductInfo}/> 
+        <br/>
+      </div>
+        <ListProduct products={product_info}/>
+      
+    </body>
   )
 }
 
