@@ -1,0 +1,98 @@
+body{
+  background-color: antiquewhite;
+  padding: 0%;
+  margin: 0%;
+}
+
+.clearfix::before,
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.header>div>ul{
+  list-style: none;
+}
+
+.header{
+  background-color: rgb(233, 138, 35);
+  border: 0;
+  height: 75px;
+  padding-top: 0px;
+  margin: 0;
+}
+
+
+/*.header>div li{
+  float: left;
+  line-height: 3.5rem;
+  position: relative;
+  padding: 0 2rem 0 0.2rem;  
+}*/
+
+.hometopright{
+  float: right;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.hometopright>ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hometopright>ul>li{
+  line-height: 100px;
+  position: relative;
+  float: right;
+  padding: 0 15px 0 0.2px;  
+}
+
+.hometopright>ul>li>a{
+  background-color: rgb(233, 138, 35);
+  border: 0;
+  display: block;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding: 8px 8px;
+  text-decoration: none;
+}
+
+.hometopright>ul>li>a:hover{
+  background-color: rgb(223, 124, 18);
+}
+
+.hometopright button{
+  background-color: rgb(233, 138, 35);
+  color: rgb(0, 0, 0);
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.searching{
+  background-color: black;
+  border: 0;
+  margin-top: 0%;
+  padding-top: 0px;
+  height: 80px;
+  /*margin-top: -22px;*/
+  color: rgb(233, 138, 35);
+}
+
+.searching h1{
+  float: left;
+  margin-left: 20px;
+}
+/*.home-logo{
+  background: url(./home_icon2.jpg) no-repeat center;
+  float: left;
+  height: max-content;
+  width: auto;
+  background-size: contain;
+}*/
