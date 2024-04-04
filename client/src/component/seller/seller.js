@@ -2,24 +2,36 @@ import { useEffect, useInsertionEffect, useState } from "react"
 import {useNavigate, Navigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import LoadProductPhoto from '../util/product'
 
 function FetchProductID(props){
     const userid = props.userid
     const [isLoading, setLoading] = useState(true);
+    const [err, setErr] = useState();
     const [productlist, setlist] = useState([]);
     var [deleteproduct, setdeleteproduct] = useState(0);
     function gotodeleteproduct(productid){
         setdeleteproduct(productid);
     }
+    // delete product from seller       deleteproduct = productid
     useEffect(() => {
         if(!deleteproduct) return;
         const del_product = async() => {
-            const res = await axios.get(`http://localhost:3030/delete_product?productid=${deleteproduct}`) //fetch seller products product_id
-            setLoading(false)
+            try{
+                const res1 = await axios.post('http://localhost:3030/delete_img',{
+                    'productid': deleteproduct
+                })
+                const res2 = await axios.get(`http://localhost:3030/delete_product?productid=${deleteproduct}`) //fetch seller products product_id
+                setLoading(false)
+                deleteproduct=0;
+                window.location.reload(false);
+            }
+            catch(err){
+                setErr(err);
+                console.log(err);
+            }
         }
         del_product();
-        deleteproduct=0;
-        window.location.reload(false);
     }, [deleteproduct])
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -27,7 +39,7 @@ function FetchProductID(props){
     function gotoeditproduct(productid){
         seteditproduct(productid);
     }
-    useEffect(() =>{
+    useEffect(() =>{                            //set productid to cookies and go to edit_product page
         if(!editproduct) return;
         cookies.set('productid', editproduct, {  //set cookies
         path: '/'
@@ -36,7 +48,7 @@ function FetchProductID(props){
     }, [editproduct])
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}`) //fetch seller products product_id
+            const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}&asc=1`) //fetch seller products product_id
             setlist(res.data)
             setLoading(false)
         }
@@ -51,11 +63,10 @@ function FetchProductID(props){
         for(var i=0;i<L;i++) {
             const cur = productlist[i];
             const productid = cur['product_id']
-            //console.log(cur['product_id']);
             list.push(
                 <p>{cur['product_id']}:</p>)
-            list.push(<p>name: {cur['product_name']}, price: {cur['price']}, quantity left: {cur['quantity']}, category: {cur['category']}</p>
-            )   
+            list.push(<p>name: {cur['product_name']}, price: {cur['price']}, quantity left: {cur['quantity']}, category: {cur['category']}</p>)   
+            list.push(<LoadProductPhoto productid={productid}/>)
             list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
             list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
         }

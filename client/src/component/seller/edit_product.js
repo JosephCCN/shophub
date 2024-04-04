@@ -2,9 +2,9 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import LoadPhoto from '../util/product'
 
-
-function EditProduct(props) {
+function EditProduct(prop) {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const userid = cookies.get('userid');
@@ -14,7 +14,6 @@ function EditProduct(props) {
     const [isLoading, setLoading] = useState(true);
     const [product, setproduct] = useState([]);
 
-
     const [productname, setproductname] = useState();
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
@@ -22,7 +21,6 @@ function EditProduct(props) {
     const [category, setcategory] = useState();
     const [image, setImage] = useState();
     const [err, setErr] = useState();
-
 
     useEffect(() => {
         const fetch = async() => {
@@ -37,26 +35,33 @@ function EditProduct(props) {
     }
 
     
-    const handleeditproduct = (e) => {
-        axios.post('http://localhost:3030/edit_product', {
-            productid: productid,
-            productname: productname,
-            productinfo: productinfo,
-            price: price,
-            quantity: quantity,
-            category: category,
-        })
-        .then(res =>{
-            if(res.data['err']) {
-                setErr(res.data['err'])    //set error msg
-                return //cannot update product, thus return
-            }
-            navigate('/seller')
-        })
-        .catch(err =>{
-            console.log(err);
-        })
-    }
+    const handleeditproduct = async(e) => {
+        try{
+            const res1 = await axios.post('http://localhost:3030/delete_img',{
+                'productid': productid
+            })
+            //edit entries in database
+            const dataform = new FormData();
+            dataform.append('userid', userid);
+            dataform.append('productname', productname);
+            dataform.append('productinfo', productinfo);
+            dataform.append('price', price);
+            dataform.append('quantity', quantity);
+            dataform.append('category', category);
+            dataform.append('productid', productid);
+            dataform.append('image', image);
+            const res2 = await axios.post('http://localhost:3030/edit_product', dataform)
+            //remove cookies
+            cookies.remove('productid', {
+            path: '/'
+            });
+            navigate('/seller');
+        }
+        catch(err){
+            setErr(err)    //set error msg
+            console.log(err) //cannot update product, thus return
+        }
+    } 
     return (
         <div>
             <h1>Edit Product Page</h1>
@@ -73,11 +78,6 @@ function EditProduct(props) {
                     <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
                 </tr>
                 <tr>
-                    <td><label>Category:</label></td>
-                    <td><label>{product[0]['category']}</label></td>
-                    <td><input type="text" onChange={(e) => setcategory(e.target.value)}/></td>
-                </tr>
-                <tr>
                     <td><label>Quantity:</label></td>
                     <td><label>{product[0]['quantity']}</label></td>
                     <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
@@ -88,12 +88,18 @@ function EditProduct(props) {
                     <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
                 </tr>
                 <tr>
+                    <td><label>Category:</label></td>
+                    <td><label>{product[0]['category']}</label></td>
+                    <td><input type="text" onChange={(e) => setcategory(e.target.value)}/></td>
+                </tr>
+                <tr>
                     <td><label>Producat Image:</label></td>
+                    <LoadPhoto productid={productid}/>
                     <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
                 </tr>
             </table>
             </center>
-            <button type="submit" onClick={handleeditproduct}> Edit Product</button>
+            <button type="submit" onClick={handleeditproduct}>Save</button>
         </div>
     )
     

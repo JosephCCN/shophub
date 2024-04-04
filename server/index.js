@@ -1,9 +1,11 @@
 const express = require('express')
 const multer = require('multer')
+var path = require('path')
 const cors = require('cors')
 const db = require('./db')
 const app = express()
 var bodyParser = require('body-parser')
+const fs = require('fs')
 const port = 3030
 
 app.use(cors())
@@ -77,13 +79,36 @@ app.get('/search', async(req, res) => {
 
 app.get('/product_img', async(req, res) => {
     id = req.query.id;
-    res.download(`./img/${id}.png`);
+    try{
+        const fileName = `./img/${id}`;
+        const filePaths = [
+            `${fileName}.jpg`,
+            `${fileName}.png`,
+            `${fileName}.jpeg`,
+            `${fileName}.gif`,
+        ];
+        var filename = 0
+        for(const filePath of filePaths){
+            if(fs.existsSync(filePath)){
+                filename = filePath;
+            }
+        }
+        if(filename == 0) throw('Image Not Found!!')
+        res.download(filename)
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
 })
 
 app.get('/seller_product', async(req, res) => {
     id = req.query.id;
+    asc = req.query.asc;
+    if(asc == 1) query_msg = `select * from product where seller_id=${id} order by product_id asc`
+    else query_msg = `select * from product where seller_id=${id} order by product_id desc`
     try{
-        result = await db.query(`select * from product where seller_id=${id}`);
+        result = await db.query(query_msg);
     }
     catch(err) {
         res.json({'err': err});
@@ -158,12 +183,49 @@ app.get('/product', async(req, res) => {
     res.json(result.rows);
 })
 
+app.post('/delete_img', async(req, res) => {
+    productid = req.body.productid;
+    try{
+        const fileName = `./img/${productid}`;
+        const filePaths = [
+            `${fileName}.jpg`,
+            `${fileName}.png`,
+            `${fileName}.jpeg`,
+            `${fileName}.gif`,
+        ];
+        var filename = 0
+        for(const filePath of filePaths){
+            if(fs.existsSync(filePath)){
+                filename = filePath;
+            }
+        }
+        if(filename == 0) throw('Image Not Found!!')
+        fs.unlink(filename, (err) => {
+            if(err) throw err;
+            console.log(`imaged ${filename} deleted`)
+        })
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json({'sucess': 1});
+})
+
+app.get('/maxproductid', async(req, res) => {
+    try{
+        result = await db.query(`select last_value from product_product_id_seq`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+})
 const image_storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'img');
-    },
+    destination: './img',
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+        cb(null, `${req.body.productid}${path.extname(file.originalname)}`);
     }
 });
 const upload = multer({
@@ -176,45 +238,39 @@ const upload = multer({
         if(mimeType && extname){
             return callback(null, true)
         }
-        callback('Give proper file format to upload')
+        callback('Wrong File Format')
     }
-}).single('image')
-
-app.post('/add_product', async(req, res) => {
+})
+app.post('/add_product', upload.single('image'), async(req, res) => {
     userid = req.body.userid;
     productname = req.body.productname;
     productinfo = req.body.productinfo;
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
-    result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ('${userid}', '${productname}', '${productinfo}', '${price}', '${quantity}', '${category}')`);
-    // upload.single(image);
-    if(result.rows[0] == 'INSERT 0 1') {
-        res.json({});
-        return;
+    try{
+        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ('${userid}', '${productname}', '${productinfo}', '${price}', '${quantity}', '${category}')`);
+        res.json({'success': 1});
     }
-    else {
-        res.json({err: result.rows[0]});
+    catch(err){
+        res.json({'err':err});
         return;
     }
 })
 
-app.post('/edit_product', async(req, res) => {
+app.post('/edit_product', upload.single('image'), async(req, res) => {
     productid = req.body.productid;
     productname = req.body.productname;
     productinfo = req.body.productinfo;
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
-    console.log(productid);
-    result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', '${price}', '${quantity}', '${category}') where product_id='${productid}'`);
-    // upload.single(image);
-    if(result.rows[0] == 'UPDATE 1') {
-        res.json({});
-        return;
+    try{
+        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', '${price}', '${quantity}', '${category}') where product_id='${productid}'`);
+        res.json({'success': 1});
     }
-    else {
-        res.json({err: result.rows[0]});
+    catch(err){
+        res.json({'err': err});
         return;
     }
 })
@@ -223,6 +279,21 @@ app.get('/delete_product', async(req, res) => {
     productid = req.query.productid;
     try{
         result = await db.query(`delete from product where product_id=${productid}`);
+        var filename;
+        if(fs.existsSync(`./img/${productid}.png`))
+            filename = `./img/${productid}.png`;
+        else if(fs.existsSync(`./img/${productid}.jpg`))
+            filename = `./img/${productid}.jpg`;
+        else if(fs.existsSync(`./img/${productid}.jpeg`))
+            filename = `./img/${productid}.jpeg`;
+        else if(fs.existsSync(`./img/${productid}.gif`))
+            filename = `./img/${productid}.gif`;
+        else throw('Image not found!');
+        fs.unlink(filename, (err) => {
+            if(err) throw err;
+            console.log(`image ${filename} deleted`)
+        })
+        res.json({'success': 1});
     }
     catch(err) {
         res.json({'err': err});
