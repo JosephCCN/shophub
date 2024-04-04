@@ -124,6 +124,7 @@ app.get('/buyer_history', async(req, res) => {
 
 app.get('/username', async(req, res) => {
     id = req.query.id;
+    console.log(id);
     try{
         result = await db.query(`select username from users where user_id=${id}`);
     }
@@ -138,6 +139,19 @@ app.get('/product_name', async(req, res) => {
     id = req.query.id;
     try{
         result = await db.query(`select product_name from product where product_id=${id}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+})
+
+app.get('/product', async(req, res) => {
+    id = req.query.id;
+    console.log('product', id);
+    try{
+        result = await db.query(`select * from product where product_id=${id}`);
     }
     catch(err) {
         res.json({'err': err});
@@ -168,6 +182,31 @@ app.get('/all_products', async(req, res) => {
     res.json(result.rows);
 })
 
+app.post('/add_cart', async(req, res) => {
+    const productID = req.body.productID;
+    const userID = req.body.userID;
+    const quantity = req.body.quantity;
+    console.log(productID, userID, quantity)
+    try{
+        const result = await db.query(`select * from cart where product_id=${productID} and user_id=${userID}`);
+        if(result.rows.length > 0) {
+            res.json({'in_cart': 1});
+            return;
+        }
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    try{
+        const result = await db.query(`insert into cart (product_id, user_id, quantity) values (${productID}, ${userID}, ${quantity})`);
+        res.json({})
+        return;
+    }
+    catch(err) {
+        res.json({'err':err});
+    }
+})
 
 app.listen(port, (err) => {
     console.log('running...')

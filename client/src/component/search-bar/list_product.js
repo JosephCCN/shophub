@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 function Product(prop) {
     const cur = prop.cur;
     const [img, setImg] = useState('');
+    var [navi, setNavi] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(navi) {
+            navigate(`/product/${cur['product_id']}`)
+            navi = false
+        }
+    }, [navi])
 
     const select = (e) => { //execute when this product is clicked
-        console.log('clicked')
+        console.log(`navigate to ${cur['product_id']}`)
+        setNavi(true)
     }
 
     const load_photo = () => { //load photo from backend server
@@ -30,7 +41,6 @@ function Product(prop) {
 }
 
 function ListProduct(props) {
-    const [search_key, setSearchKey] = useState();
     const products = props.products;
     const L = Object.keys(products).length;
     let print_out = [];
