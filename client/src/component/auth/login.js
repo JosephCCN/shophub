@@ -54,16 +54,14 @@ function Login() {
     return (
       <body className='login'>
         <br/>
-        <p>Login page</p>
+        <h1>Shophub</h1>
         <div>
+          <p className='loginhead'>Login</p>
+          <br/>
           <label>Username</label>
-          <br/>
           <input type="text" onChange={(e) => setUsername(e.target.value)}/>
-          <br/>
           <label>Password</label>
-          <br/>
           <input type="password" onChange={(e) => setPassword(e.target.value)}/>
-          <br/>
           <br/>
           <button type="submit" onClick={submit}>Submit</button>
           <br/>

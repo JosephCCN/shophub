@@ -65,24 +65,26 @@ function Reg() {
 
     return (
       <body className='register'>
-      <br/>
-      <p>Registration</p>
-      <div>
-        <label>Username</label>
         <br/>
-        <input type="text" onChange={(e) => setUsername(e.target.value)}/>
-        <br/>
-        <label>Password</label>
-        <br/>
-        <input type="password" onChange={(e) => setPassword(e.target.value)}/>
-        <br/>
-        <label>Renter Password</label>
-        <br/>
-        <input type="password" onChange={(e) => setPassword2(e.target.value)}/>
-        <br/>
-        <button type="submit" onClick={submit}>Submit</button>
-        <p>{err}</p>
-      </div>
+        <h1>Shophub</h1>
+        <div>
+          <p className='registerhead'>Registration</p>
+          <br/>
+          <label>Username</label>
+          <br/>
+          <input type="text" onChange={(e) => setUsername(e.target.value)}/>
+          <br/>
+          <label>Password</label>
+          <br/>
+          <input type="password" onChange={(e) => setPassword(e.target.value)}/>
+          <br/>
+          <label>Renter Password</label>
+          <br/>
+          <input type="password" onChange={(e) => setPassword2(e.target.value)}/>
+          <br/>
+          <button type="submit" onClick={submit}>Submit</button>
+          <p>{err}</p>
+        </div>
       </body>
     );
 };
