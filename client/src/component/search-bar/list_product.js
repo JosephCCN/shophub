@@ -1,3 +1,4 @@
+import './css/list_product.css';
 import { useEffect, useState } from "react";
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
@@ -32,10 +33,14 @@ function Product(prop) {
     }
 
     return (
-        <div onClick={select} style={{cursor:'pointer'}}>
-            {load_photo()}
-            <img src={img}/>
-            <p>{cur['product_name']}: ${cur['price']}</p>
+        <div className="list_product" onClick={select} style={{cursor:'pointer'}}>
+            <div className="img">
+                {load_photo()}
+                <img src={img}/>
+                <div className="dec">
+                    {cur['product_name']}: ${cur['price']}
+                </div>
+            </div>
         </div>
     );
 }
