@@ -1,0 +1,29 @@
+.home_searchbar{
+    padding-left: 20%;
+    padding-top: 30px; 
+    display: flex;
+}
+
+.home_searchbar>input{
+    width: 500px;
+    height: 35px;
+    background-color: #ffffff;
+    color: #040404;
+    font-size: 15px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    flex: 1;
+}
+
+::placeholder{
+    color :rgb(102, 102, 101);
+}
+
+.home_searchbar>button{
+    border-radius: 5px;
+    height: 40px;
+    background-color: rgb(233, 138, 35);
+    text-align: center;
+    cursor: pointer;
+}
