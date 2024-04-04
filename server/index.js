@@ -97,7 +97,7 @@ app.get('/seller_history', async(req, res) => {
     amount = req.query.top;
     var result;
     try{
-        result = await db.query(`select * from history where seller=${id} order by order_date desc limit ${amount}`);
+        result = await db.query(`select * from history where seller_id=${id} order by order_date desc limit ${amount}`);
     }
     catch(err) {
         res.json({'err': err});
@@ -112,7 +112,7 @@ app.get('/buyer_history', async(req, res) => {
     amount = req.query.top;
     var result;
     try{
-        result = await db.query(`select * from history where buyer=${id} order by order_date desc limit ${amount}`);
+        result = await db.query(`select * from history where buyer_id=${id} order by order_date desc limit ${amount}`);
     }
     catch(err) {
         res.json({'err': err});
@@ -160,6 +160,17 @@ app.get('/all_users', async(req, res) => {
 app.get('/all_products', async(req, res) => {
     try {
         result = await db.query(`select * from product`);
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    res.json(result.rows);
+})
+
+app.get('/product', async(req, res) => {
+    try {
+        result = await db.query(`select * from product where product_id=${req.query.id}`);
     }
     catch(err) {
         res.json({'err':err});
