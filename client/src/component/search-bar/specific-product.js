@@ -14,7 +14,7 @@ function SpecificProduct() {
     const cookies = new Cookies();
     const [ProductLoading, setProductLoading] = useState(true);
     const [product, setProduct] = useState([])
-    var sellerName;
+    const [sellerName, setSellName] = useState('');
     var [quantity, setQuantity] = useState(1);
     const [msg, setMsg] = useState('');
     var userid;
@@ -29,10 +29,10 @@ function SpecificProduct() {
     useEffect(() => {
         axios.get(`http://localhost:3030/product?id=${productID}`)
         .then(res => {
-            axios.get(`http://localhost:3030/?username=${res.data[0]['seller_id']}`)
-                .then(res => {
-                    sellerName = res.data[0]['username'];
-                })
+            axios.get(`http://localhost:3030/username?id=${res.data[0]['seller_id']}`)
+            .then(r => {
+                setSellName(r.data[0]['username']);
+            })
             setProduct(res.data[0]);
             setProductLoading(false);
         })
