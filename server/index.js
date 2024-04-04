@@ -146,6 +146,18 @@ app.get('/product_name', async(req, res) => {
     res.json(result.rows);
 })
 
+app.get('/product', async(req, res) => {
+    productid = req.query.productid;
+    try{
+        result = await db.query(`select * from product where product_id=${productid}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json(result.rows);
+})
+
 const image_storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'img');
@@ -167,6 +179,7 @@ const upload = multer({
         callback('Give proper file format to upload')
     }
 }).single('image')
+
 app.post('/add_product', async(req, res) => {
     userid = req.body.userid;
     productname = req.body.productname;
@@ -186,11 +199,30 @@ app.post('/add_product', async(req, res) => {
     }
 })
 
+app.post('/edit_product', async(req, res) => {
+    productid = req.body.productid;
+    productname = req.body.productname;
+    productinfo = req.body.productinfo;
+    price = req.body.price;
+    quantity = req.body.quantity;
+    category = req.body.category;
+    console.log(productid);
+    result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', '${price}', '${quantity}', '${category}') where product_id='${productid}'`);
+    // upload.single(image);
+    if(result.rows[0] == 'UPDATE 1') {
+        res.json({});
+        return;
+    }
+    else {
+        res.json({err: result.rows[0]});
+        return;
+    }
+})
+
 app.get('/delete_product', async(req, res) => {
     productid = req.query.productid;
     try{
         result = await db.query(`delete from product where product_id=${productid}`);
-        console.log(productid, result)
     }
     catch(err) {
         res.json({'err': err});

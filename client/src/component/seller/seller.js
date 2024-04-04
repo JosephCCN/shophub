@@ -21,6 +21,19 @@ function FetchProductID(props){
         deleteproduct=0;
         window.location.reload(false);
     }, [deleteproduct])
+    const cookies = new Cookies();
+    const navigate = useNavigate();
+    var [editproduct, seteditproduct] = useState(0);
+    function gotoeditproduct(productid){
+        seteditproduct(productid);
+    }
+    useEffect(() =>{
+        if(!editproduct) return;
+        cookies.set('productid', editproduct, {  //set cookies
+        path: '/'
+        });
+        navigate('/seller/edit_product');
+    }, [editproduct])
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}`) //fetch seller products product_id
@@ -43,7 +56,7 @@ function FetchProductID(props){
                 <p>{cur['product_id']}:</p>)
             list.push(<p>name: {cur['product_name']}, price: {cur['price']}, quantity left: {cur['quantity']}, category: {cur['category']}</p>
             )   
-            // list.push(<button onClick={() => gotoeditproduct()}>Edit Product</button>)
+            list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
             list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
         }
         return list

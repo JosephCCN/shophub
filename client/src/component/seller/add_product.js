@@ -37,30 +37,24 @@ function AddProduct(props) {
             console.log(err);
         })
     }
-
-    if(!userid) {
-        return (<Navigate to='/login'/>);
-    }
-    else {
-        return (
-            <div>
-                <h1>Add Product Page</h1>
-                <label>Product Name:</label><input type="text" onChange={(e) => setproductname(e.target.value)}/>
-                <br/>
-                <label>Product Info:</label><input type="text" onChange={(e) => setproductinfo(e.target.value)}/>
-                <br/>
-                <label>Category:</label><input type="text" onChange={(e) => setcategory(e.target.value)}/>
-                <br/>
-                <label>Quantity:</label><input type="text" onChange={(e) => setquantity(e.target.value)}/>
-                <br/>
-                <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
-                <br/>
-                <label>Producat Image:</label><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input>
-                <br/>
-                <button type="submit" onClick={handleaddproduct}> Add Product</button>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <h1>Add Product Page</h1>
+            <label>Product Name:</label><input type="text" onChange={(e) => setproductname(e.target.value)}/>
+            <br/>
+            <label>Product Info:</label><input type="text" onChange={(e) => setproductinfo(e.target.value)}/>
+            <br/>
+            <label>Category:</label><input type="text" onChange={(e) => setcategory(e.target.value)}/>
+            <br/>
+            <label>Quantity:</label><input type="text" onChange={(e) => setquantity(e.target.value)}/>
+            <br/>
+            <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
+            <br/>
+            <label>Producat Image:</label><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input>
+            <br/>
+            <button type="submit" onClick={handleaddproduct}> Add Product</button>
+        </div>
+    )
     
 }
 
