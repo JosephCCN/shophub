@@ -34,3 +34,15 @@ export function Post(url) {
         isLoading
     }
 }
+
+export function GetUserName(id) {
+    const {data, isLoading} = Get(`http://localhost:3030/username?id=${id}`);
+    if(isLoading) return 'loading...'
+    else return data[0]['username']
+}
+
+export function GetProduct(id) {
+    const {data, isLoading} = Get(`http://localhost:3030/product?id=${id}`);
+    if(isLoading) return 'loading...';
+    else return data[0];
+}
