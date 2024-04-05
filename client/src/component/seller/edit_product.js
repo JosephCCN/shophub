@@ -2,18 +2,15 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import LoadPhoto from '../util/product'
+import {LoadProductPhoto} from '../util/product'
 
-function EditProduct(prop) {
+function EditProduct() {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const userid = cookies.get('userid');
     const productid = cookies.get('productid');
     if(!userid) navigate('/login');
     if(!productid) navigate('/seller');
-    const [isLoading, setLoading] = useState(true);
-    const [product, setproduct] = useState([]);
-
     const [productname, setproductname] = useState();
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
@@ -22,6 +19,8 @@ function EditProduct(prop) {
     const [image, setImage] = useState();
     const [err, setErr] = useState();
 
+    const [product, setproduct] = useState([]);
+    const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
@@ -91,7 +90,7 @@ function EditProduct(prop) {
                 </tr>
                 <tr>
                     <td><label>Producat Image:</label></td>
-                    <LoadPhoto productid={productid}/>
+                    <LoadProductPhoto productid={productid}/>
                     <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
                 </tr>
             </table>

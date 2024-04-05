@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 
-function LoadProductPhoto(prop){ //load photo from backend server
+export function LoadProductPhoto(prop){ //load photo from backend server
     const [isLoading, setLoading] = useState(true);
     const productid = prop.productid;
     const [img, setImg] = useState('');
@@ -32,5 +32,3 @@ function LoadProductPhoto(prop){ //load photo from backend server
         </div>
     )
 }
-
-export default LoadProductPhoto;

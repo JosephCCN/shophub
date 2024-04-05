@@ -167,10 +167,10 @@ app.get('/product_name', async(req, res) => {
 })
 
 app.get('/product', async(req, res) => {
-    id = req.query.id;
-    console.log('product', id);
+    productid = req.query.productid;
+    console.log(productid)
     try{
-        result = await db.query(`select * from product where product_id=${id}`);
+        result = await db.query(`select * from product where product_id=${productid}`);
     }
     catch(err) {
         res.json({'err': err});
