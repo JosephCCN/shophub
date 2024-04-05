@@ -46,6 +46,8 @@ function FetchProductID(props){
         });
         navigate('/seller/edit_product');
     }, [editproduct])
+    
+
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}&asc=1`) //fetch seller products product_id

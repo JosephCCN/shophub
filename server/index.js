@@ -6,6 +6,8 @@ const db = require('./db')
 const app = express()
 var bodyParser = require('body-parser')
 const fs = require('fs')
+const { createCipheriv } = require('crypto')
+const { resourceLimits } = require('worker_threads')
 const port = 3030
 
 app.use(cors())
@@ -132,24 +134,76 @@ app.get('/seller_history', async(req, res) => {
     res.json(result.rows);
 })
 
-app.get('/buyer_history', async(req, res) => {
-    id = req.query.id;
+app.get('/profile', async(req, res) =>{
+    userid = req.query.userid;
+    var result;
+    try{
+        result = await db.query(`select * from users where user_id = ${userid}`)
+        res.json(result.rows)
+    }
+    catch(err){
+        res.json({'err': err});
+        return;
+    }
+})
+
+app.post('/edit_profile', async(req, res) => {
+    userid = req.body.userid;
+    username = req.body.username;
+    password = req.body.password;
+    var result;
+    try{
+        result = await db.query(`update users set (username, password) = ('${username}', '${password}') where user_id = ${userid}`)
+        res.json({'success': 1});
+    }
+    catch(err){
+        res.json({'err': err})
+        return;
+    }
+})
+
+app.get('/orderid', async(req, res) => {
+    userid = req.query.userid;
     amount = req.query.top;
     var result;
     try{
-        result = await db.query(`select * from history where buyer_id=${id} order by order_date desc limit ${amount}`);
+        result = await db.query(`select distinct on (order_id) order_id from history where buyer_id=${userid} order by order_id, order_date desc limit ${amount}`);
+        res.json(result.rows);
     }
     catch(err) {
         res.json({'err': err});
         return;
     }
-    res.json(result.rows);
 
+})
+
+app.get('/order', async(req, res) => {
+    orderid = req.query.orderid;
+    var result;
+    try{
+        result = await db.query(`select * from history where order_id=${orderid}`)
+        res.json(result.rows);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+})
+
+app.get('/user', async(req, res) => {
+    userid = req.query.userid;
+    try{
+        result = await db.query(`select * from users where user_id=${userid}`)
+        res.json(result.rows);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
 })
 
 app.get('/username', async(req, res) => {
     id = req.query.id;
-    console.log(id);
     try{
         result = await db.query(`select username from users where user_id=${id}`);
     }
@@ -174,7 +228,6 @@ app.get('/product_name', async(req, res) => {
 
 app.get('/product', async(req, res) => {
     productid = req.query.productid;
-    console.log(productid)
     try{
         result = await db.query(`select * from product where product_id=${productid}`);
     }
@@ -355,6 +408,23 @@ app.get('/delete_product', async(req, res) => {
         res.json({'success': 1});
     }
     catch(err) {
+        res.json({'err': err});
+        return;
+    }
+})
+
+app.get('/review', async(req, res) => {
+    productid = req.query.productid;
+    userid = req.query.userid;
+    try{
+        result = await db.query(`select * from review where (product_id, user_id) = (${productid}, ${userid})`)
+        if(result.rows.length === 0) res.json({0:{'exist': 0}})
+        else{
+            result.rows[0]['exist'] = 1
+            res.json(result.rows)
+        }
+    }
+    catch(err){
         res.json({'err': err});
         return;
     }

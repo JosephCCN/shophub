@@ -13,6 +13,7 @@ function EditProduct(prop) {
     if(!userid) navigate('/login');
     if(!productid) navigate('/seller');
     const [isLoading, setLoading] = useState(true);
+
     const [product, setproduct] = useState([]);
     const [img_source, setimg_source] = useState();
     //fetch product and image with productid

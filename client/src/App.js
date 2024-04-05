@@ -9,6 +9,8 @@ import AddProduct from'./component/seller/add_product'
 import EditProduct from './component/seller/edit_product'
 import {Route, Routes, Navigate, BrowserRouter as Router} from 'react-router-dom'
 import SpecificProduct from './component/search-bar/specific-product';
+import Profile from './component/profile/profile';
+import EditProfile from './component/profile/edit_profile';
 
 
 function App() {
@@ -19,6 +21,9 @@ function App() {
           <Route path="/home" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path='/registration' element={<Reg/>}/>
+          <Route exact path='/profile/:profile_userid' element={<Profile/>}/>
+          <Route exact path='/profile' element={<Profile/>}/>
+          <Route path='/profile/edit_profile' element={<EditProfile/>}/>
           <Route path='/cart' element={<Cart/>}/>
           <Route path='/seller' element={<Seller/>}/>
           <Route path='/admin' element={<Admin/>}/>

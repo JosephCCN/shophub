@@ -6,22 +6,20 @@ import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import Bar from '../search-bar/bar'
 import ListProduct from "../search-bar/list_product";
+import Profile from '../profile/profile';
 
 function Actual_home() {
   const [product_info, setProductInfo] = useState({});
   const cookies = new Cookies();
+  const userid = cookies.get('userid');
   const navigate = useNavigate();
   const [logOut, setLogout] = useState(0);
   var [gotoSell, setGoToSell] = useState(0);
+  var [profile, setprofile] = useState(0);
 
   const logout = () => {
     setLogout(1);
   };
-
-  const GotoSell = () => {
-    setGoToSell(1);
-  }
-
   useEffect(() => {
     if(!logOut) return
     cookies.remove('userid', {
@@ -33,11 +31,24 @@ function Actual_home() {
     navigate('/login');
   }, [logOut])
 
+
+  const GotoSell = () => {
+    setGoToSell(1);
+  }
   useEffect(() => {
       if(!gotoSell) return;
       gotoSell = 0;
       navigate('/seller');
   }, [gotoSell])
+  
+
+  const GotoProfile = () =>{
+    setprofile(userid); 
+  }
+  useEffect(() => {
+      if(!profile) return;
+      navigate(`/profile/${profile}`);
+  }, [profile])
 
   return (
     <body>
@@ -61,7 +72,7 @@ function Actual_home() {
                   <button>History</button>
                 </li>
                 <li>
-                  <button>Profile</button>
+                  <button onClick={GotoProfile}>Profile</button>
                 </li>
               </ul>
           </div>   

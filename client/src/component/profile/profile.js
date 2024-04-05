@@ -1,79 +1,165 @@
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { useParams, Navigate, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import {GetUserName, Get, GetProduct} from '../util/util'
+import axios from "axios";
 
-function Product(prop) {
-    const cur = prop.cur;
-
-    return (
-        <p>Product Name: {cur['product_name']} ${cur['price']}</p>
-    );
+function ProfileInfoSource(infolist){
+    var list = []
+    const L = Object.keys(infolist).length;
+    list.push(<tr><td></td><td></td></tr>)
+    for(var i=0;i<L;i++){
+        const cur = infolist[i];
+        list.push(<tr><td>Username:</td> <td>{cur['username']}</td></tr>)
+        list.push(<tr><td>Password:</td> <td>{cur['password']}</td></tr>)
+    }
+    return <center><table>{list}</table></center>
 }
 
-function Actual_profile() {
-    const cookies = new Cookies();
-    const userid = cookies.get('userid');
-    const username = GetUserName(userid);
+function ShowProfile(prop) {
+    const userid = prop.userid
+    const [isLoading, setLoading] = useState(true);
+    const [err, setErr] = useState();
+    const [userinfolist, setuserinfolist] = useState([]);
 
-    const fetch_sell_product = () => {
-        var {data, isLoading} = Get(`http://localhost:3030/seller_product?id=${userid}`)
-        var sell_products;
-        if(isLoading) sell_products = []
-        else sell_products = data
-        var sell_product_list = []
-        var L = Object.keys(sell_products).length;
-        for(var i=0;i<L;i++) {
-            const cur = sell_products[i];
-            sell_product_list.push(
-                <Product cur={cur}/>
-            )
+    useEffect(() => {
+        const fetch = async() => {
+            const res = await axios.get(`http://localhost:3030/profile?userid=${userid}`)
+            const L = res.data[0]['password'].length
+            res.data[0]['password'] = Array(L+1).join('*')
+            setuserinfolist(res.data)
+            setLoading(false)
         }
-        return sell_product_list;
-    }
+        fetch();
+    }, [])
 
-    const fetch_buy_history = () => {
-        var {data, isLoading} = Get(`http://localhost:3030/buyer_history?id=${userid}&top=${10}`)
-        var buy_history = [];
-        if(isLoading) buy_history = []
-        else buy_history = data
-        console.log(buy_history)
-        var buy_history_list = []
-        var L = Object.keys(buy_history).length;
-        for(var i=0;i<L;i++) {
-            const cur = buy_history[i];
-            const seller = GetUserName(cur['seller_id']);
-            const product = GetProduct(cur['product_id']);
-            buy_history_list.push(
-                <Product cur={product}/>
-            )
+    if(isLoading) return <p>Loading...</p>;
+    else return ProfileInfoSource(userinfolist)
+}
+
+function HistoryInfoSource(infolist){
+    var list = []
+    const L = Object.keys(infolist).length;
+
+    for(var i=0;i<L;i++){
+        const cur_order_list = infolist[i];
+        const L2 = Object.keys(cur_order_list).length;
+        var cur_order_table = []
+        //set up column
+        cur_order_table.push(<tr><td></td><td>Seller</td><td>Product Name</td><td>Quantity</td><td>Price</td><td>Order Date</td><td></td></tr>)
+        for(var j=0;j<L2;j++){
+            var cur_product_table = []
+            cur_product_table.push(<td><img src={cur_order_list[j]['product_img']}/></td>)
+            cur_product_table.push(<td>{cur_order_list[j]['seller_name']}</td>)
+            cur_product_table.push(<td>{cur_order_list[j]['product_name']}</td>)
+            cur_product_table.push(<td>{cur_order_list[j]['quantity']}</td>)
+            cur_product_table.push(<td>{cur_order_list[j]['price']}</td>)
+            cur_product_table.push(<td>{cur_order_list[j]['order_date']}</td>)
+            cur_product_table.push(cur_order_list[j]['review'])
+            cur_order_table.push(<tr>{cur_product_table}</tr>)
         }
-        return buy_history_list;
+        var temp = <center> <table>{cur_order_table}</table> </center>
+        list.push(temp)
     }
+    return list
+}
+function ShowOrderHistory(prop) {
+    const userid = prop.userid
+    const top = prop.top
+    const [isLoading, setLoading] = useState(true);
+    const [orderlist, setorderlist] = useState([]);
 
-    var sell_product_list = fetch_sell_product();
-    var buy_history_list = fetch_buy_history();
+    const navigate = useNavigate();
+    var [goreviewpage, setgoreview] = useState(0);
+    function gotoreview(path_to_product){
+        setgoreview(path_to_product)
+    }
+    useEffect(() => {
+        if(!goreviewpage) return;
+        navigate(goreviewpage);
+        goreviewpage = 0;
+    }, [goreviewpage])
 
-    return (
-        <div>
-            <h1>{username}</h1>
-            <h2>Selling Items:</h2>
-            <p>{sell_product_list}</p>
-            <h2>Buy Items:</h2>
-            <p>{buy_history_list}</p>
-        </div>
-    );
+    useEffect(() => {
+        const fetch = async() => {
+            const res = await axios.get(`http://localhost:3030/orderid?userid=${userid}&top=${top}`)
+            const tmp = res.data
+            var list = []
+            const L = Object.keys(tmp).length;
+            for(var i=0;i<L;i++){
+                const cur = tmp[i];
+                const result = await axios.get(`http://localhost:3030/order?orderid=${cur['order_id']}`)
+                var cur_order_list = result.data;
+                const L2 = Object.keys(cur_order_list).length;
+                for(var j=0;j<L2;j++){
+                    //fetch seller username by seller_id
+                    const cur_seller_id = cur_order_list[j]['seller_id']
+                    const res1 = await axios.get(`http://localhost:3030/user?userid=${cur_seller_id}`)
+                    //add to order_list
+                    cur_order_list[j]['seller_name'] = res1.data[0]['username']
+                    
+                    //fetch product_name by product_id
+                    const cur_product_id = cur_order_list[j]['product_id']
+                    const res2 = await axios.get(`http://localhost:3030/product?productid=${cur_product_id}`)
+                    //add to order_list
+                    cur_order_list[j]['product_name'] = res2.data[0]['product_name']
+
+                    //fetch product_image by product_id
+                    const res3 = await axios.get(`http://localhost:3030/product_img?id=${cur_product_id}`, {responseType: 'blob'})
+                    var imageUrl = URL.createObjectURL(res3.data);
+                    //add image to order_list
+                    cur_order_list[j]['product_img'] = imageUrl;
+
+                    //check if there is any review for the specific prodduct
+                    const res4 = await axios.get(`http://localhost:3030/review?productid=${cur_product_id}&userid=${userid}`)
+                    //add review button to order_list
+                    if(!res4.data[0]['exist']) cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)}>Add Review</button></td>;
+                    else cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)}>Edit Review</button></td>;
+                    
+                    //add specific product page to order_list
+                    cur_order_list[j]['path_to_product'] = `/product/${cur_product_id}`
+                }
+                list.push(cur_order_list)
+            }
+            setorderlist(list)
+            setLoading(false)
+        }
+        fetch();
+    }, [])
+
+    if(isLoading) return <p>Loading...</p>;
+    else return HistoryInfoSource(orderlist)
 }
 
 function Profile() {
-  const cookies = new Cookies();
-  const userid = cookies.get('userid');
-  if(!userid) {
-    return (<Navigate to='/login'/>);
-  }
-  else {
-    return(<Actual_profile/>);
-  }
+    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const userid = cookies.get('userid');
+    const {profile_userid} = useParams();
+    useEffect(() =>{
+        if(!userid) navigate('/login');
+        if(!profile_userid) navigate(`/profile/${userid}`)
+    }, [])
+    const top = 10
+    var [editprofile, seteditprofile] = useState(0);
+    function gotoeditprofile(){
+        seteditprofile(1);
+    }
+    useEffect(() =>{
+        if(!editprofile) return;
+        navigate('/profile/edit_profile');
+    }, [editprofile])
+
+    return (
+        <div>
+            <h1>Profile Page</h1>
+            <h2>Profile</h2>
+            <button onClick={() => gotoeditprofile()}>Edit Profile</button>
+            <ShowProfile userid={userid}/>
+            <h1>Order History:</h1>
+            <ShowOrderHistory userid={userid} top={top}/>
+        </div>
+    )
 }
 
 export default Profile;
