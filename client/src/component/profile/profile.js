@@ -93,6 +93,7 @@ function ShowOrderHistory(prop) {
                 const L2 = Object.keys(cur_order_list).length;
                 for(var j=0;j<L2;j++){
                     //fetch seller username by seller_id
+                    console.log(cur_order_list[j])
                     const cur_seller_id = cur_order_list[j]['seller_id']
                     const res1 = await axios.get(`http://localhost:3030/user?userid=${cur_seller_id}`)
                     //add to order_list
@@ -100,7 +101,7 @@ function ShowOrderHistory(prop) {
                     
                     //fetch product_name by product_id
                     const cur_product_id = cur_order_list[j]['product_id']
-                    const res2 = await axios.get(`http://localhost:3030/product?id=${cur_product_id}`)
+                    const res2 = await axios.get(`http://localhost:3030/product?productid=${cur_product_id}`)
                     //add to order_list
                     cur_order_list[j]['product_name'] = res2.data[0]['product_name']
 

@@ -209,23 +209,9 @@ app.get('/username', async(req, res) => {
 })
 
 app.get('/product_name', async(req, res) => {
-    id = req.query.id;
-    try{
-        result = await db.query(`select product_name from product where product_id=${id}`);
-    }
-    catch(err) {
-        res.json({'err': err});
-        return;
-    }
-    res.json(result.rows);
-})
-
-app.get('/product', async(req, res) => {
     productid = req.query.productid;
-    id = req.query.id;
-    console.log('product', id);
     try{
-        result = await db.query(`select * from product where product_id=${id}`);
+        result = await db.query(`select product_name from product where product_id=${productid}`);
     }
     catch(err) {
         res.json({'err': err});
