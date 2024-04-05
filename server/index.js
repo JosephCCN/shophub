@@ -18,12 +18,6 @@ app.get('/', (req, res) => {
     res.send('Deployed');
 })
 
-app.get('/cart', (req, res) => {
-    var userid = req.query.userid
-    const result = db.query('select * from users')
-    res.json(result.rows)
-})
-
 app.post('/login', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
@@ -255,6 +249,17 @@ app.get('/maxproductid', async(req, res) => {
     res.json(result.rows);
 })
 
+app.get('/cart', async(req, res) => {
+    const userid = req.query.id;
+   try{
+    const result = await db.query(`select * from cart where user_id=${userid}`);
+    res.json(result.rows);
+   }
+   catch(err) {
+    res.json({'err': err})
+   }
+})
+
 app.post('/add_cart', async(req, res) => {
     const productID = req.body.productID;
     const userID = req.body.userID;
@@ -359,6 +364,31 @@ app.get('/delete_product', async(req, res) => {
         return;
     }
 })
+app.post('/edit_cart_quantity', async(req, res) => {
+    const quantity = req.body.quantity;
+    const userID = req.body.userID;
+    const productID = req.body.productID;
+    try {
+        const result = await db.query(`update cart set quantity=${quantity} where user_id=${userID} and product_id=${productID}`)
+        res.json({'success': 1})
+    }
+    catch(err) {
+        res.json({'err':err})
+    }
+})
+
+app.post('/delete_cart', async(req, res) => {
+    const userID = req.body.userID;
+    const productID = req.body.productID;
+    try {
+        const result = await db.query(`delete from cart where user_id=${userID} and product_id=${productID}`)
+        res.json({'success': 1})
+    }
+    catch(err) {
+        res.json({'err':err})
+    }
+})
+
 app.listen(port, (err) => {
     console.log('running...')
 })
