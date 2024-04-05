@@ -16,10 +16,16 @@ function Actual_home() {
   const [logOut, setLogout] = useState(0);
   var [gotoSell, setGoToSell] = useState(0);
   var [profile, setprofile] = useState(0);
+  var [gotoCart, setGoToCart] = useState(0);
 
   const logout = () => {
     setLogout(1);
   };
+
+  const GotoCart = () => {
+    setGoToCart(1);
+  }
+
   useEffect(() => {
     if(!logOut) return
     cookies.remove('userid', {
@@ -50,6 +56,12 @@ function Actual_home() {
       navigate(`/profile/${profile}`);
   }, [profile])
 
+  useEffect(() => {
+    if(!gotoCart) return;
+    gotoCart = 0;
+    navigate('/cart');
+}, [gotoCart])
+
   return (
     <body>
       <nav className='header'>
@@ -63,7 +75,7 @@ function Actual_home() {
                   <button>Wishlist</button>
                 </li>
                 <li>
-                  <button>Shopping Cart</button>
+                  <button onClick={GotoCart}>Shopping Cart</button>
                 </li>
                 <li>
                 <button onClick={GotoSell}>Sell History</button>
