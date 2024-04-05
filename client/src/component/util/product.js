@@ -32,3 +32,5 @@ export function LoadProductPhoto(prop){ //load photo from backend server
         </div>
     )
 }
+
+export default LoadProductPhoto;
