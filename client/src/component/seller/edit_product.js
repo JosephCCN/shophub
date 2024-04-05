@@ -2,15 +2,30 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import {LoadProductPhoto} from '../util/product'
+import LoadPhoto from '../util/product'
+import LoadProductPhoto from '../util/product'
 
-function EditProduct() {
+function EditProduct(prop) {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const userid = cookies.get('userid');
     const productid = cookies.get('productid');
     if(!userid) navigate('/login');
     if(!productid) navigate('/seller');
+    const [isLoading, setLoading] = useState(true);
+    const [product, setproduct] = useState([]);
+    const [img_source, setimg_source] = useState();
+    //fetch product and image with productid
+    useEffect(() => {
+        const fetch = async() => {
+            const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
+            setimg_source(<LoadProductPhoto productid={productid}/>)
+            setproduct(res.data)
+            setLoading(false)
+        }
+        fetch();
+    }, [])
+
     const [productname, setproductname] = useState();
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
@@ -19,16 +34,6 @@ function EditProduct() {
     const [image, setImage] = useState();
     const [err, setErr] = useState();
 
-    const [product, setproduct] = useState([]);
-    const [isLoading, setLoading] = useState(true);
-    useEffect(() => {
-        const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
-            setproduct(res.data)
-            setLoading(false)
-        }
-        fetch();
-    }, [])
 
     const handleeditproduct = async(e) => {
         try{
@@ -90,7 +95,7 @@ function EditProduct() {
                 </tr>
                 <tr>
                     <td><label>Producat Image:</label></td>
-                    <LoadProductPhoto productid={productid}/>
+                    {img_source}
                     <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
                 </tr>
             </table>
