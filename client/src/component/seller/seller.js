@@ -2,7 +2,7 @@ import { useEffect, useInsertionEffect, useState } from "react"
 import {useNavigate, Navigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import LoadProductPhoto from '../util/product'
+import {LoadProductPhoto} from '../util/product'
 
 function FetchProductID(props){
     const userid = props.userid

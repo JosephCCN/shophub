@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 import LoadPhoto from '../util/product'
+import LoadProductPhoto from '../util/product'
 
 function EditProduct(prop) {
     const cookies = new Cookies();
@@ -13,6 +14,17 @@ function EditProduct(prop) {
     if(!productid) navigate('/seller');
     const [isLoading, setLoading] = useState(true);
     const [product, setproduct] = useState([]);
+    const [img_source, setimg_source] = useState();
+    //fetch product and image with productid
+    useEffect(() => {
+        const fetch = async() => {
+            const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
+            setimg_source(<LoadProductPhoto productid={productid}/>)
+            setproduct(res.data)
+            setLoading(false)
+        }
+        fetch();
+    }, [])
 
     const [productname, setproductname] = useState();
     const [productinfo, setproductinfo] = useState();
@@ -22,14 +34,6 @@ function EditProduct(prop) {
     const [image, setImage] = useState();
     const [err, setErr] = useState();
 
-    useEffect(() => {
-        const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
-            setproduct(res.data)
-            setLoading(false)
-        }
-        fetch();
-    }, [])
 
     const handleeditproduct = async(e) => {
         try{
@@ -91,7 +95,7 @@ function EditProduct(prop) {
                 </tr>
                 <tr>
                     <td><label>Producat Image:</label></td>
-                    <LoadPhoto productid={productid}/>
+                    {img_source}
                     <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
                 </tr>
             </table>
