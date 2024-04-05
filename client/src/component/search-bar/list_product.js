@@ -31,6 +31,8 @@ function Product(prop) {
         })
     }
 
+    console.log(1)
+
     return (
         <div onClick={select} style={{cursor:'pointer'}}>
             {load_photo()}
