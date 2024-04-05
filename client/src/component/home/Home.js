@@ -13,7 +13,6 @@ function Actual_home() {
   const navigate = useNavigate();
   const [logOut, setLogout] = useState(0);
   var [gotoSell, setGoToSell] = useState(0);
-  var [gotoCart, setGoToCart] = useState(0);
 
   const logout = () => {
     setLogout(1);
@@ -21,10 +20,6 @@ function Actual_home() {
 
   const GotoSell = () => {
     setGoToSell(1);
-  }
-
-  const GotoCart = () => {
-    setGoToCart(1);
   }
 
   useEffect(() => {
@@ -44,12 +39,6 @@ function Actual_home() {
       navigate('/seller');
   }, [gotoSell])
 
-  useEffect(() => {
-    if(!gotoCart) return;
-    gotoCart = 0;
-    navigate('/cart');
-}, [gotoCart])
-
   return (
     <body>
       <nav className='header'>
@@ -63,7 +52,7 @@ function Actual_home() {
                   <button>Wishlist</button>
                 </li>
                 <li>
-                  <button onClick={GotoCart}>Shopping Cart</button>
+                  <button>Shopping Cart</button>
                 </li>
                 <li>
                 <button onClick={GotoSell}>Sell History</button>
