@@ -4,23 +4,11 @@ import {useNavigate} from 'react-router-dom'
 
 function Product(prop) {
     const cur = prop.cur;
-    const [img, setImg] = useState('');
+    const [img, setImg] = useState('nth');
     var [navi, setNavi] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(navi) {
-            navigate(`/product/${cur['product_id']}`)
-            navi = false
-        }
-    }, [navi])
-
-    const select = (e) => { //execute when this product is clicked
-        console.log(`navigate to ${cur['product_id']}`)
-        setNavi(true)
-    }
-
-    const load_photo = () => { //load photo from backend server
         axios.get(`http://localhost:3030/product_img?id=${cur['product_id']}`, {responseType: 'blob'})
         .then(res => {
             var imageUrl = URL.createObjectURL(res.data);
@@ -29,13 +17,24 @@ function Product(prop) {
         .catch(err => {
             console.log(err);
         })
-    }
+    }, [])
 
-    console.log(1)
+    useEffect(() => {
+        if(navi) {
+            navi = false
+            navigate(`/product/${cur['product_id']}`)
+        }
+    }, [navi])
+
+    const select = (e) => { //execute when this product is clicked
+        console.log(`navigate to ${cur['product_id']}`)
+        setNavi(true)
+    }
+    
+    if(img == 'nth') return <p>Loading Photo...</p>
 
     return (
         <div onClick={select} style={{cursor:'pointer'}}>
-            {load_photo()}
             <img src={img}/>
             <p>{cur['product_name']}: ${cur['price']}</p>
         </div>
