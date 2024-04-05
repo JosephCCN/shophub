@@ -41,8 +41,8 @@ export function GetUserName(id) {
     else return data[0]['username']
 }
 
-export function GetProduct(id) {
-    const {data, isLoading} = Get(`http://localhost:3030/product?id=${id}`);
+export function GetProduct(id) { //fetch all product entities with product_id=id
+    const {data, isLoading} = Get(`http://localhost:3030/product?id=${id}`); 
     if(isLoading) return 'loading...';
     else return data[0];
 }

@@ -1,3 +1,4 @@
+import './css/register.css';
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
@@ -63,17 +64,26 @@ function Reg() {
   }, [password2, password, username])
 
     return (
+      <body className='register'>
+      <br/>
+      <p>Registration</p>
       <div>
-        <p>Registration</p>
-        <label>Username:</label><input type="text" onChange={(e) => setUsername(e.target.value)}/>
+        <label>Username</label>
         <br/>
-        <label>Password:</label><input type="password" onChange={(e) => setPassword(e.target.value)}/>
+        <input type="text" onChange={(e) => setUsername(e.target.value)}/>
         <br/>
-        <label>Renter Password:</label><input type="password" onChange={(e) => setPassword2(e.target.value)}/>
+        <label>Password</label>
+        <br/>
+        <input type="password" onChange={(e) => setPassword(e.target.value)}/>
+        <br/>
+        <label>Renter Password</label>
+        <br/>
+        <input type="password" onChange={(e) => setPassword2(e.target.value)}/>
         <br/>
         <button type="submit" onClick={submit}>Submit</button>
         <p>{err}</p>
       </div>
+      </body>
     );
 };
  

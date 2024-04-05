@@ -1,3 +1,4 @@
+import './css/login.css';
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
@@ -61,17 +62,26 @@ function Login() {
   }, [password, username])
 
     return (
-      <div>
+      <body className='login'>
+        <br/>
         <p>Login page</p>
-        <label>Username:</label><input type="text" onChange={(e) => setUsername(e.target.value)}/>
-        <br/>
-        <label>Password:</label><input type="password" onChange={(e) => setPassword(e.target.value)}/>
-        <br/>
-        <button type="submit" onClick={submit}>Submit</button>
-        <button onClick={reg}>Registration</button>
-        <br/>
-        <p>{err}</p>
-      </div>
+        <div>
+          <label>Username</label>
+          <br/>
+          <input type="text" onChange={(e) => setUsername(e.target.value)}/>
+          <br/>
+          <label>Password</label>
+          <br/>
+          <input type="password" onChange={(e) => setPassword(e.target.value)}/>
+          <br/>
+          <br/>
+          <button type="submit" onClick={submit}>Submit</button>
+          <br/>
+          <button onClick={reg}>Registration</button>
+          <br/>
+          <p>{err}</p>
+        </div>
+      </body>
     );
 };
  
