@@ -30,11 +30,7 @@ function EditProduct(prop) {
         }
         fetch();
     }, [])
-    if(isLoading) {
-        return <p>Loading...</p>
-    }
 
-    
     const handleeditproduct = async(e) => {
         try{
             const res1 = await axios.post('http://localhost:3030/delete_img',{
@@ -62,6 +58,7 @@ function EditProduct(prop) {
             console.log(err) //cannot update product, thus return
         }
     } 
+    if(isLoading) return <p>Loading...</p>;
     return (
         <div>
             <h1>Edit Product Page</h1>
