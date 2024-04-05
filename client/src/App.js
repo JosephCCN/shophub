@@ -22,13 +22,10 @@ function App() {
           <Route path='/cart' element={<Cart/>}/>
           <Route path='/seller' element={<Seller/>}/>
           <Route path='/admin' element={<Admin/>}/>
-<<<<<<< HEAD
           <Route path='/seller/add_product' element={<AddProduct/>}></Route>
           <Route path='/seller/edit_product' element={<EditProduct/>}></Route>
-=======
           <Route exact path='/product/:productID' element={<SpecificProduct/>}/>
           <Route path='*' element={<Navigate to="/home"/>}/>
->>>>>>> 059a203942436bf64a356808119b6d3e3795d3b1
         </Routes>
       </Router>
     </div>
