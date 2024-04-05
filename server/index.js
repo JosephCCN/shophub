@@ -380,24 +380,10 @@ app.post('/edit_product', upload.single('image'), async(req, res) => {
     }
 })
 
-app.get('/delete_product', async(req, res) => {
-    productid = req.query.productid;
+app.post('/delete_product', async(req, res) => {
+    productid = req.body.productid;
     try{
         result = await db.query(`delete from product where product_id=${productid}`);
-        var filename;
-        if(fs.existsSync(`./img/${productid}.png`))
-            filename = `./img/${productid}.png`;
-        else if(fs.existsSync(`./img/${productid}.jpg`))
-            filename = `./img/${productid}.jpg`;
-        else if(fs.existsSync(`./img/${productid}.jpeg`))
-            filename = `./img/${productid}.jpeg`;
-        else if(fs.existsSync(`./img/${productid}.gif`))
-            filename = `./img/${productid}.gif`;
-        else throw('Image not found!');
-        fs.unlink(filename, (err) => {
-            if(err) throw err;
-            console.log(`image ${filename} deleted`)
-        })
         res.json({'success': 1});
     }
     catch(err) {

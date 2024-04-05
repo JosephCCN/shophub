@@ -21,9 +21,10 @@ function FetchProductID(props){
                 const res1 = await axios.post('http://localhost:3030/delete_img',{
                     'productid': deleteproduct
                 })
-                const res2 = await axios.get(`http://localhost:3030/delete_product?productid=${deleteproduct}`) //fetch seller products product_id
+                const res2 = await axios.post(`http://localhost:3030/delete_product`,{
+                    'productid': deleteproduct
+                })
                 setLoading(false)
-                deleteproduct=0;
                 window.location.reload(false);
             }
             catch(err){
