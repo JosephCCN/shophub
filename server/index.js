@@ -476,7 +476,6 @@ app.post('/review', async(req, res) => {
     const userID = req.body.user_id;
     const context = req.body.context.replace('\'', '\'\'');
     const rating = req.body.rating
-    console.log(productID, userID, context, rating);
     try {
         const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
         if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
@@ -489,6 +488,22 @@ app.post('/review', async(req, res) => {
     res.json({'success': 1});
 })
 
+app.get('/recommendation', async(req, res) =>{
+    const limit = req.query.limit;
+    try {
+        const result = await db.query(`select product_id, count(*) from history group by product_id order by count desc limit ${limit};`)
+        var list = []
+        for(var i=0;i<result.rows.length;i++) {
+            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted=false`)
+            list.push(r.rows[0]);
+        }
+        res.json(list)
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+})
 
 app.listen(port, (err) => {
     console.log('running...')

@@ -7,12 +7,15 @@ import Cookies from 'universal-cookie'
 import Bar from '../search-bar/bar'
 import ListProduct from "../search-bar/list_product";
 import Profile from '../profile/profile';
+import Recommendation from '../recommendation/recommendation';
 
 function Actual_home() {
   const [product_info, setProductInfo] = useState({});
+  const [searched, setSearched] = useState(false);
   const cookies = new Cookies();
   const userid = cookies.get('userid');
   const navigate = useNavigate();
+
   const [logOut, setLogout] = useState(0);
   var [gotoSell, setGoToSell] = useState(0);
   var [profile, setprofile] = useState(0);
@@ -60,7 +63,8 @@ function Actual_home() {
     if(!gotoCart) return;
     gotoCart = 0;
     navigate('/cart');
-}, [gotoCart])
+  }, [gotoCart])
+
 
   return (
     <body>
@@ -92,10 +96,10 @@ function Actual_home() {
       </nav>
       <div className='searching'>
         <h1>Home Page</h1>
-        <Bar setProductInfo={setProductInfo}/> 
+        <Bar setSearched={setSearched} setProductInfo={setProductInfo}/> 
         <br/>
       </div>
-        <ListProduct products={product_info}/>
+        {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
       
     </body>
   )
