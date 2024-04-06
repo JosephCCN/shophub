@@ -9,6 +9,12 @@ DROP TABLE if exists product;
 DROP TABLE if exists cart;
 DROP TABLE if exists wishlist;
 DROP TABLE if exists review;
+DROP SEQUENCE if exists history_order_id;
+
+CREATE SEQUENCE if not exists history_order_id
+    INCREMENT 1
+    START 1;
+
 
 CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
@@ -35,8 +41,8 @@ CREATE TABLE if not exists history(
     buyer_id integer NOT NULL,
     seller_id integer NOT NULL,
     product_id integer NOT NULL,
-    order_date timestamp NOT NULL,
-    quantity integer CHECK (1 <= quantity),
+    order_date timestamp NOT NULL DEFAULT current_timestamp,
+    quantity integer NOT NULL CHECK (1 <= quantity),
     price DECIMAL(19, 1) NOT NULL,
     CONSTRAINT history_buyer_id_exist FOREIGN KEY (buyer_id) REFERENCES users(user_id),
     CONSTRAINT history_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id),
