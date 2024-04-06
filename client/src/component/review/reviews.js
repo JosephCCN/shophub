@@ -9,12 +9,6 @@ function Star(props) {
     const max = props.max;
     const active = props.active;
     const setActive = props.setActive;
-    // var stars = '';
-    // for(var i=1;i<=max;i++) {
-    //     if(i <= active) stars += '*'; 
-    //     else stars += '#';
-    // }
-    // return <p>{stars}</p>;
     return (
         <Rating
             onClick={(e) => setActive(e)}
@@ -82,7 +76,7 @@ function Reviews(props) {
     const [bought, setBought] = useState('nth');
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/review?product_id=${productID}`)
+        axios.get(`http://localhost:3030/product_review?product_id=${productID}`)
         .then(res => {
             if(res.data['err']) {
                 console.log(res.data['err']);

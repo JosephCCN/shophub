@@ -11,13 +11,14 @@ export function LoadProductPhoto(prop){
 
     // button redirects to specific product page 
     const navigate = useNavigate();
-    var [viewproduct, setviewproduct] = useState(0);
+    var [viewproduct, setviewproduct] = useState(false);
     function gotoviewproduct(productid){
         setviewproduct(productid);
     }
     useEffect(() =>{
         if(!viewproduct) return;
-        navigate(`/product/${viewproduct}`);
+        viewproduct = false;
+        navigate(`/product/${productid}`);
     }, [viewproduct])
 
     // fetch image
@@ -39,7 +40,7 @@ export function LoadProductPhoto(prop){
     }, [])
     if(isLoading) return <p>Loading...</p> ;
     return (
-        <div onClick={() => gotoviewproduct(productid)} style={{cursor:'pointer'}}>
+        <div onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
             <img src={img}/>
         </div>
     )
@@ -75,7 +76,8 @@ export function LoadProduct(prop){
         var list = [];
         const L = Object.keys(entity_list).length; 
         for(var i=0;i<L;i++){
-            list.push(<p>{product[entity_list[i]]}</p>)
+            if(entity_list[i] == 'price') list.push(<p>${product[entity_list[i]]}</p>)
+            else list.push(<p>{product[entity_list[i]]}</p>)
         }
         return list;
     }

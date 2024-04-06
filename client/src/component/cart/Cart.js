@@ -4,6 +4,7 @@ import { Navigate, Link, useNavigate, useSearchParams, useRevalidator } from "re
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useEffect, useState } from "react";
+import LoadProductPhoto from "../util/product";
 
 function CartProduct(props) {
   const cur = props.cur;
@@ -14,20 +15,11 @@ function CartProduct(props) {
   const [removed, setRemoved] = useState(0);
 
   useEffect(() => {
-    axios.get(`http://localhost:3030/product?id=${cur['product_id']}`)
+    axios.get(`http://localhost:3030/product?productid=${cur['product_id']}`)
     .then(res => {
       setProduct(res.data[0]);
     })
     .catch(err => console.log(err))
-
-    axios.get(`http://localhost:3030/product_img?id=${cur['product_id']}`, {responseType: 'blob'})
-    .then(res => {
-        var imageUrl = URL.createObjectURL(res.data);
-        setImg(imageUrl);
-    })
-    .catch(err => {
-        console.log(err);
-    })
   }, [])
 
   const handleQuantityChange = (e) => {
@@ -91,7 +83,7 @@ function CartProduct(props) {
   const showList = [
     <div>
       <p>ID: {cur['product_id']}</p>
-      <img src={img}/>
+      <LoadProductPhoto productid={cur['product_id']}/>
       <p>Name: {product['product_name']}</p>
       <p>Price: {product['price']}</p>
       <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={cartQuantity}/>

@@ -4,6 +4,7 @@ import { GetProduct, GetUserName, Get } from "../util/util";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import Reviews from "../review/reviews";
+import LoadProductPhoto from "../util/product";
 
 
 
@@ -28,7 +29,7 @@ function SpecificProduct() {
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/product?id=${productID}`)
+        axios.get(`http://localhost:3030/product?productid=${productID}`)
         .then(res => {
             axios.get(`http://localhost:3030/username?id=${res.data[0]['seller_id']}`)
             .then(r => {
@@ -54,11 +55,6 @@ function SpecificProduct() {
             navigate(-1);
         }
     }, [back])
-
-    /*useCallback(() => {
-        if(!rmsg) return;
-        setTimeout(() => {setMsg(''); rmsg=false}, 5000);
-    }, [msg])*/
 
     const goBack = () => {
         setBack(true);
@@ -106,7 +102,7 @@ function SpecificProduct() {
         <div>
             <button onClick={goBack}>Back</button>
             <p>{product['info']}</p>
-            <img src={img}/>
+            <LoadProductPhoto productid={productID}/>
             <p>Sell by {sellerName}</p>
             <p>${product['price']}</p>
             <p>In Stock: {product['quantity']}</p>

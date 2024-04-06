@@ -259,7 +259,7 @@ app.get('/all_users', async(req, res) => {
 app.get('/product', async(req, res) => {
     productid = req.query.productid;
     try{
-        result = await db.query(`select * from product where product_id = ${productid}`);
+        result = await db.query(`select * from product where product_id=${productid}`);
     }
     catch(err) {
         res.json({'err': err});
@@ -460,7 +460,7 @@ app.post('/delete_cart', async(req, res) => {
     }
 })
 
-app.get('/review', async(req, res) => {
+app.get('/product_review', async(req, res) => {
     const productID = req.query.product_id;
     try {
         const result = await db.query(`select * from review where product_id=${productID}`)

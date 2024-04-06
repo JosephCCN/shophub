@@ -11,7 +11,7 @@ function ListProduct(props) {
         const seller = ['seller']
         list.push(
             <LoadProductPhoto productid={cur_product_id}/>,
-            <LoadProduct productid={cur_product_id} entities={price}/>,
+            <LoadProduct productid={cur_product_id} entities={['product_name', 'price']}/>
         );
     }
     return (
