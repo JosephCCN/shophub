@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export function LoadProductPhoto(prop){
     const productid = prop.productid;
     const [isLoading, setLoading] = useState(true);
+    console.log('adsf')
 
     // button redirects to specific product page 
     const navigate = useNavigate();
@@ -49,11 +50,13 @@ export function LoadProductPhoto(prop){
 
 // this function returns the entities in entity_list of a product
 // not for seller name, buyer name
-// input: productid, entity_list
+// input: productid, entity_list, prefix
 // output: page source of the required entity in order
 export function LoadProduct(prop){
     const productid = prop.productid;
     const entity_list = prop.entities;
+    const prefix_list = prop.prefix;
+    console.log(productid, entity_list, prefix_list)
     const [isLoading, setLoading] = useState(true);
     // product price
     const [product, setproduct] = useState();
@@ -76,8 +79,7 @@ export function LoadProduct(prop){
         var list = [];
         const L = Object.keys(entity_list).length; 
         for(var i=0;i<L;i++){
-            if(entity_list[i] == 'price') list.push(<p>${product[entity_list[i]]}</p>)
-            else list.push(<p>{product[entity_list[i]]}</p>)
+            list.push(<p>{prefix_list[i]}{product[entity_list[i]]}</p>)
         }
         return list;
     }

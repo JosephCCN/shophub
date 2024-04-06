@@ -148,7 +148,7 @@ app.post('/edit_profile', async(req, res) => {
     password = req.body.password;
     var result;
     try{
-        result = await db.query(`update users set (username, password) = ('${username}', '${password}') where user_id = ${userid}`)
+        result = await db.query(`update users set (username, password) = ("${username}", "${password}") where user_id = ${userid}`)
         res.json({'success': 1});
     }
     catch(err){
@@ -332,7 +332,6 @@ app.post('/add_cart', async(req, res) => {
     const productID = req.body.productID;
     const userID = req.body.userID;
     const quantity = req.body.quantity;
-    console.log(productID, userID, quantity)
     try{
         const result = await db.query(`select * from cart where product_id=${productID} and user_id=${userID}`);
         if(result.rows.length > 0) {
@@ -354,6 +353,29 @@ app.post('/add_cart', async(req, res) => {
     }
 })
 
+app.post('/add_to_wishlist', async(req, res) => {
+    const productid = req.body.productid;
+    const userid = req.body.userid;
+    try{
+        const result = await db.query(`select * from wishlist where product_id=${productid} and user_id=${userid}`);
+        if(result.rows.length > 0) {
+            res.json({'in_wishlist': 1});
+            return;
+        }
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    try{
+        const result = await db.query(`insert into wishlist (product_id, user_id) values (${productid}, ${userid})`);
+        res.json({})
+        return;
+    }
+    catch(err) {
+        res.json({'err':err});
+    }
+})
 const image_storage = multer.diskStorage({
     destination: './img',
     filename: (req, file, cb) => {
@@ -381,7 +403,7 @@ app.post('/add_product', upload.single('image'), async(req, res) => {
     quantity = req.body.quantity;
     category = req.body.category;
     try{
-        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ('${userid}', '${productname}', '${productinfo}', '${price}', '${quantity}', '${category}')`);
+        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ("${userid}", "${productname}", "${productinfo}", "${price}", "${quantity}", "${category}")`);
         res.json({'success': 1});
     }
     catch(err){
@@ -398,7 +420,7 @@ app.post('/edit_product', upload.single('image'), async(req, res) => {
     quantity = req.body.quantity;
     category = req.body.category;
     try{
-        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', '${price}', '${quantity}', '${category}') where product_id='${productid}'`);
+        result = await db.query(`update product set (product_name, info, price, quantity, category) = ("${productname}", "${productinfo}", "${price}", "${quantity}", "${category}") where product_id="${productid}"`);
         res.json({'success': 1});
     }
     catch(err){
@@ -478,8 +500,8 @@ app.post('/review', async(req, res) => {
     const rating = req.body.rating
     try {
         const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
-        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
-        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, '${context}', ${rating}) where product_id=${productID} and user_id=${userID}`);
+        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, "${context}", ${rating})`)
+        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, "${context}", ${rating}) where product_id=${productID} and user_id=${userID}`);
     }
     catch(err) {
         res.json({'err':err});
