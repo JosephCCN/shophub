@@ -101,8 +101,8 @@ app.get('/product_img', async(req, res) => {
 app.get('/seller_product', async(req, res) => {
     id = req.query.id;
     asc = req.query.asc;
-    if(asc == 1) query_msg = `select * from product where seller_id=${id} order by product_id asc`
-    else query_msg = `select * from product where seller_id=${id} order by product_id desc`
+    if(asc == 1) query_msg = `select * from product where (seller_id, is_deleted)=(${id}, false) order by product_id asc`
+    else query_msg = `select * from product where (seller_id, is_deleted)=(${id}, false) order by product_id desc`
     try{
         result = await db.query(query_msg);
     }
@@ -115,11 +115,12 @@ app.get('/seller_product', async(req, res) => {
 )
 
 app.get('/seller_history', async(req, res) => {
-    id = req.query.id;
+    userid = req.query.userid;
     amount = req.query.top;
     var result;
     try{
-        result = await db.query(`select * from history where seller_id=${id} order by order_date desc limit ${amount}`);
+        result = await db.query(`select history.* from history join product on history.product_id = product.product_id where (history.seller_id, product.is_deleted) = (${userid}, false) order by history.order_date desc limit ${amount}`);
+        console.log(result.rows)
     }
     catch(err) {
         res.json({'err': err});
@@ -211,7 +212,7 @@ app.get('/username', async(req, res) => {
 app.get('/product_name', async(req, res) => {
     productid = req.query.productid;
     try{
-        result = await db.query(`select product_name from product where product_id=${productid}`);
+        result = await db.query(`select product_name from product where (product_id, is_deleted) = (${productid}, false)`);
     }
     catch(err) {
         res.json({'err': err});
@@ -232,7 +233,7 @@ app.get('/all_users', async(req, res) => {
 app.get('/product', async(req, res) => {
     productid = req.query.productid;
     try{
-        result = await db.query(`select * from product where product_id=${productid}`);
+        result = await db.query(`select * from product where product_id = ${productid}`);
     }
     catch(err) {
         res.json({'err': err});
@@ -383,7 +384,7 @@ app.post('/edit_product', upload.single('image'), async(req, res) => {
 app.post('/delete_product', async(req, res) => {
     productid = req.body.productid;
     try{
-        result = await db.query(`delete from product where product_id=${productid}`);
+        result = await db.query(`update product set is_deleted = true where product_id=${productid}`);
         res.json({'success': 1});
     }
     catch(err) {

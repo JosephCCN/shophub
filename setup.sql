@@ -26,6 +26,7 @@ CREATE TABLE if not exists product(
     price DECIMAL(19, 1) NOT NULL,
     quantity integer CHECK (1 <= quantity),
     category varchar(100),
+    is_deleted boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
 
