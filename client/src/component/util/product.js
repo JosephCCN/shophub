@@ -50,7 +50,7 @@ export function LoadProductPhoto(prop){
 
 // this function returns the entities in entity_list of a product
 // not for seller name, buyer name
-// input: productid, entity_list
+// input: productid, entity_list, prefix
 // output: page source of the required entity in order
 export function LoadProduct(prop){
     const productid = prop.productid;
