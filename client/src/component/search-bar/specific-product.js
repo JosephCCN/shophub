@@ -3,6 +3,7 @@ import axios from 'axios'
 import { GetProduct, GetUserName, Get } from "../util/util";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
+import Reviews from "../review/reviews";
 
 
 
@@ -115,6 +116,7 @@ function SpecificProduct() {
             <button onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>Delete</button><br/>
             <button onClick={addToShoppingCart}>Add to Shopping Cart</button>
             <p>{msg}</p>
+            <Reviews productID={productID}/>
         </div>
     )
 

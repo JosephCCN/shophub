@@ -434,6 +434,36 @@ app.post('/delete_cart', async(req, res) => {
     }
 })
 
+app.get('/review', async(req, res) => {
+    const productID = req.query.product_id;
+    try {
+        const result = await db.query(`select * from review where product_id=${productID}`)
+        res.json(result.rows)
+    }
+    catch(err) {
+        res.json({'err':err})
+    }
+})
+
+app.post('/review', async(req, res) => {
+    const productID = req.body.product_id;
+    const userID = req.body.user_id;
+    const context = req.body.context.replace('\'', '\'\'');
+    const rating = req.body.rating
+    console.log(productID, userID, context, rating);
+    try {
+        const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
+        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
+        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, '${context}', ${rating}) where product_id=${productID} and user_id=${userID}`);
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    res.json({'success': 1});
+})
+
+
 app.listen(port, (err) => {
     console.log('running...')
 })
