@@ -2,7 +2,6 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import LoadPhoto from '../util/product'
 import LoadProductPhoto from '../util/product'
 
 function EditProduct(prop) {

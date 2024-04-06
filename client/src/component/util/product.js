@@ -1,15 +1,27 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export function LoadProductPhoto(prop){ //load photo from backend server
-    const [isLoading, setLoading] = useState(true);
+// this function loads photo from backend server
+// input: productid
+// output: image source
+export function LoadProductPhoto(prop){
     const productid = prop.productid;
-    const [img, setImg] = useState('');
+    const [isLoading, setLoading] = useState(true);
 
-    const select = (e) => {
-        console.log('clicked')
+    // button redirects to specific product page 
+    const navigate = useNavigate();
+    var [viewproduct, setviewproduct] = useState(0);
+    function gotoviewproduct(productid){
+        setviewproduct(productid);
     }
+    useEffect(() =>{
+        if(!viewproduct) return;
+        navigate(`/product/${viewproduct}`);
+    }, [viewproduct])
 
+    // fetch image
+    const [img, setImg] = useState('');
     useEffect(() => {
         const fetch_image = async() => {
             try{
@@ -27,7 +39,7 @@ export function LoadProductPhoto(prop){ //load photo from backend server
     }, [])
     if(isLoading) return <p>Loading...</p> ;
     return (
-        <div onClick={select} style={{cursor:'pointer'}}>
+        <div onClick={() => gotoviewproduct(productid)} style={{cursor:'pointer'}}>
             <img src={img}/>
         </div>
     )
