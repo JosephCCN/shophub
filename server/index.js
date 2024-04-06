@@ -169,7 +169,33 @@ app.get('/orderid', async(req, res) => {
         res.json({'err': err});
         return;
     }
+})
 
+app.get('/bought', async(req, res) => {
+    const userID = req.query.buyer_id;
+    const productID = req.query.product_id;
+    var result;
+    try{
+        result = await db.query(`select * from history where buyer_id=${userID} and product_id=${productID}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    if(result.rows == []) res.json({'bought': false});
+    else res.json({'bought': true});
+})
+
+app.get('/user', async(req, res) => {
+    userid = req.query.userid;
+    try{
+        result = await db.query(`select * from users where user_id=${userid}`)
+        res.json(result.rows);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
 })
 
 app.get('/order', async(req, res) => {
