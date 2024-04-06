@@ -63,8 +63,8 @@ app.get('/search', async(req, res) => {
     const l = key.length;
     var result;
     try{
-        if(Number(key)) result = await db.query(`select * from product where product_id=${key}`);
-        else result = await db.query(`select * from product where LEFT(product_name, ${l})='${key}'`);
+        if(Number(key)) result = await db.query(`select * from product where (product_id, is_deleted)=(${key}, false)`);
+        else result = await db.query(`select * from product where (LEFT(product_name, ${l}), is_deleted)=('${key}', false)`);
     }
     catch (err) {
         res.json({'err': err});

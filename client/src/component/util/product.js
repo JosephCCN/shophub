@@ -45,4 +45,41 @@ export function LoadProductPhoto(prop){
     )
 }
 
+
+// this function returns the entities in entity_list of a product
+// not for seller name, buyer name
+// input: productid, entity_list
+// output: page source of the required entity in order
+export function LoadProduct(prop){
+    const productid = prop.productid;
+    const entity_list = prop.entities;
+    const [isLoading, setLoading] = useState(true);
+    // product price
+    const [product, setproduct] = useState();
+    useEffect(() => {
+        const fetch_product = async() => {
+            try{
+                const res = await axios.get(`http://localhost:3030/product?productid=${productid}`)
+                setproduct(res.data[0]);
+                setLoading(false);
+            }
+            catch(err){
+                console.log(err);
+                return;
+            }
+        }
+        fetch_product();
+    }, [])
+    if(isLoading) return <p>Loading...</p> ;
+    else{
+        var list = [];
+        const L = Object.keys(entity_list).length; 
+        for(var i=0;i<L;i++){
+            list.push(<p>{product[entity_list[i]]}</p>)
+        }
+        return list;
+    }
+}
+
+
 export default LoadProductPhoto;

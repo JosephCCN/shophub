@@ -16,8 +16,8 @@ function EditProfile() {
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/profile?userid=${userid}`)
-            const L = res.data[0]['password'].length
-            res.data[0]['password'] = Array(L+1).join('*')
+            // const L = res.data[0]['password'].length
+            // res.data[0]['password'] = Array(L+1).join('*')
             setoriginalprofile(res.data)
             setLoading(false)
         }
