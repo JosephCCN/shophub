@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 // output: username page source
 export function Username(prop){
     const userid = prop.userid
+    const prefix = prop.prefix
     const [isLoading, setLoading] = useState(0);
     const [username, setusername] = useState('');
     
@@ -28,7 +29,7 @@ export function Username(prop){
     if(isLoading) return <p>Loading...</p>
     else{
         const tmp = `/profile/${username}`;
-        return <a href={tmp}>{username}</a>;
+        return (<p>{prefix}<a href={tmp}>{username}</a></p>);
     }
 }
 
