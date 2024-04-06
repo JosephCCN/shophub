@@ -131,14 +131,40 @@ app.get('/buyer_history', async(req, res) => {
     amount = req.query.top;
     var result;
     try{
-        result = await db.query(`select * from history where buyer=${id} order by order_date desc limit ${amount}`);
+        result = await db.query(`select * from history where buyer_id=${id} order by order_date desc limit ${amount}`);
     }
     catch(err) {
         res.json({'err': err});
         return;
     }
     res.json(result.rows);
+})
 
+app.get('/bought', async(req, res) => {
+    const userID = req.query.buyer_id;
+    const productID = req.query.product_id;
+    var result;
+    try{
+        result = await db.query(`select * from history where buyer_id=${userID} and product_id=${productID}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    if(result.rows == []) res.json({'bought': false});
+    else res.json({'bought': true});
+})
+
+app.get('/user', async(req, res) => {
+    userid = req.query.userid;
+    try{
+        result = await db.query(`select * from users where user_id=${userid}`)
+        res.json(result.rows);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
 })
 
 app.get('/username', async(req, res) => {
@@ -388,6 +414,36 @@ app.post('/delete_cart', async(req, res) => {
         res.json({'err':err})
     }
 })
+
+app.get('/review', async(req, res) => {
+    const productID = req.query.product_id;
+    try {
+        const result = await db.query(`select * from review where product_id=${productID}`)
+        res.json(result.rows)
+    }
+    catch(err) {
+        res.json({'err':err})
+    }
+})
+
+app.post('/review', async(req, res) => {
+    const productID = req.body.product_id;
+    const userID = req.body.user_id;
+    const context = req.body.context.replace('\'', '\'\'');
+    const rating = req.body.rating
+    console.log(productID, userID, context, rating);
+    try {
+        const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
+        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
+        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, '${context}', ${rating}) where product_id=${productID} and user_id=${userID}`);
+    }
+    catch(err) {
+        res.json({'err':err});
+        return;
+    }
+    res.json({'success': 1});
+})
+
 
 app.listen(port, (err) => {
     console.log('running...')
