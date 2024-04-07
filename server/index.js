@@ -259,11 +259,14 @@ app.get('/all_users', async(req, res) => {
 app.get('/product', async(req, res) => {
     productid = req.query.productid;
     try{
-        result = await db.query(`select * from product where product_id=${productid}`);
+        result = await db.query(`select * from product where product_id=${productid} and is_deleted='f'`);
     }
     catch(err) {
         res.json({'err': err});
         return;
+    }
+    if(result.rows == []) {
+        res.json({'empty': 1})
     }
     res.json(result.rows);
 })
