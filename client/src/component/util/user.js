@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
+import { Router, Navigate, Link, useNavigate } from "react-router-dom";
 
 // this function loads the username from backend server
 // input: userid
@@ -8,7 +9,7 @@ export function Username(prop){
     const userid = prop.userid
     const prefix = prop.prefix
     const [isLoading, setLoading] = useState(0);
-    const [username, setusername] = useState('');
+    const [username, setusername] = useState(0);
     
     //fetch username
     useEffect(() => {
@@ -26,10 +27,17 @@ export function Username(prop){
         fetch_username();
     }, [])
 
+    const navigate = useNavigate();
+    const [userlink, setUserLink] = useState('')
+    useEffect(() => {
+        if(!userlink) return;
+        navigate(userlink)
+    }, [userlink])
+
     if(isLoading) return <p>Loading...</p>
     else{
-        const tmp = `/profile/${username}`;
-        return (<p>{prefix}<a href={tmp}>{username}</a></p>);
+        const tmp = `/profile/${userid}`;
+        return (<p onClick={ () => setUserLink(tmp)}>{prefix}{username}</p>);
     }
 }
 
