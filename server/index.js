@@ -322,7 +322,7 @@ app.get('/maxproductid', async(req, res) => {
 app.get('/cart', async(req, res) => {
     const userid = req.query.id;
    try{
-    const result = await db.query(`select * from cart where user_id=${userid}`);
+    const result = await db.query(`select cart.product_id, cart.user_id, cart.quantity from cart inner join product on cart.product_id=product.product_id where product.is_deleted='f' and cart.user_id=${userid}`);
     res.json(result.rows);
    }
    catch(err) {
