@@ -138,7 +138,7 @@ function Profile() {
     const {profile_userid} = useParams();
     useEffect(() =>{
         if(!userid) navigate('/login');
-        if(!profile_userid) navigate(`/profile/${userid}`)
+        if(!profile_userid) profile_userid = userid;
     }, [])
     const top = 10
     var [editprofile, seteditprofile] = useState(0);
@@ -150,8 +150,21 @@ function Profile() {
         navigate('/profile/edit_profile');
     }, [editprofile])
 
+    // go back
+    var [back, setBack] = useState(false);
+    useEffect(() => {
+        if(back) {
+            back = false;
+            navigate(-1);
+        }
+    }, [back])
+    const goBack = () => {
+        setBack(true);
+    }
+
     return (
         <div>
+            <button onClick={goBack}>Back</button>
             <h1>Profile Page</h1>
             <h2>Profile</h2>
             <button onClick={() => gotoeditprofile()}>Edit Profile</button>
