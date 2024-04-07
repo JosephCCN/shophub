@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import  { LoadProductPhoto, LoadProduct } from "../util/product";
 
 function WishlistInfoSource(infolist){
-    var List = []
+    var list = []
     const L = Object.keys(infolist).length;
 
     if(L === 0){
@@ -13,12 +13,11 @@ function WishlistInfoSource(infolist){
     }
     for(var i=0;i<L;i++){
         const cur_product_id = infolist[i]['product_id'];
-        List.push(<LoadProductPhoto productid={cur_product_id}/>) 
-        List.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ']} entities={['product_name', 'price']}/>)
-        List.push(infolist[i]['remove'])
-        List.push(<p>{infolist[i]['msg']}</p>)
+        list.push(<LoadProductPhoto productid={cur_product_id}/>) 
+        list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ']} entities={['product_name', 'price']}/>)
+        list.push(infolist[i]['remove'])
     }
-    return List
+    return list
 }
 
 function FetchWishlist(prop){
@@ -26,7 +25,6 @@ function FetchWishlist(prop){
     const [isLoading, setisLoading] = useState(true);
     const [wishlist, setWishlist] = useState([]);
     var [removefromlist, setremove] = useState(0);
-    const [showproduct, setShowProduct] = useState(true);
 
     function handleRemove(productid, userid){
         setremove({productid: productid, userid: userid})    
@@ -40,7 +38,7 @@ function FetchWishlist(prop){
                     productid: productid
                 })
                 if(res.data['err']) throw('Cannot remove from wishlist')
-                setShowProduct(false)
+                window.location.reload(false);
             }
             catch(err){
                 console.log(err)
@@ -55,6 +53,7 @@ function FetchWishlist(prop){
             try{
                 const res = await axios.get(`http://localhost:3030/wishlist?userid=${userid}`)
                 const wishlist = res.data
+                console.log(wishlist)
                 const L = Object.keys(wishlist).length;
                 for(var i=0;i<L;i++){
                     const cur_product_id = wishlist[i]['product_id'];
@@ -71,7 +70,7 @@ function FetchWishlist(prop){
         fetch_wishlist();
     }, [])
     if(isLoading) return <p>Loading...</p>
-    else return showproduct && WishlistInfoSource(wishlist)
+    else return WishlistInfoSource(wishlist)
 }
 function Wishlist(){
     const cookies = new Cookies();
