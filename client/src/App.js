@@ -12,6 +12,7 @@ import SpecificProduct from './component/search-bar/specific-product';
 import Profile from './component/profile/profile';
 import EditProfile from './component/profile/edit_profile';
 import Wishlist from './component/wishlist/wishlist';
+import Payment from './component/cart/payment'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route exact path='/profile' element={<Profile/>}/>
           <Route path='/profile/edit_profile' element={<EditProfile/>}/>
           <Route path='/cart' element={<Cart/>}/>
+          <Route exact path='/payment/:userid' element={<Payment/>}/>
           <Route path='/seller' element={<Seller/>}/>
           <Route path='/admin' element={<Admin/>}/>
           <Route path='/wishlist' element={<Wishlist/>}/>

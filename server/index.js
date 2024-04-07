@@ -23,7 +23,6 @@ app.get('/', (req, res) => {
 app.post('/login', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
-    console.log(username, pwd);
     var result = await db.query(`select password from users where username='${username}'`)
     if(result.rows.length != 1) {
         res.json({err: 'No Such User'});
@@ -41,7 +40,6 @@ app.post('/login', async(req, res) => {
 app.post('/register', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
-    console.log(username, pwd);
     var result = await db.query(`select password from users where username='${username}'`);
     if(result.rows.length > 0) {
         res.json({err: 'username exist'});
@@ -569,7 +567,6 @@ app.get('/recommendation', async(req, res) =>{
         const result = await db.query(`select product_id, avg(rating) from review group by product_id order by avg desc limit 5`)
         const result2 = await db.query(`select product.category, count(product.category) from product inner join history on product.product_id=history.product_id where history.buyer_id=${userid} group by product.category order by count desc limit 2`)
         var list = []
-        console.log(result.rows, result2.rows)
         for(var i=0;i<result.rows.length;i++) {
             const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted='f'`)
             if(r.rows.length > 0) list.push(r.rows[0]);

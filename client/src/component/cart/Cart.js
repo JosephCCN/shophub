@@ -13,6 +13,7 @@ function CartProduct(props) {
   const [cartQuantity, setCartQuantity] = useState(cur['quantity']);
   const cookies = new Cookies();
   const [removed, setRemoved] = useState(0);
+  const [notEnough, setNotEnough] = useState(false);
 
   useEffect(() => {
     axios.get(`http://localhost:3030/product?productid=${cur['product_id']}`)
@@ -21,6 +22,13 @@ function CartProduct(props) {
     })
     .catch(err => console.log(err))
   }, [])
+
+  useEffect(() => {
+    if(cartQuantity > product['quantity']) {
+      setNotEnough(true);
+    }
+    else if(notEnough) setNotEnough(false);
+  }, [product, cartQuantity])
 
   const handleQuantityChange = (e) => {
     var t = e.target.value
@@ -32,11 +40,21 @@ function CartProduct(props) {
     if(t < 0 || t > product['quantity']){
         return
     }
+    if(t > product['quantity']) t = product['quantity'];
+    else if(t < 0) t = 0;
+    const userid = cookies.get('userid');
+    axios.post('http://localhost:3030/edit_cart_quantity', {
+      quantity: t,
+      userID: userid,
+      productID: cur['product_id']
+    })
+    .then(res => {})
+    .catch(err => console.log(err))
     setCartQuantity(t);
 }
 
   const handleQuantityIncrease = () => {
-    if(cartQuantity < product['quantity']) setCartQuantity(cartQuantity + 1);
+    if(cartQuantity + 1 <= product['quantity']) setCartQuantity(cartQuantity + 1);
     else return;
     const userid = cookies.get('userid');
     axios.post('http://localhost:3030/edit_cart_quantity', {
@@ -49,7 +67,7 @@ function CartProduct(props) {
   }
 
   const handleQuantityDecrease = () => {
-    if(cartQuantity > 1) setCartQuantity(cartQuantity - 1)
+    if(cartQuantity - 1 > 0) setCartQuantity(cartQuantity - 1)
     else return
     const userid = cookies.get('userid');
     axios.post('http://localhost:3030/edit_cart_quantity', {
@@ -102,9 +120,13 @@ function CartProduct(props) {
       <LoadProductPhoto productid={cur['product_id']}/>
       <p>Name: {product['product_name']}</p>
       <p>Price: {product['price']}</p>
+      <p>Left: {product['quantity']}</p>
+      {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
+      {notEnough ? <br/>: <></>}
+      <button onClick={handleQuantityDecrease}>-</button>
       <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={cartQuantity}/>
-      <button onClick={handleQuantityIncrease}>Add</button>
-      <button onClick={handleQuantityDecrease}>Delete</button><br/>
+      <button onClick={handleQuantityIncrease}>+</button>
+      <br/>
       <button onClick={handleRemove}>Remove from Cart</button>
       <button onClick={handleRemoveandAddtoWishlist}>Remove and Add to Wishlist</button>
     </div>
@@ -126,6 +148,7 @@ function Cart(){
   const navigate = useNavigate();
   const [cart, setCart] = useState([]);
   var [back, setBack] = useState(false);
+  var [pay, setPayment] = useState(false);
 
   useEffect(() => {
     const userid = cookies.get('userid');
@@ -152,8 +175,20 @@ function Cart(){
     }
   }, [back])
 
+  useEffect(() => {
+    if(pay) {
+      const userid = cookies.get('userid');
+      pay = false;
+      navigate(`/payment/${userid}`)
+    }
+  }, [pay]);
+
   const goBack = () => {
     setBack(true);
+  }
+
+  const payment = () => {
+    setPayment(true);
   }
 
 
@@ -180,6 +215,7 @@ function Cart(){
       <button onClick={goBack}>Back</button>
       <h1>Shopping Cart</h1>
       {cartList}
+      <button onClick={payment}>Payment</button>
     </div>
   )
   
