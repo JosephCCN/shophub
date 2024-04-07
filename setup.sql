@@ -76,11 +76,10 @@ CREATE TABLE if not exists review(
 );
 
 CREATE TABLE if not exists noti(
-    product_id integer NOT NULL,
     user_id integer NOT NULL,
-    CONSTRAINT noti_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
+    context varchar(400),
     CONSTRAINT noti_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
-)
+);
 
 INSERT INTO users (username, password, is_admin)
 VALUES ('admin', 'admin', TRUE);
