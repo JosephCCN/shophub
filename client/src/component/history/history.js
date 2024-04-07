@@ -154,7 +154,6 @@ export function ShowSalesHistory(prop) {
             const res = await axios.get(`http://localhost:3030/seller_history?userid=${userid}&top=${top}`)
             const tmp = res.data
             var list = []
-            console.log(tmp)
             const L = Object.keys(tmp).length;
             for(var i=0;i<L;i++){
                 var cur_sales_list = tmp[i];
@@ -174,7 +173,6 @@ export function ShowSalesHistory(prop) {
                 cur_sales_list['product_img'] = <LoadProductPhoto productid={cur_product_id}/>;
                 list.push(cur_sales_list)
             }
-            console.log(list)
             setsaleslist(list)
             setLoading(false)
         }
