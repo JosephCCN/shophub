@@ -56,9 +56,23 @@ function Profile() {
         if(!editprofile) return;
         navigate('/profile/edit_profile');
     }, [editprofile])
+
+    // go back
+    var [back, setBack] = useState(false);
+    useEffect(() => {
+        if(back) {
+            back = false;
+            navigate(-1);
+        }
+    }, [back])
+    const goBack = () => {
+        setBack(true);
+    }
+
     if(userid == profile_userid){       //viewing own profile
         return (
             <div>
+                <button onClick={goBack}>Back</button>
                 <h1>Profile Page</h1>
                 <h2>Profile</h2>
                 <button onClick={() => gotoeditprofile()}>Edit Profile</button>
@@ -71,6 +85,7 @@ function Profile() {
     else{
         return (
             <div>
+                <button onClick={goBack}>Back</button>
                 <h1>Profile Page</h1>
                 <h2>Profile</h2>
                 <ShowProfile userid={profile_userid}/>
