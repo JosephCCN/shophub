@@ -6,8 +6,8 @@ import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import Bar from '../search-bar/bar'
 import ListProduct from "../search-bar/list_product";
-import Profile from '../profile/profile';
 import Recommendation from '../recommendation/recommendation';
+import ShowNotification from '../wishlist/notification';
 
 function Actual_home() {
   const [product_info, setProductInfo] = useState({});
@@ -109,6 +109,7 @@ function Actual_home() {
         <br/>
       </div>
         {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
+        <ShowNotification userid={userid}/>
       
     </body>
   )

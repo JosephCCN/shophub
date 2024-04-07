@@ -420,13 +420,13 @@ const upload = multer({
 })
 app.post('/add_product', upload.single('image'), async(req, res) => {
     userid = req.body.userid;
-    productname = req.body.productname;
-    productinfo = req.body.productinfo;
+    productname = req.body.productname.replace('\'', '\'\'');
+    productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
-    category = req.body.category;
+    category = req.body.category.replace('\'', '\'\'');
     try{
-        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ("${userid}", "${productname}", "${productinfo}", "${price}", "${quantity}", "${category}")`);
+        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values (${userid}, '${productname}', '${productinfo}', ${price}, ${quantity}, '${category}')`);
         res.json({'success': 1});
     }
     catch(err){
@@ -435,15 +435,42 @@ app.post('/add_product', upload.single('image'), async(req, res) => {
     }
 })
 
+add_noti = async(msg, productid) => {
+    const fetch_user = await db.query(`select user_id from wishlist where product_id = ${productid}`)
+    const userlist = fetch_user.rows
+    const L = Object.keys(userlist).length
+    for(var i=0;i<L;i++){
+        const cur_user_id = userlist[i]['user_id'];
+        const fetch_num_of_noti = await db.query(`select count(*) from noti where user_id = ${cur_user_id}`);
+        const number_of_noti = fetch_num_of_noti.rows[0]['count']
+        if(number_of_noti == 10){
+            await db.query(`delete from noti where create_at = (select create_at from noti order by create_at asc limit 1) `);
+        }
+        await db.query(`insert into noti (user_id, context, product_id) values (${userid}, '${msg}', ${productid})`)
+    }
+}
+
+app.get('/user_notification', async(req, res) => {
+    userid = req.query.userid;
+    try{
+        result = await db.query(`select product_id, context, current_timestamp - noti.create_at as time from noti where user_id = ${userid}`)
+        res.json(result.rows)
+    }
+    catch(err){
+        res.json({'err': err})
+    }
+
+})
 app.post('/edit_product', upload.single('image'), async(req, res) => {
     productid = req.body.productid;
-    productname = req.body.productname;
-    productinfo = req.body.productinfo;
+    productname = req.body.productname.replace('\'', '\'\'');
+    productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
-    category = req.body.category;
+    category = req.body.category.replace('\'', '\'\'');
     try{
-        result = await db.query(`update product set (product_name, info, price, quantity, category) = ("${productname}", "${productinfo}", "${price}", "${quantity}", "${category}") where product_id="${productid}"`);
+        add_noti(`The product ${productname} has been edited! Click to check!`, productid)
+        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', ${price}, ${quantity}, '${category}') where product_id=${productid}`);
         res.json({'success': 1});
     }
     catch(err){
@@ -456,6 +483,9 @@ app.post('/delete_product', async(req, res) => {
     productid = req.body.productid;
     try{
         result = await db.query(`update product set is_deleted = true where product_id=${productid}`);
+        const result2 = await db.query(`select product_name from product where product_id=${productid}`);
+        productname = result2.rows['product_name'];
+        add_noti(`The product ${productname} has been deleted! Be faster next time!`, productid)
         res.json({'success': 1});
     }
     catch(err) {
@@ -523,8 +553,8 @@ app.post('/review', async(req, res) => {
     const rating = req.body.rating
     try {
         const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
-        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, "${context}", ${rating})`)
-        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, "${context}", ${rating}) where product_id=${productID} and user_id=${userID}`);
+        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
+        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, '${context}', ${rating}) where product_id=${productID} and user_id=${userID}`);
     }
     catch(err) {
         res.json({'err':err});
