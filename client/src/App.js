@@ -11,6 +11,7 @@ import {Route, Routes, Navigate, BrowserRouter as Router} from 'react-router-dom
 import SpecificProduct from './component/search-bar/specific-product';
 import Profile from './component/profile/profile';
 import EditProfile from './component/profile/edit_profile';
+import Wishlist from './component/wishlist/wishlist';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path='/cart' element={<Cart/>}/>
           <Route path='/seller' element={<Seller/>}/>
           <Route path='/admin' element={<Admin/>}/>
+          <Route path='/wishlist' element={<Wishlist/>}/>
           <Route path='/seller/add_product' element={<AddProduct/>}></Route>
           <Route path='/seller/edit_product' element={<EditProduct/>}></Route>
           <Route exact path='/product/:productID' element={<SpecificProduct/>}/>

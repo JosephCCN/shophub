@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 export function LoadProductPhoto(prop){
     const productid = prop.productid;
     const [isLoading, setLoading] = useState(true);
-    console.log('adsf')
 
     // button redirects to specific product page 
     const navigate = useNavigate();
@@ -56,7 +55,6 @@ export function LoadProduct(prop){
     const productid = prop.productid;
     const entity_list = prop.entities;
     const prefix_list = prop.prefix;
-    console.log(productid, entity_list, prefix_list)
     const [isLoading, setLoading] = useState(true);
     // product price
     const [product, setproduct] = useState();
@@ -74,6 +72,7 @@ export function LoadProduct(prop){
         }
         fetch_product();
     }, [])
+    // console.log(productid, product)
     if(isLoading) return <p>Loading...</p> ;
     else{
         var list = [];

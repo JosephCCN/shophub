@@ -120,7 +120,6 @@ app.get('/seller_history', async(req, res) => {
     var result;
     try{
         result = await db.query(`select history.* from history join product on history.product_id = product.product_id where (history.seller_id, product.is_deleted) = (${userid}, false) order by history.order_date desc limit ${amount}`);
-        console.log(result.rows)
     }
     catch(err) {
         res.json({'err': err});
@@ -374,6 +373,30 @@ app.post('/add_to_wishlist', async(req, res) => {
     }
     catch(err) {
         res.json({'err':err});
+    }
+})
+
+app.get('/wishlist', async(req, res) => {
+    const userid = req.query.userid;
+    try{
+        const result = await db.query(`select wishlist.product_id from wishlist join product on product.product_id = wishlist.product_id where (wishlist.user_id, product.is_deleted) = (${userid}, false)`)
+        res.json(result.rows)
+        return;
+    }
+    catch(err) {
+        res.json({'err':err})
+    }
+})
+
+app.post('/remove_from_wishlist', async(req, res) => {
+    const userid = req.body.userid;
+    const productid = req.body.productid;
+    try{
+        const result = await db.query(`delete from wishlist where (user_id, product_id)=(${userid}, ${productid})`)
+        res.json({})
+    }
+    catch(err){
+        res.json({'err':err})
     }
 })
 const image_storage = multer.diskStorage({

@@ -30,7 +30,7 @@ function SpecificProduct() {
         const fetch_product = async() => {
             try{
                 const entities = ['price', 'quantity']
-                const prefix = ['$', 'In Stock']
+                const prefix = ['$', 'In Stock: ']
                 setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
                 setProductImg(<LoadProductPhoto productid={productID}/>)
                 setSellerName(<Username userid={userid} prefix={['Sold by ']}/>)
