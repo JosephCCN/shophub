@@ -77,6 +77,22 @@ function CartProduct(props) {
     .catch(err => console.log(err))
   }
 
+  const handleRemoveandAddtoWishlist = () => {
+    const userid = cookies.get('userid');
+    axios.post('http://localhost:3030/add_to_wishlist', {
+      userid: userid,
+      productid: cur['product_id']
+    })
+    .then(res => {
+      if(res.data['err']) {
+        console.log(res.data['err']);
+        return;
+      }
+    })
+    .catch(err => console.log(err))
+    handleRemove();
+  }
+
   if(product == 'nth') return <p>Loading...</p>
 
 
@@ -90,6 +106,7 @@ function CartProduct(props) {
       <button onClick={handleQuantityIncrease}>Add</button>
       <button onClick={handleQuantityDecrease}>Delete</button><br/>
       <button onClick={handleRemove}>Remove from Cart</button>
+      <button onClick={handleRemoveandAddtoWishlist}>Remove and Add to Wishlist</button>
     </div>
     ,
     <p>Removed</p>
