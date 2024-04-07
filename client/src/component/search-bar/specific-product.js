@@ -16,17 +16,13 @@ function SpecificProduct() {
     const [msg, setMsg] = useState('');
     var userid;
 
-    useEffect(() => {
-        userid = cookies.get('userid');
-        if(!userid) {
-            navigate('/login')
-        }
-    }, [])
     const [isLoading, setisLoading] = useState(true);
     const [sellerName, setSellerName] = useState('');
     const [product, setProduct] = useState([]);
     const [productimg, setProductImg] = useState('');
+
     useEffect(() => {
+
         const fetch_product = async() => {
             try{
                 const entities = ['price', 'quantity']
@@ -41,7 +37,20 @@ function SpecificProduct() {
                 return;
             }
         }
-        fetch_product();
+
+        userid = cookies.get('userid');
+        if(!userid) {
+            navigate('/login')
+        }
+
+        axios.get(`http://localhost:3030/product?productid=${productID}`)
+        .then(res => {
+            if(res.data.length == 0) {
+                navigate('/home');
+            }
+            fetch_product();
+        })
+        .catch(err => console.log(err))
     }, [])
 
     useEffect(() => {
@@ -51,12 +60,11 @@ function SpecificProduct() {
         }
     }, [back])
 
+    if(isLoading) return <p>Loading...</p>
+
     const goBack = () => {
         setBack(true);
     }
-    
-    if(isLoading) return <p>Loading...</p>
-
 
     const handleQuantityChange = (e) => {
         var t = e.target.value
