@@ -94,9 +94,22 @@ function Seller(props) {
       AddProduct = 0;
       navigate('/seller/add_product');
     }, [AddProduct])
+
+    // go back
+    var [back, setBack] = useState(false);
+    useEffect(() => {
+        if(back) {
+            back = false;
+            navigate(-1);
+        }
+    }, [back])
+    const goBack = () => {
+        setBack(true);
+    }
     
     return (
         <div>
+            <button onClick={goBack}>Back</button>
             <h1>Seller Page</h1>
             <h1>Inventory:</h1>
             <button onClick={GoToAddProduct}>Add Product</button>
