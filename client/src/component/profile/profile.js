@@ -45,7 +45,7 @@ function Profile() {
     const {profile_userid} = useParams();
     useEffect(() =>{
         if(!userid) navigate('/login');
-        if(!profile_userid) navigate(`/profile/${userid}`)
+        if(!profile_userid) profile_userid = userid;
     }, [])
     const top = 10
     var [editprofile, seteditprofile] = useState(0);
