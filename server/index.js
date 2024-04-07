@@ -538,14 +538,48 @@ app.post('/review', async(req, res) => {
 
 app.get('/recommendation', async(req, res) =>{
     const limit = req.query.limit;
-    try {
-        const result = await db.query(`select product_id, count(*) from history group by product_id order by count desc limit ${limit};`)
-        var list = []
-        for(var i=0;i<result.rows.length;i++) {
-            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted=false`)
-            list.push(r.rows[0]);
+    const userid = req.query.userid;
+
+    const shuffle = (item) => {
+        for(var i=0;i<Math.sqrt(item.length);i++) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [item[i], item[j]] = [item[j], item[i]];
         }
-        res.json(list)
+        return item;
+    }
+
+    const unqiue = (list) => {
+        list = Array.from(new Set(list.map(s => s.product_id)))
+        .map(product_id => {
+            return {
+                product_id: product_id,
+                seller_id: list.find(s => s.product_id === product_id).seller_id,
+                product_name: list.find(s => s.product_id === product_id).product_name,
+                info: list.find(s => s.product_id === product_id).info,
+                price: list.find(s => s.product_id === product_id).price,
+                quantity: list.find(s => s.product_id === product_id).quantity,
+                category: list.find(s => s.product_id === product_id).category,
+                is_deleted: list.find(s => s.product_id === product_id).is_deleted
+            }
+        })
+        return list;
+    }
+
+    try {
+        const result = await db.query(`select product_id, avg(rating) from review group by product_id order by avg desc limit 5`)
+        const result2 = await db.query(`select product.category, count(product.category) from product inner join history on product.product_id=history.product_id where history.buyer_id=${userid} group by product.category order by count desc limit 2`)
+        var list = []
+        console.log(result.rows, result2.rows)
+        for(var i=0;i<result.rows.length;i++) {
+            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted='f'`)
+            if(r.rows.length > 0) list.push(r.rows[0]);
+        }
+        for(var i=0;i<result2.rows.length;i++) {
+            const r = await db.query(`select * from product where category='${result2.rows[i]['category']}' and is_deleted='f'`)
+            if(r.rows.length > 0) list.push(r.rows[0]);
+        }
+        list = unqiue(list)
+        res.json(shuffle(list).slice(0, limit))
     }
     catch(err) {
         res.json({'err':err});
