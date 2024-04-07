@@ -1,30 +1,14 @@
-import { Navigate, Link, useNavigate, useSearchParams, useRevalidator } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import  { LoadProductPhoto, LoadProduct } from "../util/product";
 
-function WishlistInfoSource(infolist){
-    var list = []
-    const L = Object.keys(infolist).length;
-
-    if(L === 0){
-        return <p>Wishlist is empty! Please add product into wishlist</p>
-    }
-    for(var i=0;i<L;i++){
-        const cur_product_id = infolist[i]['product_id'];
-        list.push(<LoadProductPhoto productid={cur_product_id}/>) 
-        list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ']} entities={['product_name', 'price']}/>)
-        list.push(infolist[i]['remove'])
-    }
-    return list
-}
-
-function FetchWishlist(prop){
-    const userid = prop.userid
-    const [isLoading, setisLoading] = useState(true);
-    const [wishlist, setWishlist] = useState([]);
+function FetchWishlistPageSource(prop){
+    const cookies = new Cookies();
+    const userid = cookies.get('userid');
     var [removefromlist, setremove] = useState(0);
+    const [removed, setRemoved] = useState(0);
 
     function handleRemove(productid, userid){
         setremove({productid: productid, userid: userid})    
@@ -38,7 +22,7 @@ function FetchWishlist(prop){
                     productid: productid
                 })
                 if(res.data['err']) throw('Cannot remove from wishlist')
-                window.location.reload(false);
+                setRemoved(1);
             }
             catch(err){
                 console.log(err)
@@ -48,30 +32,21 @@ function FetchWishlist(prop){
         remove_product(removefromlist['productid'], removefromlist['userid']);
     }, [removefromlist])
 
-    useEffect(() => {
-        const fetch_wishlist = async() => {
-            try{
-                const res = await axios.get(`http://localhost:3030/wishlist?userid=${userid}`)
-                const wishlist = res.data
-                console.log(wishlist)
-                const L = Object.keys(wishlist).length;
-                for(var i=0;i<L;i++){
-                    const cur_product_id = wishlist[i]['product_id'];
-                    wishlist[i]['remove'] = (<button onClick={() => handleRemove(cur_product_id, userid)}>Remove from Wishlist</button>);
-                }
-                setWishlist(wishlist)
-                setisLoading(false)
-            }
-            catch(err){
-                console.log(err)
-                return;
-            }
-        }
-        fetch_wishlist();
-    }, [])
-    if(isLoading) return <p>Loading...</p>
-    else return WishlistInfoSource(wishlist)
+    var list = []
+    const cur_product = prop.cur_product;
+    const cur_product_id = cur_product['product_id']
+    list.push(<LoadProductPhoto productid={cur_product_id}/>) 
+    list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ']} entities={['product_name', 'price']}/>)
+    list.push(<button onClick={() => handleRemove(cur_product_id, userid)}>Remove from Wishlist</button>);
+    const showList = [list, <p></p>]
+    const show = showList[removed]
+    return(
+        <div>
+            {show}
+        </div>
+    )
 }
+
 function Wishlist(){
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -98,16 +73,42 @@ function Wishlist(){
     const goBack = () => {
         setBack(true);
     }
+
+    //fetch wishlist
+    const [wishlist, setWishlist] = useState([]);
+    useEffect(() => {
+        const fetch_wishlist = async() => {
+            try{
+                const res = await axios.get(`http://localhost:3030/wishlist?userid=${userid}`)
+                const wishlist = res.data
+                setWishlist(wishlist)
+                setisLoading(false)
+                }
+            catch(err){
+                console.log(err)
+                return;
+            }
+        }
+        fetch_wishlist();
+    }, [])
+
     if(isLoading) return <p>Loading...</p>
-    else{
-        return (
-            <div>
-            <button onClick={goBack}>Back</button>
-            <h1>Wishlist</h1>
-            <FetchWishlist userid={userid}/>
-            </div>
-        )
+    const L = Object.keys(wishlist).length;
+    if(L === 0){
+        list.push(<p>Wishlist is empty! Please add product into wishlist</p>)
     }
+    var list = [];
+    for(var i=0;i<L;i++){
+        const cur_product = wishlist[i]
+        list.push(<FetchWishlistPageSource cur_product={cur_product}/>)
+    }
+    return (
+        <div>
+        <button onClick={goBack}>Back</button>
+        <h1>Wishlist</h1>
+        {list}
+        </div>
+    )
 
 }
 export default Wishlist;
