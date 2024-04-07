@@ -587,6 +587,35 @@ app.get('/recommendation', async(req, res) =>{
     }
 })
 
+app.get('/pay', async(req, res) => {
+    const userid = req.query.userid;
+    try {
+        var result = await db.query(`select * from cart where user_id=${userid}`);
+        const order_id = await db.query(`select nextval('history_order_id')`);
+        var not_enough = []
+        for(var i=0;i<result.rows.length;i++) {
+            const cur = result.rows[i];
+            const r2 = await db.query(`select * from product where product_id=${cur['product_id']} and is_deleted='f'`);
+            if(r2.rows.length == 0) continue;
+            if(r2.rows[0]['quantity'] < cur['quantity']) {
+                not_enough.push(cur['product_id'])
+                continue;
+            }
+            await db.query(`insert into history values (${order_id.rows[0]['nextval']}, ${userid}, ${r2.rows[0]['seller_id']}, ${cur['product_id']}, current_timestamp, ${cur['quantity']}, ${r2.rows[0]['price']})`);
+            await db.query(`update product set quantity=${r2.rows[0]['quantity'] - cur['quantity']} where product_id=${cur['product_id']}`);
+            await db.query(`delete from cart where user_id=${userid} and product_id=${cur['product_id']}`);
+        }
+        if(not_enough.length > 0) {
+            res.json({'not_enough': not_enough});
+            return;
+        }
+        res.json({'success': 1});
+    }
+    catch(err) {
+        res.json({'err': err})
+    }
+})
+
 app.listen(port, (err) => {
     console.log('running...')
 })
