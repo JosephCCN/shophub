@@ -29,7 +29,7 @@ CREATE TABLE if not exists product(
     product_name varchar(100) NOT NULL,
     info varchar(200),
     price DECIMAL(19, 1) NOT NULL,
-    quantity integer CHECK (1 <= quantity),
+    quantity integer CHECK (0 <= quantity),
     category varchar(100),
     is_deleted boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
@@ -89,6 +89,8 @@ CREATE TABLE if not exists noti(
 INSERT INTO users (username, password, is_admin)
 VALUES ('admin', 'admin', TRUE);
 
+INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE);
 insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
+
 insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, 'fuck');
 insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, 'hell');

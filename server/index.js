@@ -23,7 +23,6 @@ app.get('/', (req, res) => {
 app.post('/login', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
-    console.log(username, pwd);
     var result = await db.query(`select password from users where username='${username}'`)
     if(result.rows.length != 1) {
         res.json({err: 'No Such User'});
@@ -41,7 +40,6 @@ app.post('/login', async(req, res) => {
 app.post('/register', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
-    console.log(username, pwd);
     var result = await db.query(`select password from users where username='${username}'`);
     if(result.rows.length > 0) {
         res.json({err: 'username exist'});
@@ -322,7 +320,7 @@ app.get('/maxproductid', async(req, res) => {
 app.get('/cart', async(req, res) => {
     const userid = req.query.id;
    try{
-    const result = await db.query(`select * from cart where user_id=${userid}`);
+    const result = await db.query(`select cart.product_id, cart.user_id, cart.quantity from cart inner join product on cart.product_id=product.product_id where product.is_deleted='f' and cart.user_id=${userid}`);
     res.json(result.rows);
    }
    catch(err) {
@@ -599,7 +597,6 @@ app.get('/recommendation', async(req, res) =>{
         const result = await db.query(`select product_id, avg(rating) from review group by product_id order by avg desc limit 5`)
         const result2 = await db.query(`select product.category, count(product.category) from product inner join history on product.product_id=history.product_id where history.buyer_id=${userid} group by product.category order by count desc limit 2`)
         var list = []
-        console.log(result.rows, result2.rows)
         for(var i=0;i<result.rows.length;i++) {
             const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted='f'`)
             if(r.rows.length > 0) list.push(r.rows[0]);
@@ -614,6 +611,35 @@ app.get('/recommendation', async(req, res) =>{
     catch(err) {
         res.json({'err':err});
         return;
+    }
+})
+
+app.get('/pay', async(req, res) => {
+    const userid = req.query.userid;
+    try {
+        var result = await db.query(`select * from cart where user_id=${userid}`);
+        const order_id = await db.query(`select nextval('history_order_id')`);
+        var not_enough = []
+        for(var i=0;i<result.rows.length;i++) {
+            const cur = result.rows[i];
+            const r2 = await db.query(`select * from product where product_id=${cur['product_id']} and is_deleted='f'`);
+            if(r2.rows.length == 0) continue;
+            if(r2.rows[0]['quantity'] < cur['quantity']) {
+                not_enough.push(cur['product_id'])
+                continue;
+            }
+            await db.query(`insert into history values (${order_id.rows[0]['nextval']}, ${userid}, ${r2.rows[0]['seller_id']}, ${cur['product_id']}, current_timestamp, ${cur['quantity']}, ${r2.rows[0]['price']})`);
+            await db.query(`update product set quantity=${r2.rows[0]['quantity'] - cur['quantity']} where product_id=${cur['product_id']}`);
+            await db.query(`delete from cart where user_id=${userid} and product_id=${cur['product_id']}`);
+        }
+        if(not_enough.length > 0) {
+            res.json({'not_enough': not_enough});
+            return;
+        }
+        res.json({'success': 1});
+    }
+    catch(err) {
+        res.json({'err': err})
     }
 })
 
