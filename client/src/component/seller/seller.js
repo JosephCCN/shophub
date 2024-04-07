@@ -58,6 +58,8 @@ function ProductInfoSource(prop){
     list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
     list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
     const show_product=[list, <p></p>]
+    // if deleted = 0, show product
+    // if deleted = 1, hide product
     return show_product[deleted]
 }
 function ShowSellerProduct(props){
