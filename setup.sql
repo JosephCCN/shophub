@@ -15,7 +15,6 @@ CREATE SEQUENCE if not exists history_order_id
     INCREMENT 1
     START 1;
 
-
 CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
@@ -75,6 +74,13 @@ CREATE TABLE if not exists review(
     CONSTRAINT review_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
     CONSTRAINT review_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+CREATE TABLE if not exists noti(
+    product_id integer NOT NULL,
+    user_id integer NOT NULL,
+    CONSTRAINT noti_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
+    CONSTRAINT noti_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
+)
 
 INSERT INTO users (username, password, is_admin)
 VALUES ('admin', 'admin', TRUE);
