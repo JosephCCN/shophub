@@ -85,10 +85,6 @@ CREATE TABLE if not exists noti(
 );
 
 
-
-INSERT INTO users (username, password, is_admin)
-VALUES ('admin', 'admin', TRUE);
-
 INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE);
 insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
 
