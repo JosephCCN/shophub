@@ -94,10 +94,10 @@ function Wishlist(){
 
     if(isLoading) return <p>Loading...</p>
     const L = Object.keys(wishlist).length;
+    var list = []
     if(L === 0){
         list.push(<p>Wishlist is empty! Please add product into wishlist</p>)
     }
-    var list = [];
     for(var i=0;i<L;i++){
         const cur_product = wishlist[i]
         list.push(<FetchWishlistPageSource cur_product={cur_product}/>)

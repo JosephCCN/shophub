@@ -85,6 +85,7 @@ function ShowSellerProduct(props){
             const cur = productlist[i];
             list.push(<ProductInfoSource cur_product={cur}/>)
         }
+        if(L === 0) list.push(<p>No Product Selling! Click Add Product button to add product for sale!!</p>)
         return list
     }
     
