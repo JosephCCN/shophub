@@ -1,16 +1,17 @@
-.product_list>div{
+.product_list{
     margin: 10px;
     border: none;
     float: left;
     width: 180px;
-    height: 250px;
+    height: 230px;
+    cursor: pointer;
 }
 
-.product_list div.img:hover {
-    border: 1px solid hsl(36, 100%, 53%);
+.product_list:hover{
+    border: 1px solid rgb(246, 153, 53);
 }
 
-.product_list div.img img {
+.product_list img{
     max-width: 150px;
     max-height: 150px;
 }

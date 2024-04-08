@@ -40,9 +40,9 @@ export function LoadProductPhoto(prop){
     }, [])
     if(isLoading) return <p>Loading...</p> ;
     return (
-        <div className="img" onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
-            <img src={img}/>
-        </div>
+        //<div onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
+            <img src={img} onClick={() => gotoviewproduct(true)}/>
+        //</div>
     )
 }
 
@@ -78,7 +78,7 @@ export function LoadProduct(prop){
         var list = [];
         const L = Object.keys(entity_list).length; 
         for(var i=0;i<L;i++){
-            list.push(<p>{prefix_list[i]}{product[entity_list[i]]}</p>)
+            list.push(<div className='dec'>{prefix_list[i]}{product[entity_list[i]]}</div>)
         }
         return list;
     }
