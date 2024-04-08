@@ -112,10 +112,15 @@ function Actual_home() {
         </div>
       </nav>
       <div className='searching'>
-        <h1>Home Page</h1>
-        {advance ? <AdvanceBar setSearched={setSearched} setProductInfo={setProductInfo}/>: <Bar setSearched={setSearched} setProductInfo={setProductInfo}/>}
-        <input type="checkbox" checked={advance} onChange={handleAdvance}/> advance
-        <br/>
+        <table>
+          <tr>
+            <td><h1>Home Page</h1></td>
+            <td>
+            {advance ? <AdvanceBar setSearched={setSearched} setProductInfo={setProductInfo}/>: <Bar setSearched={setSearched} setProductInfo={setProductInfo}/>}
+            </td>
+            <td><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
+          </tr>
+        </table>
       </div>
         {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
         <ShowNotification userid={userid}/>
