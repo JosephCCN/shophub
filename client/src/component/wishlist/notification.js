@@ -1,7 +1,6 @@
 //This is a component called by other component to show notification, not directly used
 
 import { useEffect, useState } from "react"
-import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import {LoadProduct, LoadProductPhoto} from "../util/product"
 
@@ -9,7 +8,7 @@ function NotificationInfoSource(infolist){
     var list = []
     const L = Object.keys(infolist).length;
 
-    console.log(infolist)
+    // console.log(infolist)
     if(L == 0){
         return <p>No Notification!</p>
     }

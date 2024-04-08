@@ -7,7 +7,7 @@ import {ShowSalesHistory} from '../history/history'
 
 function ProductInfoSource(prop){
     const cur_product = prop.cur_product
-    console.log(cur_product)
+    // console.log(cur_product)
     const [err, setErr] = useState('');
     //delete product
     var [deleteproduct, setdeleteproduct] = useState(0);
