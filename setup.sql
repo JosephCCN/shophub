@@ -83,6 +83,7 @@ CREATE TABLE if not exists review(
 
 CREATE TABLE if not exists noti(
     user_id integer NOT NULL,
+    product_id integer NOT NULL,
     context varchar(400),
     create_at TIMESTAMP DEFAULT current_timestamp,
     CONSTRAINT noti_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id),
