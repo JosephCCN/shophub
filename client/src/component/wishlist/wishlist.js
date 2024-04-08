@@ -10,16 +10,16 @@ function FetchWishlistPageSource(prop){
     var [removefromlist, setremove] = useState(0);
     const [removed, setRemoved] = useState(0);
 
-    function handleRemove(productid, userid){
-        setremove({productid: productid, userid: userid})    
+    function handleRemove(productid){
+        setremove(productid);
     }
     useEffect(() => {
         if(!removefromlist) return;
-        const remove_product = async(productid, userid) => {
+        const remove_product = async() => {
             try{
                 const res = await axios.post('http://localhost:3030/remove_from_wishlist', {
                     userid: userid,
-                    productid: productid
+                    productid: removefromlist
                 })
                 if(res.data['err']) throw('Cannot remove from wishlist')
                 setRemoved(1);
@@ -29,15 +29,40 @@ function FetchWishlistPageSource(prop){
                 return;
             }
         }
-        remove_product(removefromlist['productid'], removefromlist['userid']);
+        remove_product();
     }, [removefromlist])
+
+    const [removeandaddtocart, setremoveadd] = useState(0);
+    function handleRemoveandAdd(productid){
+        setremoveadd(productid)    
+    }
+    useEffect(() => {
+        if(!removeandaddtocart) return;
+        const add_product = async() => {
+            try{
+                const res = await axios.post('http://localhost:3030/add_cart', {
+                    quantity: 1,    
+                    userID: userid,
+                    productID: removeandaddtocart
+                })
+                console.log(userid, removeandaddtocart);
+            }
+            catch(err){
+                console.log(err)
+                return;
+            }
+        }
+        add_product();
+        handleRemove(removeandaddtocart);
+    }, [removeandaddtocart])
 
     var list = []
     const cur_product = prop.cur_product;
     const cur_product_id = cur_product['product_id']
     list.push(<LoadProductPhoto productid={cur_product_id}/>) 
-    list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ']} entities={['product_name', 'price']}/>)
-    list.push(<button onClick={() => handleRemove(cur_product_id, userid)}>Remove from Wishlist</button>);
+    list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ', 'Stock: ']} entities={['product_name', 'price', 'quantity']}/>)
+    list.push(<button onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button>);
+    list.push(<button onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button>)
     const showList = [list, <p></p>]
     const show = showList[removed]
     return(
