@@ -431,13 +431,13 @@ const upload = multer({
 })
 app.post('/add_product', upload.single('image'), async(req, res) => {
     userid = req.body.userid;
-    productname = req.body.productname;
-    productinfo = req.body.productinfo;
+    productname = req.body.productname.replace('\'', '\'\'');
+    productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
     try{
-        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ("${userid}", "${productname}", "${productinfo}", "${price}", "${quantity}", "${category}")`);
+        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values (${userid}, '${productname}', '${productinfo}', ${price}, ${quantity}, ${category})`);
         res.json({'success': 1});
     }
     catch(err){
@@ -448,13 +448,13 @@ app.post('/add_product', upload.single('image'), async(req, res) => {
 
 app.post('/edit_product', upload.single('image'), async(req, res) => {
     productid = req.body.productid;
-    productname = req.body.productname;
-    productinfo = req.body.productinfo;
+    productname = req.body.productname.replace('\'', '\'\'');
+    productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
     try{
-        result = await db.query(`update product set (product_name, info, price, quantity, category) = ("${productname}", "${productinfo}", "${price}", "${quantity}", "${category}") where product_id="${productid}"`);
+        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', ${price}, ${quantity}, ${category}) where product_id=${productid}`);
         res.json({'success': 1});
     }
     catch(err){

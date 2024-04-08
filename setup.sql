@@ -36,9 +36,8 @@ CREATE TABLE if not exists product(
     info varchar(200),
     price DECIMAL(19, 1) NOT NULL,
     quantity integer CHECK (1 <= quantity),
-    category varchar(100),
+    category varchar(40)[],
     is_deleted boolean NOT NULL DEFAULT FALSE,
-    CONSTRAINT product_category_exist FOREIGN KEY (category) REFERENCES categories(tag),
     CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
 
@@ -96,5 +95,5 @@ INSERT INTO categories (tag) values ('Fashion'), ('Sports'), ('Accessories'), ('
 INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE);
 
 insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
-insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, 'Sports');
-insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, 'Fashion');
+insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, array['Sports']);
+insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, array['Fashion']);

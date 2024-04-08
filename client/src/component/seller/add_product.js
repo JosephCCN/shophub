@@ -16,11 +16,28 @@ function AddProduct(props) {
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
     const [quantity, setquantity] = useState();
-    const [category, setcategory] = useState();
     const [image, setImage] = useState();
     const [err, setErr] = useState();
+
+    //multiselect
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [removedOptions, setRemovedOptions] = useState([]);
+    const onSelectOptions = (selectedList, selectedItem) => {
+        setSelectedOptions([...selectedOptions, selectedItem]);   
+    };
+    const onRemoveOptions = (selectedList, removedItem) => {
+        setRemovedOptions([...removedOptions, removedItem]);
+    };
     const handleaddproduct = async(e) => {
         try{
+            //make category array
+            var L = Object.keys(selectedOptions).length
+            var category = 'array[';
+            for(var i=0;i<L;i++){
+                category = category + `'${selectedOptions[i]['name']}'`
+                if(i != L-1) category = category + ', ';
+            }
+            category = category + ']'
             //fetch maximum productid
             const res1 = await axios.get(`http://localhost:3030/maxproductid`)
             const nextproductid = parseInt(res1.data[0]['last_value'], 10) + 1
@@ -32,8 +49,8 @@ function AddProduct(props) {
             dataform.append('productinfo', productinfo);
             dataform.append('price', price);
             dataform.append('quantity', quantity);
-            dataform.append('category', category);
             dataform.append('productid', nextproductid);
+            dataform.append('category', category);
             dataform.append('image', image);
             const res2 = await axios.post('http://localhost:3030/add_product', dataform)
             //go back to seller page
@@ -60,14 +77,6 @@ function AddProduct(props) {
         }
         fetch_categories();
     }, [])
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [removedOptions, setRemovedOptions] = useState([]);
-    const onSelectOptions = (selectedList, selectedItem) => {
-        setSelectedOptions([...selectedOptions, selectedItem]);   
-    };
-    const onRemoveOptions = (selectedList, removedItem) => {
-        setRemovedOptions([...removedOptions, removedItem]);
-    };
     if(isLoading) return <p>Loading</p>;
     return (
         <div>

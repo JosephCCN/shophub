@@ -68,7 +68,14 @@ function ShowSellerProduct(props){
             const cur = productlist[i];
             const productid = cur['product_id']
             list.push(<p>{cur['product_id']}:</p>)
-            list.push(<p>name: {cur['product_name']}, price: {cur['price']}, quantity left: {cur['quantity']}, category: {cur['category']}</p>)   
+            list.push(<p>Name: {cur['product_name']}, Price: {cur['price']}, Stock: {cur['quantity']}</p>)
+            const L2 = Object.keys(cur['category']).length;
+            var tmp = 'Category: '
+            for(var j=0;j<L2;j++){
+                tmp = tmp + (cur['category'][j])
+                if(j != L2 - 1) tmp = tmp + ', '
+            }
+            list.push(<p>{tmp}</p>)
             list.push(<LoadProductPhoto productid={productid}/>)
             list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
             list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
