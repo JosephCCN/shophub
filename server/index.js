@@ -268,13 +268,19 @@ app.get('/product', async(req, res) => {
     productid = req.query.productid;
     try{
         result = await db.query(`select * from product where product_id=${productid} and is_deleted='f'`);
+        if(result.rows == []) {
+            res.json({'empty': 1});
+            return;
+        }
+        const r2 = await db.query(`select tag from category where product_id=${productid}`);
+        result.rows[0]['category'] = []
+        for(var i=0;i<r2.rows.length;i++) {
+            result.rows[0]['category'].push(r2.rows[i]['tag'])
+        }
     }
     catch(err) {
         res.json({'err': err});
         return;
-    }
-    if(result.rows == []) {
-        res.json({'empty': 1})
     }
     res.json(result.rows);
 })
@@ -607,16 +613,16 @@ app.get('/recommendation', async(req, res) =>{
 
     try {
         const result = await db.query(`select product_id, avg(rating) from review group by product_id order by avg desc limit 5`)
-        const result2 = await db.query(`select product.category, count(product.category) from product inner join history on product.product_id=history.product_id where history.buyer_id=${userid} group by product.category order by count desc limit 2`)
+        //const result2 = await db.query(`select product.category, count(product.category) from product inner join history on product.product_id=history.product_id where history.buyer_id=${userid} group by product.category order by count desc limit 2`)
         var list = []
         for(var i=0;i<result.rows.length;i++) {
             const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted='f'`)
             if(r.rows.length > 0) list.push(r.rows[0]);
         }
-        for(var i=0;i<result2.rows.length;i++) {
-            const r = await db.query(`select * from product where category='${result2.rows[i]['category']}' and is_deleted='f'`)
-            if(r.rows.length > 0) list.push(r.rows[0]);
-        }
+        // for(var i=0;i<result2.rows.length;i++) {
+        //     const r = await db.query(`select * from product where category='${result2.rows[i]['category']}' and is_deleted='f'`)
+        //     if(r.rows.length > 0) list.push(r.rows[0]);
+        // }
         list = unqiue(list)
         res.json(shuffle(list).slice(0, limit))
     }
@@ -655,6 +661,46 @@ app.get('/pay', async(req, res) => {
     }
 })
 
+app.post('/adv_search', async(req, res) => {
+
+    const unqiue = (list) => {
+        list = Array.from(new Set(list.map(s => s.product_id)))
+        .map(product_id => {
+            return {
+                product_id: product_id,
+                seller_id: list.find(s => s.product_id === product_id).seller_id,
+                product_name: list.find(s => s.product_id === product_id).product_name,
+                info: list.find(s => s.product_id === product_id).info,
+                price: list.find(s => s.product_id === product_id).price,
+                quantity: list.find(s => s.product_id === product_id).quantity,
+                is_deleted: list.find(s => s.product_id === product_id).is_deleted
+            }
+        })
+        return list;
+    }
+
+    try {
+        const categories = req.body.categories;
+        var cat_query = 'select distinct product_id from category where '
+        for(var i=0;i<categories.length;i++) {
+            cat_query += `tag='${categories[i]}' or `
+        }
+        cat_query = cat_query.slice(0, cat_query.length - 4);
+        var cat_result = await db.query(cat_query)
+        var range_result = await db.query(`select * from product where ${req.body.lower}<=price and price<=${req.body.upper}`);
+        for(var i=0;i<cat_result.rows.length;i++) {
+            const r = await db.query(`select * from product where product_id=${cat_result.rows[i]['product_id']}`);
+            range_result.rows.push(r.rows[0])
+        }
+        const list = unqiue(range_result.rows)
+        console.log(list)
+        res.json(list);
+    }
+    catch(err) {
+        res.json({'err': err})
+    }
+})
+
 app.listen(port, (err) => {
     console.log('running...')
-})
+});

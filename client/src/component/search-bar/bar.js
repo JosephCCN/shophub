@@ -2,7 +2,6 @@ import './css/home_searchbar.css';
 import { useState } from "react";
 import axios from 'axios'
 
-
 function Bar(props) {
     const [search_key, setSearchKey] = useState();
 
