@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 app.post('/login', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
+    console.log(username, pwd);
     var result = await db.query(`select password from users where username='${username}'`)
     if(result.rows.length != 1) {
         res.json({err: 'No Such User'});
@@ -40,6 +41,7 @@ app.post('/login', async(req, res) => {
 app.post('/register', async(req, res) => {
     username = req.body.username;
     pwd = req.body.password;
+    console.log(username, pwd);
     var result = await db.query(`select password from users where username='${username}'`);
     if(result.rows.length > 0) {
         res.json({err: 'username exist'});
@@ -69,6 +71,17 @@ app.get('/search', async(req, res) => {
         return;
     }
     res.json(result.rows);
+})
+
+
+app.get('/categories', async(req, res) =>{
+    try{
+        result = await db.query(`select * from categories`);
+        res.json(result.rows);
+    }
+    catch(err){
+        res.json({'err': err})
+    }
 })
 
 app.get('/product_img', async(req, res) => {
@@ -256,14 +269,11 @@ app.get('/all_users', async(req, res) => {
 app.get('/product', async(req, res) => {
     productid = req.query.productid;
     try{
-        result = await db.query(`select * from product where product_id=${productid} and is_deleted='f'`);
+        result = await db.query(`select * from product where product_id=${productid}`);
     }
     catch(err) {
         res.json({'err': err});
         return;
-    }
-    if(result.rows == []) {
-        res.json({'empty': 1})
     }
     res.json(result.rows);
 })
@@ -320,7 +330,7 @@ app.get('/maxproductid', async(req, res) => {
 app.get('/cart', async(req, res) => {
     const userid = req.query.id;
    try{
-    const result = await db.query(`select cart.product_id, cart.user_id, cart.quantity from cart inner join product on cart.product_id=product.product_id where product.is_deleted='f' and cart.user_id=${userid}`);
+    const result = await db.query(`select * from cart where user_id=${userid}`);
     res.json(result.rows);
    }
    catch(err) {
@@ -425,9 +435,9 @@ app.post('/add_product', upload.single('image'), async(req, res) => {
     productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
-    category = req.body.category.replace('\'', '\'\'');
+    category = req.body.category;
     try{
-        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values (${userid}, '${productname}', '${productinfo}', ${price}, ${quantity}, '${category}')`);
+        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values (${userid}, '${productname}', '${productinfo}', ${price}, ${quantity}, ${category})`);
         res.json({'success': 1});
     }
     catch(err){
@@ -436,42 +446,16 @@ app.post('/add_product', upload.single('image'), async(req, res) => {
     }
 })
 
-add_noti = async(msg, productid) => {
-    const fetch_user = await db.query(`select user_id from wishlist where product_id = ${productid}`)
-    const userlist = fetch_user.rows
-    const L = Object.keys(userlist).length
-    for(var i=0;i<L;i++){
-        const cur_user_id = userlist[i]['user_id'];
-        const fetch_num_of_noti = await db.query(`select count(*) from noti where user_id = ${cur_user_id}`);
-        const number_of_noti = fetch_num_of_noti.rows[0]['count']
-        if(number_of_noti == 10){
-            await db.query(`delete from noti where create_at = (select create_at from noti order by create_at asc limit 1) `);
-        }
-        await db.query(`insert into noti (user_id, context, product_id) values (${userid}, '${msg}', ${productid})`)
-    }
-}
-
-app.get('/user_notification', async(req, res) => {
-    userid = req.query.userid;
-    try{
-        result = await db.query(`select product_id, context, current_timestamp - noti.create_at as time from noti where user_id = ${userid}`)
-        res.json(result.rows)
-    }
-    catch(err){
-        res.json({'err': err})
-    }
-
-})
 app.post('/edit_product', upload.single('image'), async(req, res) => {
     productid = req.body.productid;
     productname = req.body.productname.replace('\'', '\'\'');
     productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
-    category = req.body.category.replace('\'', '\'\'');
+    category = req.body.category;
     try{
         add_noti(`The product ${productname} has been edited! Click to check!`, productid)
-        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', ${price}, ${quantity}, '${category}') where product_id=${productid}`);
+        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', ${price}, ${quantity}, ${category}) where product_id=${productid}`);
         res.json({'success': 1});
     }
     catch(err){
@@ -484,9 +468,6 @@ app.post('/delete_product', async(req, res) => {
     productid = req.body.productid;
     try{
         result = await db.query(`update product set is_deleted = true where product_id=${productid}`);
-        const result2 = await db.query(`select product_name from product where product_id=${productid}`);
-        productname = result2.rows['product_name'];
-        add_noti(`The product ${productname} has been deleted! Be faster next time!`, productid)
         res.json({'success': 1});
     }
     catch(err) {
@@ -554,8 +535,8 @@ app.post('/review', async(req, res) => {
     const rating = req.body.rating
     try {
         const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
-        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
-        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, '${context}', ${rating}) where product_id=${productID} and user_id=${userID}`);
+        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, "${context}", ${rating})`)
+        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, "${context}", ${rating}) where product_id=${productID} and user_id=${userID}`);
     }
     catch(err) {
         res.json({'err':err});
@@ -566,80 +547,18 @@ app.post('/review', async(req, res) => {
 
 app.get('/recommendation', async(req, res) =>{
     const limit = req.query.limit;
-    const userid = req.query.userid;
-
-    const shuffle = (item) => {
-        for(var i=0;i<Math.sqrt(item.length);i++) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [item[i], item[j]] = [item[j], item[i]];
-        }
-        return item;
-    }
-
-    const unqiue = (list) => {
-        list = Array.from(new Set(list.map(s => s.product_id)))
-        .map(product_id => {
-            return {
-                product_id: product_id,
-                seller_id: list.find(s => s.product_id === product_id).seller_id,
-                product_name: list.find(s => s.product_id === product_id).product_name,
-                info: list.find(s => s.product_id === product_id).info,
-                price: list.find(s => s.product_id === product_id).price,
-                quantity: list.find(s => s.product_id === product_id).quantity,
-                category: list.find(s => s.product_id === product_id).category,
-                is_deleted: list.find(s => s.product_id === product_id).is_deleted
-            }
-        })
-        return list;
-    }
-
     try {
-        const result = await db.query(`select product_id, avg(rating) from review group by product_id order by avg desc limit 5`)
-        const result2 = await db.query(`select product.category, count(product.category) from product inner join history on product.product_id=history.product_id where history.buyer_id=${userid} group by product.category order by count desc limit 2`)
+        const result = await db.query(`select product_id, count(*) from history group by product_id order by count desc limit ${limit};`)
         var list = []
         for(var i=0;i<result.rows.length;i++) {
-            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted='f'`)
-            if(r.rows.length > 0) list.push(r.rows[0]);
+            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted=false`)
+            list.push(r.rows[0]);
         }
-        for(var i=0;i<result2.rows.length;i++) {
-            const r = await db.query(`select * from product where category='${result2.rows[i]['category']}' and is_deleted='f'`)
-            if(r.rows.length > 0) list.push(r.rows[0]);
-        }
-        list = unqiue(list)
-        res.json(shuffle(list).slice(0, limit))
+        res.json(list)
     }
     catch(err) {
         res.json({'err':err});
         return;
-    }
-})
-
-app.get('/pay', async(req, res) => {
-    const userid = req.query.userid;
-    try {
-        var result = await db.query(`select * from cart where user_id=${userid}`);
-        const order_id = await db.query(`select nextval('history_order_id')`);
-        var not_enough = []
-        for(var i=0;i<result.rows.length;i++) {
-            const cur = result.rows[i];
-            const r2 = await db.query(`select * from product where product_id=${cur['product_id']} and is_deleted='f'`);
-            if(r2.rows.length == 0) continue;
-            if(r2.rows[0]['quantity'] < cur['quantity']) {
-                not_enough.push(cur['product_id'])
-                continue;
-            }
-            await db.query(`insert into history values (${order_id.rows[0]['nextval']}, ${userid}, ${r2.rows[0]['seller_id']}, ${cur['product_id']}, current_timestamp, ${cur['quantity']}, ${r2.rows[0]['price']})`);
-            await db.query(`update product set quantity=${r2.rows[0]['quantity'] - cur['quantity']} where product_id=${cur['product_id']}`);
-            await db.query(`delete from cart where user_id=${userid} and product_id=${cur['product_id']}`);
-        }
-        if(not_enough.length > 0) {
-            res.json({'not_enough': not_enough});
-            return;
-        }
-        res.json({'success': 1});
-    }
-    catch(err) {
-        res.json({'err': err})
     }
 })
 

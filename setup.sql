@@ -9,6 +9,8 @@ DROP TABLE if exists product;
 DROP TABLE if exists cart;
 DROP TABLE if exists wishlist;
 DROP TABLE if exists review;
+DROP TABLE if exists noti;
+DROP TABLE if exists category;
 DROP SEQUENCE if exists history_order_id;
 
 CREATE SEQUENCE if not exists history_order_id
@@ -18,9 +20,13 @@ CREATE SEQUENCE if not exists history_order_id
 CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
-    password VARCHAR(30) NOT NULL ,
+    password VARCHAR(30) NOT NULL,
     is_admin boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
+);
+
+CREATE TABLE if not exists categories(
+    tag VARCHAR(30) PRIMARY KEY NOT NULL
 );
 
 CREATE TABLE if not exists product(
@@ -30,7 +36,7 @@ CREATE TABLE if not exists product(
     info varchar(200),
     price DECIMAL(19, 1) NOT NULL,
     quantity integer CHECK (0 <= quantity),
-    category varchar(100),
+    category varchar(40)[],
     is_deleted boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
@@ -76,7 +82,6 @@ CREATE TABLE if not exists review(
 );
 
 CREATE TABLE if not exists noti(
-    product_id integer NOT NULL,
     user_id integer NOT NULL,
     context varchar(400),
     create_at TIMESTAMP DEFAULT current_timestamp,
@@ -85,8 +90,12 @@ CREATE TABLE if not exists noti(
 );
 
 
-INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE);
-insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
+INSERT INTO categories (tag) values ('Fashion'), ('Sports'), ('Accessories'), ('Health and Wellness'), ('Electronics and Gadgets'),
+('Toys and Games'), ('Stationery'), ('Music and Movies'), ('Luggage'), ('Grocery'), ('Food'), ('Wearables'), ('Pet Supplies'), ('Men'),
+('Women'), ('Underwear'), ('Kids'), ('Cosmetics and Skincare'), ('Music'), ('Greenery'), ('Personal Care'), ('Others');
 
-insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, 'fuck');
-insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, 'hell');
+INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE);
+
+insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
+insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, array['Sports']);
+insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, array['Fashion']);

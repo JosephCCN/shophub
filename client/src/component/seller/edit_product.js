@@ -2,6 +2,7 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import Multiselect from 'multiselect-react-dropdown';
 import LoadProductPhoto from '../util/product'
 
 function EditProduct(prop) {
@@ -11,32 +12,60 @@ function EditProduct(prop) {
     const productid = cookies.get('productid');
     if(!userid) navigate('/login');
     if(!productid) navigate('/seller');
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setisLoading] = useState(true);
 
     const [product, setproduct] = useState([]);
     const [img_source, setimg_source] = useState();
-    //fetch product and image with productid
+    const [categories, setcategories] = useState(0);
+    //fetch product and image with productid, fetch category list
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
             setimg_source(<LoadProductPhoto productid={productid}/>)
-            setproduct(res.data)
-            setLoading(false)
+            setproduct(res.data);
+        }
+        const fetch_categories = async() =>{
+            const result = await axios.get(`http://localhost:3030/categories`)
+            var tmp = result.data;
+            var list = [];
+            const L = Object.keys(tmp).length;
+            for(var i=0;i<L;i++){
+                const cur_category = tmp[i]['tag']
+                list.push({name: cur_category, id: i+1});
+            }
+            setcategories(list);
+            setisLoading(false);
         }
         fetch();
+        fetch_categories();
     }, [])
 
     const [productname, setproductname] = useState();
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
     const [quantity, setquantity] = useState();
-    const [category, setcategory] = useState();
     const [image, setImage] = useState();
     const [err, setErr] = useState();
 
-
+     //multiselect
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [removedOptions, setRemovedOptions] = useState([]);
+    const onSelectOptions = (selectedList, selectedItem) => {
+        setSelectedOptions([...selectedOptions, selectedItem]);   
+    };
+    const onRemoveOptions = (selectedList, removedItem) => {
+        setRemovedOptions([...removedOptions, removedItem]);
+    };
     const handleeditproduct = async(e) => {
         try{
+            //make category array
+            var L = Object.keys(selectedOptions).length
+            var category = 'array[';
+            for(var i=0;i<L;i++){
+                category = category + `'${selectedOptions[i]['name']}'`
+                if(i != L-1) category = category + ', ';
+            }
+            category = category + ']'
             const res1 = await axios.post('http://localhost:3030/delete_img',{
                 'productid': productid
             })
@@ -91,7 +120,15 @@ function EditProduct(prop) {
                 <tr>
                     <td><label>Category:</label></td>
                     <td><label>{product[0]['category']}</label></td>
-                    <td><input type="text" onChange={(e) => setcategory(e.target.value)}/></td>
+                    <td><Multiselect
+                            options={categories}
+                            name="particulars"
+                            displayValue='name'
+                            closeIcon='cancel'
+                            onSelect={onSelectOptions}
+                            onremove={onRemoveOptions}
+                            selectedValues={''}
+                            selectionLimit={5}/></td>
                 </tr>
                 <tr>
                     <td><label>Producat Image:</label></td>
