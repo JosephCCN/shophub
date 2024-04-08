@@ -18,8 +18,14 @@ function Bar(props) {
 
     return (
         <div className='home_searchbar'>
-            <input type="text" name="search" placeholder="type your interested product" onChange={(e) => setSearchKey(e.target.value)}/>
-            <button type="submit" onClick={search}>search</button>
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" name="search" placeholder="type your interested product" onChange={(e) => setSearchKey(e.target.value)}/>
+                    </td>
+                    <td><button type="submit" onClick={search}>search</button></td>
+                </tr>
+            </table>
         </div>
     )
 }

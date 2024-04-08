@@ -4,7 +4,7 @@ const db = require('../db')
 
 router.get('/categories', async(req, res) =>{
     try{
-        result = await db.query(`select * from categories`);
+        result = await db.query(`select * from category_list`);
         res.json(result.rows);
     }
     catch(err){
