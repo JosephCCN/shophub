@@ -40,7 +40,7 @@ export function LoadProductPhoto(prop){
     }, [])
     if(isLoading) return <p>Loading...</p> ;
     return (
-        <div onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
+        <div className="img" onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
             <img src={img}/>
         </div>
     )

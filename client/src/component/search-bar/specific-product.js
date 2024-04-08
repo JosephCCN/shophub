@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import Reviews from "../review/reviews";
 import {LoadProductPhoto, LoadProduct} from "../util/product";
 import {Username} from "../util/user";
+import "./css/specific-product.css";
 
 
 function SpecificProduct() {
@@ -26,10 +27,10 @@ function SpecificProduct() {
         const fetch_product = async() => {
             try{
                 const entities = ['price', 'quantity']
-                const prefix = ['$', 'In Stock: ']
+                const prefix = ['Price: HKD$', 'In Stock: ']
                 setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
                 setProductImg(<LoadProductPhoto productid={productID}/>)
-                setSellerName(<Username userid={userid} prefix={['Sold by ']}/>)
+                setSellerName(<Username userid={userid} prefix={['Seller: ']}/>)
                 setisLoading(false);
             }
             catch(err){
@@ -123,20 +124,31 @@ function SpecificProduct() {
     }
 
     return (
-        <div>
-            <button onClick={goBack}>Back</button>
+        <div className="specific_product">
             <p>{product['info']}</p>
-            {productimg}
-            {sellerName}
-            {product}
-            <label>Quantity</label>
-            <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-            <button onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>Add</button>
-            <button onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>Delete</button><br/>
-            <button onClick={addToShoppingCart}>Add to Shopping Cart</button>
-            <button onClick={addToWishlist}>Add to Wishlist</button>
-            <p>{msg}</p>
-            <Reviews productID={productID}/>
+            <div className="s_img">{productimg}</div>
+            <div className="s_dec">
+                <p>{sellerName}</p>
+                <p>{product}</p>
+                <label>Quantity:</label>
+                <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
+                <br/>
+                <br/>
+                <button className="s_add" onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>Add</button>
+                <button className="s_add" onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>Delete</button>
+                <br/>
+                <br/>
+                <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>
+                <button className="s_fun" onClick={addToWishlist}>Add to Wishlist</button>
+                <button className="s_fun" onClick={goBack}>Back to Main Page</button>
+            </div>
+            <br/>
+            <div className="specific_message">
+                <p>{msg}</p>
+            </div>
+            <div className="spec_review">
+                <Reviews productID={productID}/>
+            </div>
         </div>
     )
 

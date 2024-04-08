@@ -1,4 +1,6 @@
 import {LoadProductPhoto, LoadProduct} from '../util/product'
+import "./css/list_product.css";
+
 
 function ListProduct(props) {
     const products = props.products;
@@ -16,7 +18,7 @@ function ListProduct(props) {
     }
     return (
         <div>
-            <p>{list}</p>
+            <div className='product_list'>{list}</div>
         </div>
     )
 }

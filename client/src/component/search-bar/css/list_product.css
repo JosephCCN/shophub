@@ -1,4 +1,4 @@
-div.img {
+.product_list>div{
     margin: 10px;
     border: none;
     float: left;
@@ -6,16 +6,11 @@ div.img {
     height: 250px;
 }
 
-div.img:hover {
+.product_list div.img:hover {
     border: 1px solid hsl(36, 100%, 53%);
 }
 
-div.img img {
+.product_list div.img img {
     max-width: 150px;
     max-height: 150px;
-}
-
-div.dec{
-    padding: 15px;
-    text-align: center;
 }
