@@ -20,13 +20,14 @@ function SpecificProduct() {
     const [sellerName, setSellerName] = useState('');
     const [product, setProduct] = useState([]);
     const [productimg, setProductImg] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
 
         const fetch_product = async() => {
             try{
-                const entities = ['price', 'quantity']
-                const prefix = ['$', 'In Stock: ']
+                const entities = ['price', 'quantity', 'category']
+                const prefix = ['$', 'In Stock: ', 'Category: ']
                 setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
                 setProductImg(<LoadProductPhoto productid={productID}/>)
                 setSellerName(<Username userid={userid} prefix={['Sold by ']}/>)
