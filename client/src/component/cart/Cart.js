@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import LoadProductPhoto from "../util/product";
+import "./css/cart.css";
 
 function CartProduct(props) {
   const cur = props.cur;
@@ -115,20 +116,23 @@ function CartProduct(props) {
 
 
   const showList = [
-    <div>
+    <div className="cart_content">
+      <div className="cart_img">
+        <LoadProductPhoto productid={cur['product_id']}/>
+      </div>
       <p>ID: {cur['product_id']}</p>
-      <LoadProductPhoto productid={cur['product_id']}/>
       <p>Name: {product['product_name']}</p>
       <p>Price: {product['price']}</p>
       <p>Left: {product['quantity']}</p>
       {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
       {notEnough ? <br/>: <></>}
-      <button onClick={handleQuantityDecrease}>-</button>
-      <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={cartQuantity}/>
-      <button onClick={handleQuantityIncrease}>+</button>
+      <button className="cart_add_btn" onClick={handleQuantityDecrease}>-</button>
+      <input className="cart_quantity_input" type='text' inputMode="numeric" onChange={handleQuantityChange} value={cartQuantity}/>
+      <button className="cart_add_btn" onClick={handleQuantityIncrease}>+</button>
       <br/>
-      <button onClick={handleRemove}>Remove from Cart</button>
-      <button onClick={handleRemoveandAddtoWishlist}>Remove and Add to Wishlist</button>
+      <button className="cart_button1" onClick={handleRemove}>Remove from Cart</button>
+      <br/>
+      <button className="cart_button2" onClick={handleRemoveandAddtoWishlist}>Remove and Add to Wishlist</button>
     </div>
     ,
     <p>Removed</p>
@@ -197,10 +201,10 @@ function Cart(){
 
   if(L == 0) {
     return (
-      <div>
-      <button onClick={goBack}>Back</button>
+      <div className="cart">
       <h1>Shopping Cart</h1>
       <p>You have no item in Cart!</p>
+      <button className="cart_back" onClick={goBack}>Back</button>
     </div>
     )
   }
@@ -211,11 +215,11 @@ function Cart(){
   }
 
   return (
-    <div>
-      <button onClick={goBack}>Back</button>
+    <div className="cart">
       <h1>Shopping Cart</h1>
       {cartList}
-      <button onClick={payment}>Payment</button>
+      <button className="cart_pay" onClick={payment}>Payment</button>
+      <button className="cart_back" onClick={goBack}>Back</button>
     </div>
   )
   
