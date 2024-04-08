@@ -22,7 +22,7 @@ function AdvanceBar(props) {
 
     useEffect(() => {
         const fetch_categories = async() =>{
-            const result = await axios.get(`http://localhost:3030/categories`)
+            const result = await axios.get(`http://localhost:3030/category_list`)
             var tmp = result.data;
             var list = [];
             const L = Object.keys(tmp).length;
@@ -52,7 +52,6 @@ function AdvanceBar(props) {
     }
 
     const search = () => {
-        console.log(selectedOptions)
         axios.post(`http://localhost:3030/adv_search`, {
             categories: [selectedOptions],
             lower: lower,
