@@ -27,7 +27,7 @@ CREATE TABLE if not exists users(
     CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
 );
 
-CREATE TABLE if not exists categories(
+CREATE TABLE if not exists category_list(
     tag VARCHAR(30) PRIMARY KEY NOT NULL
 );
 
@@ -91,14 +91,15 @@ CREATE TABLE if not exists noti(
     CONSTRAINT noti_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
-CREATE TABLE if not exists category_product(
-    category varchar(400),
-    products integer[],
-    CONSTRAINT category_exist FOREIGN KEY (category) REFERENCES categories(tag)
+CREATE TABLE if not exists category(
+    tag varchar(40),
+    product_id integer,
+    CONSTRAINT category_exist FOREIGN KEY (tag) REFERENCES category_list(tag),
+    CONSTRAINT cate_produt_id_exist FOREIGN KEY(product_id) REFERENCES product(product_id)
 );
 
 
-INSERT INTO categories (tag) values ('Fashion'), ('Sports'), ('Accessories'), ('Health and Wellness'), ('Electronics and Gadgets'),
+INSERT INTO category_list (tag) values ('Fashion'), ('Sports'), ('Accessories'), ('Health and Wellness'), ('Electronics and Gadgets'),
 ('Toys and Games'), ('Stationery'), ('Music and Movies'), ('Luggage'), ('Grocery'), ('Food'), ('Wearables'), ('Pet Supplies'), ('Men'),
 ('Women'), ('Underwear'), ('Kids'), ('Cosmetics and Skincare'), ('Music'), ('Greenery'), ('Personal Care'), ('Others');
 
@@ -107,5 +108,6 @@ INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE)
 insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
 insert into product (product_name, seller_id, info, quantity, price) values ('item1', 2,'oops', 10, 12.2);
 insert into product (product_name, seller_id, info, quantity, price) values ('item2', 2, 'hi', 1, 2.4);
-insert into category_product values ('Fashion', array[1, 2]);
-insert into category_product values ('Sports', array[1]);
+insert into category values ('Fashion', 2);
+insert into category values ('Fashion', 1);
+insert into category values ('Sports', 1);
