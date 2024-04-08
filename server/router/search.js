@@ -36,19 +36,21 @@ router.post('/adv_search', async(req, res) => {
     }
 
     try {
-        const categories = req.body.categories;
+        const categories = req.body.categories[0];
         var cat_query = 'select distinct product_id from category where '
         for(var i=0;i<categories.length;i++) {
-            cat_query += `tag='${categories[i]}' or `
+            cat_query += `tag='${categories[i]['name']}' or `
         }
         cat_query = cat_query.slice(0, cat_query.length - 4);
         var cat_result = await db.query(cat_query)
+        console.log(cat_result.rows)
         var range_result = []
         for(var i=0;i<cat_result.rows.length;i++) {
             const r = await db.query(`select * from product where product_id=${cat_result.rows[i]['product_id']} and ${req.body.lower}<=price and price<=${req.body.upper}`);
             range_result.push(r.rows[0])
         }
         const list = unqiue(range_result)
+        console.log(list)
         res.json(list);
     }
     catch(err) {
