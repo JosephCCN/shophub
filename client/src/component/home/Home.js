@@ -6,20 +6,28 @@ import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import Bar from '../search-bar/bar'
 import ListProduct from "../search-bar/list_product";
+import Recommendation from '../recommendation/recommendation';
+import ShowNotification from '../wishlist/notification';
 
 function Actual_home() {
   const [product_info, setProductInfo] = useState({});
+  const [searched, setSearched] = useState(false);
   const cookies = new Cookies();
+  const userid = cookies.get('userid');
   const navigate = useNavigate();
+
   const [logOut, setLogout] = useState(0);
   var [gotoSell, setGoToSell] = useState(0);
+  var [profile, setprofile] = useState(0);
+  var [gotoCart, setGoToCart] = useState(0);
+  var [gotoWishlist, setgotoWishlist] = useState(0);
 
   const logout = () => {
     setLogout(1);
   };
 
-  const GotoSell = () => {
-    setGoToSell(1);
+  const GotoCart = () => {
+    setGoToCart(1);
   }
 
   useEffect(() => {
@@ -33,11 +41,39 @@ function Actual_home() {
     navigate('/login');
   }, [logOut])
 
+
+  const GotoSell = () => {
+    setGoToSell(1);
+  }
   useEffect(() => {
       if(!gotoSell) return;
       gotoSell = 0;
       navigate('/seller');
   }, [gotoSell])
+  
+
+  const GotoProfile = () =>{
+    setprofile(userid); 
+  }
+  useEffect(() => {
+      if(!profile) return;
+      navigate(`/profile/${profile}`);
+  }, [profile])
+
+  useEffect(() => {
+    if(!gotoCart) return;
+    gotoCart = 0;
+    navigate('/cart');
+  }, [gotoCart])
+
+
+  const GotoWishlist = () => {
+    setgotoWishlist(1);
+  }
+  useEffect(() => {
+      if(!gotoWishlist) return;
+      navigate(`/wishlist`)
+  }, [gotoWishlist])
 
   return (
     <body>
@@ -49,10 +85,10 @@ function Actual_home() {
                   <button onClick={logout}>Logout</button>
                 </li>
                 <li>
-                  <button>Wishlist</button>
+                  <button onClick={GotoWishlist}>Wishlist</button>
                 </li>
                 <li>
-                  <button>Shopping Cart</button>
+                  <button onClick={GotoCart}>Shopping Cart</button>
                 </li>
                 <li>
                 <button onClick={GotoSell}>Sell History</button>
@@ -61,7 +97,7 @@ function Actual_home() {
                   <button>History</button>
                 </li>
                 <li>
-                  <button>Profile</button>
+                  <button onClick={GotoProfile}>Profile</button>
                 </li>
               </ul>
           </div>   
@@ -69,10 +105,11 @@ function Actual_home() {
       </nav>
       <div className='searching'>
         <h1>Home Page</h1>
-        <Bar setProductInfo={setProductInfo}/> 
+        <Bar setSearched={setSearched} setProductInfo={setProductInfo}/> 
         <br/>
       </div>
-        <ListProduct products={product_info}/>
+        {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
+        <ShowNotification userid={userid}/>
       
     </body>
   )

@@ -10,6 +10,7 @@ function Bar(props) {
         axios(`http://localhost:3030/search?key=${search_key}`)
         .then((res) => {
             props.setProductInfo(res.data);
+            props.setSearched(true);
         })
         .catch((err) => {
             console.log(err);
