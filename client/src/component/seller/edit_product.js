@@ -91,9 +91,23 @@ function EditProduct(prop) {
             console.log(err) //cannot update product, thus return
         }
     } 
+
+    // go back
+    var [back, setBack] = useState(false);
+    useEffect(() => {
+        if(back) {
+            back = false;
+            navigate(-1);
+        }
+    }, [back])
+    const goBack = () => {
+        setBack(true);
+    }
+
     if(isLoading) return <p>Loading...</p>;
     return (
         <div>
+            <button onClick={goBack}>Back</button>
             <h1>Edit Product Page</h1>
             <center>
             <table>

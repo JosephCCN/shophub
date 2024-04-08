@@ -83,7 +83,8 @@ export function LoadProduct(prop){
                 const L2 = Object.keys(product[entity_list[i]]).length;
                 var tmp = '';
                 for(var j=0;j<L2;j++){
-                    tmp = tmp + product['category'][j] + ', '
+                    tmp = tmp + product['category'][j]
+                    if(j != L2 - 1) tmp = tmp + ', '
                 }
                 output = tmp;
             }

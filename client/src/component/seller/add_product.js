@@ -77,9 +77,23 @@ function AddProduct(props) {
         }
         fetch_categories();
     }, [])
+
+    // go back
+    var [back, setBack] = useState(false);
+    useEffect(() => {
+        if(back) {
+            back = false;
+            navigate(-1);
+        }
+    }, [back])
+    const goBack = () => {
+        setBack(true);
+    }
+
     if(isLoading) return <p>Loading</p>;
     return (
         <div>
+            <button onClick={goBack}>Back</button>
             <h1>Add Product Page</h1>
             <label>Product Name:</label><input type="text" onChange={(e) => setproductname(e.target.value)}/>
             <br/>
