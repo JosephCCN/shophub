@@ -71,6 +71,16 @@ app.get('/search', async(req, res) => {
     res.json(result.rows);
 })
 
+app.get('/categories', async(req, res) =>{
+    try{
+        result = await db.query(`select * from categories`);
+        res.json(result.rows);
+    }
+    catch(err){
+        res.json({'err': err})
+    }
+})
+
 app.get('/product_img', async(req, res) => {
     id = req.query.id;
     try{
@@ -447,7 +457,7 @@ add_noti = async(msg, productid) => {
         if(number_of_noti == 10){
             await db.query(`delete from noti where create_at = (select create_at from noti order by create_at asc limit 1) `);
         }
-        await db.query(`insert into noti (user_id, context, product_id) values (${userid}, '${msg}', ${productid})`)
+        await db.query(`insert into noti (user_id, context, product_id) values (${cur_user_id}, '${msg}', ${productid})`)
     }
 }
 
@@ -484,6 +494,9 @@ app.post('/edit_product', upload.single('image'), async(req, res) => {
 app.post('/delete_product', async(req, res) => {
     productid = req.body.productid;
     try{
+        const res1 = await db.query(`select product_name from product where product_id=${productid}`);
+        const productname = res1.rows[0]['product_name']
+        add_noti(`The product ${productname} has been deleted! Buy it earlier next time!`, productid)
         result = await db.query(`update product set is_deleted = true where product_id=${productid}`);
         res.json({'success': 1});
     }

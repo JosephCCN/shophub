@@ -50,17 +50,9 @@ function FetchWishlistPageSource(prop){
 function Wishlist(){
     const cookies = new Cookies();
     const navigate = useNavigate();
-    const [userid, setuserid] = useState(0);
+    const userid = cookies.get('userid')
+    if(!userid) navigate('/login');
     const [isLoading, setisLoading] = useState(true);
-    //check userid
-    useEffect(() => {
-        const tmp = cookies.get('userid')
-        if(!tmp) {
-            navigate('/login');
-        }
-        setuserid(tmp)
-        setisLoading(false)
-    }, [])
 
     // go back
     var [back, setBack] = useState(false);
@@ -74,6 +66,7 @@ function Wishlist(){
         setBack(true);
     }
 
+    //check userid
     //fetch wishlist
     const [wishlist, setWishlist] = useState([]);
     useEffect(() => {

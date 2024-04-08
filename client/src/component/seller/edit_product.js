@@ -12,7 +12,8 @@ function EditProduct(prop) {
     const productid = cookies.get('productid');
     if(!userid) navigate('/login');
     if(!productid) navigate('/seller');
-    const [isLoading, setisLoading] = useState(true);
+    const [isLoading1, setisLoading1] = useState(true);
+    const [isLoading2, setisLoading2] = useState(true);
 
     const [product, setproduct] = useState([]);
     const [img_source, setimg_source] = useState();
@@ -23,6 +24,7 @@ function EditProduct(prop) {
             const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
             setimg_source(<LoadProductPhoto productid={productid}/>)
             setproduct(res.data);
+            setisLoading1(false);
         }
         const fetch_categories = async() =>{
             const result = await axios.get(`http://localhost:3030/categories`)
@@ -34,7 +36,7 @@ function EditProduct(prop) {
                 list.push({name: cur_category, id: i+1});
             }
             setcategories(list);
-            setisLoading(false);
+            setisLoading2(false);
         }
         fetch();
         fetch_categories();
@@ -104,7 +106,7 @@ function EditProduct(prop) {
         setBack(true);
     }
 
-    if(isLoading) return <p>Loading...</p>;
+    if(isLoading1 || isLoading2) return <p>Loading...</p>;
     return (
         <div>
             <button onClick={goBack}>Back</button>
