@@ -229,3 +229,6 @@ add_noti = async(msg, productid) => {
         await db.query(`insert into noti (user_id, context, product_id) values (${cur_user_id}, '${msg}', ${productid})`)
     }
 }
+
+
+module.exports = router;
