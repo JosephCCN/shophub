@@ -48,7 +48,7 @@ export function LoadProductPhoto(prop){
 
 
 // this function returns the entities in entity_list of a product
-// not for seller name, buyer name
+// not for seller name, buyer name, category
 // input: productid, entity_list, prefix
 // output: page source of the required entity in order
 export function LoadProduct(prop){
@@ -79,20 +79,46 @@ export function LoadProduct(prop){
         const L = Object.keys(entity_list).length; 
         for(var i=0;i<L;i++){
             var output = product[entity_list[i]]
-            if(entity_list[i] == 'category'){
-                const L2 = Object.keys(product[entity_list[i]]).length;
-                var tmp = '';
-                for(var j=0;j<L2;j++){
-                    tmp = tmp + product['category'][j]
-                    if(j != L2 - 1) tmp = tmp + ', '
-                }
-                output = tmp;
-            }
             list.push(<p>{prefix_list[i]}{output}</p>)
         }
         return list;
     }
 }
 
+// this function returns the category information of a product
+// input: productid, prefix
+// output: page source of the category in order
+export function LoadProductCategory(prop){
+    const productid = prop.productid;
+    const [isLoading, setLoading] = useState(true);
+    // product price
+    const [category, setcategory] = useState();
+    useEffect(() => {
+        const fetch_product = async() => {
+            try{
+                const res = await axios.get(`http://localhost:3030/category?productid=${productid}`)
+                setcategory(res.data)
+                setLoading(false);
+            }
+            catch(err){
+                console.log(err);
+                return;
+            }
+        }
+        fetch_product();
+    }, [])
+    if(isLoading) return <p>Loading...</p> ;
+    else{
+    // console.log(productid)
+        var tmp = 'Category: ';
+        const L = Object.keys(category).length; 
+        for(var i=0;i<L;i++){
+            var cur_category = category[i]['tag'];
+            tmp = tmp + cur_category
+            if(i != L-1) tmp = tmp + ', '
+        }
+        return <p>{tmp}</p>;
+    }
+}
 
 export default LoadProductPhoto;

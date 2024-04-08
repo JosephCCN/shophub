@@ -21,23 +21,22 @@ function AddProduct(props) {
 
     //multiselect
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [removedOptions, setRemovedOptions] = useState([]);
     const onSelectOptions = (selectedList, selectedItem) => {
-        setSelectedOptions([...selectedOptions, selectedItem]);   
+        setSelectedOptions(selectedList);   
+        // setSelectedOptions([...selectedOptions, selectedItem]);   
     };
     const onRemoveOptions = (selectedList, removedItem) => {
-        setRemovedOptions([...removedOptions, removedItem]);
+        setSelectedOptions(selectedList);   
+        // setRemovedOptions([...removedOptions, removedItem]);
     };
     const handleaddproduct = async(e) => {
         try{
-            //make category array
-            var L = Object.keys(selectedOptions).length
-            var category = 'array[';
+            //make category as string
+            const L = Object.keys(selectedOptions).length;
+            var category = ''
             for(var i=0;i<L;i++){
-                category = category + `'${selectedOptions[i]['name']}'`
-                if(i != L-1) category = category + ', ';
+                category = category + selectedOptions[i]['name'] + ','
             }
-            category = category + ']'
             //fetch maximum productid
             const res1 = await axios.get(`http://localhost:3030/maxproductid`)
             const nextproductid = parseInt(res1.data[0]['last_value'], 10) + 1
@@ -61,10 +60,10 @@ function AddProduct(props) {
             console.log(err)
         }      
     }
-    const [categories, setcategories] = useState(0);
+    const [categorylist, setcategorylist] = useState(0);
     useEffect(() => {
         const fetch_categories = async() =>{
-            const result = await axios.get(`http://localhost:3030/categories`)
+            const result = await axios.get(`http://localhost:3030/category_list`)
             var tmp = result.data;
             var list = [];
             const L = Object.keys(tmp).length;
@@ -72,7 +71,7 @@ function AddProduct(props) {
                 const cur_category = tmp[i]['tag']
                 list.push({name: cur_category, id: i+1});
             }
-            setcategories(list);
+            setcategorylist(list);
             setisLoading(false);
         }
         fetch_categories();
@@ -104,12 +103,12 @@ function AddProduct(props) {
             <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
             <br/>
             <label>Category: (at most 5)</label><Multiselect
-                options={categories}
+                options={categorylist}
                 name="particulars"
                 displayValue='name'
                 closeIcon='cancel'
                 onSelect={onSelectOptions}
-                onremove={onRemoveOptions}
+                onRemove={onRemoveOptions}
                 selectedValues={''}
                 selectionLimit={5}
                 />

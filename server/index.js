@@ -71,9 +71,20 @@ app.get('/search', async(req, res) => {
     res.json(result.rows);
 })
 
-app.get('/categories', async(req, res) =>{
+app.get('/category_list', async(req, res) =>{
     try{
-        result = await db.query(`select * from categories`);
+        result = await db.query(`select * from category_list`);
+        res.json(result.rows);
+    }
+    catch(err){
+        res.json({'err': err})
+    }
+})
+
+app.get('/category', async(req, res) => {
+    const productid = req.query.productid
+    try{
+        result = await db.query(`select * from category where product_id = ${productid}`)
         res.json(result.rows);
     }
     catch(err){
@@ -431,14 +442,29 @@ const upload = multer({
     }
 })
 app.post('/add_product', upload.single('image'), async(req, res) => {
+    productid = req.body.productid;
     userid = req.body.userid;
-    productname = req.body.productname;
-    productinfo = req.body.productinfo;
+    productname = req.body.productname.replace('\'', '\'\'');
+    productinfo = req.body.productinfo.replace('\'', '\'\'');
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
+    //make category list
+    const L = Object.keys(category).length;
+    var category_list = [];
+    var tmp = '';
+    for(var i=0;i<L;i++){
+        if(category[i] == ',') category_list.push(tmp), tmp = ''
+        else tmp = tmp + category[i];
+    }
+
     try{
-        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity, category) values ("${userid}", "${productname}", "${productinfo}", "${price}", "${quantity}", "${category}")`);
+        result = await db.query(`insert into product (seller_id, product_name, info, price, quantity) values (${userid}, '${productname}', '${productinfo}', ${price}, ${quantity})`);
+        const L = Object.keys(category_list).length;
+        for(var i=0;i<L;i++){
+            const cur_category = category_list[i]
+            result2 = await db.query(`insert into category (product_id, tag) values (${productid}, '${cur_category}')`)
+        }
         res.json({'success': 1});
     }
     catch(err){
@@ -481,9 +507,26 @@ app.post('/edit_product', upload.single('image'), async(req, res) => {
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
+
+    //make category list
+    const L = Object.keys(category).length;
+    var category_list = [];
+    var tmp = '';
+    for(var i=0;i<L;i++){
+        if(category[i] == ',') category_list.push(tmp), tmp = ''
+        else tmp = tmp + category[i];
+    }
+    console.log(category_list)
+
     try{
         add_noti(`The product ${productname} has been edited! Click to check!`, productid)
-        result = await db.query(`update product set (product_name, info, price, quantity, category) = ('${productname}', '${productinfo}', ${price}, ${quantity}, ${category}) where product_id=${productid}`);
+        result = await db.query(`update product set (product_name, info, price, quantity) = ('${productname}', '${productinfo}', ${price}, ${quantity}) where product_id=${productid}`);
+        result1 = await db.query(`delete from category where product_id = ${productid}`)
+        const L = Object.keys(category_list).length;
+        for(var i=0;i<L;i++){
+            const cur_category = category_list[i]
+            result2 = await db.query(`insert into category (product_id, tag) values (${productid}, '${cur_category}')`)
+        }
         res.json({'success': 1});
     }
     catch(err){

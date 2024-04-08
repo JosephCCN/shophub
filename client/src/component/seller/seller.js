@@ -2,7 +2,7 @@ import { useEffect, useInsertionEffect, useState } from "react"
 import {useNavigate, Navigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import {LoadProduct, LoadProductPhoto} from '../util/product'
+import {LoadProductCategory, LoadProductPhoto} from '../util/product'
 import {ShowSalesHistory} from '../history/history'
 
 function ProductInfoSource(prop){
@@ -55,7 +55,7 @@ function ProductInfoSource(prop){
     var list = []
     list.push(<p>{cur_product['product_id']}:</p>)
     list.push(<p>Name: {cur_product['product_name']}, Price: {cur_product['price']}, Stock: {cur_product['quantity']}</p>)
-    list.push(<LoadProduct productid={productid} prefix={['Category: ']} entities={['category']}/>)
+    list.push(<LoadProductCategory productid={productid}/>)
     list.push(<LoadProductPhoto productid={productid}/>)
     list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
     list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
