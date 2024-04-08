@@ -17,6 +17,7 @@ router.get('/user', async(req, res) => {
 router.get('/all_users', async(req, res) => {
     try {
         result = await db.query(`select * from users`);
+        res.json(result.rows)
     }
     catch(err) {
         res.json({'err':err});

@@ -37,7 +37,7 @@ export function Username(prop){
     if(isLoading) return <p>Loading...</p>
     else{
         const tmp = `/profile/${userid}`;
-        return (<p onClick={ () => setUserLink(tmp)}>{prefix}{username}</p>);
+        return (<p onClick={ () => setUserLink(tmp)} style={{cursor:'pointer'}}>{prefix}{username}</p>);
     }
 }
 

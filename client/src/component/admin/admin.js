@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 import {Get} from '../util/util'
+import {LoadProduct,  LoadProductCategory,  LoadProductPhoto } from '../util/product'
+import Username from "../util/user";
 
 function ShowUser(props) {
   return <p>{props.userid}: {props.username}</p>
@@ -39,10 +41,9 @@ function FetchAllUser() {
   else {
     const L = Object.keys(users).length;
     var list = []
-    list.push(<ShowUser userid={'User ID'} username={'Username'}/>)
     for(var i=0;i<L;i++) {
       const cur = users[i]
-      list.push(<ShowUser userid={cur['user_id']} username={cur['username']}/>)
+      list.push(<Username userid={cur['user_id']}/>)
     }
     return list
   }
@@ -50,12 +51,12 @@ function FetchAllUser() {
 
 function FetchAllProduct() {
   const [isLoading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  const [products, setproducts] = useState([]);
 
   useEffect(() => {
     const fetch = async() => {
       const result = await axios('http://localhost:3030/all_products');
-      setUsers(result.data);
+      setproducts(result.data);
       setLoading(false);
     }
     fetch();
@@ -63,12 +64,17 @@ function FetchAllProduct() {
   
   if(isLoading) return <p>Loading...</p>
   else {
-    const L = Object.keys(users).length;
+    const L = Object.keys(products).length;
     var list = []
-    //list.push(<ShowProduct userid={'Product ID'} username={'Product Name'}/>)
     for(var i=0;i<L;i++) {
-      const cur = users[i]
-      list.push(<ShowProduct productID={cur['product_id']} productName={cur['product_name']} price={cur['price']} sellerID={cur['seller_id']}/>)
+      const cur = products[i]
+      const entities = ['product_name', 'price']
+      const prefix = ['Name: ', '$']
+      list.push(
+        <LoadProductPhoto productid={cur['product_id']}/>,
+        <LoadProduct productid={cur['product_id']} entities={entities} prefix={prefix}/>,
+        <LoadProductCategory productid={cur['product_id']}/>
+    )
     }
     return list
   }
