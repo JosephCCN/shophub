@@ -1,51 +1,59 @@
-import './css/home_searchbar.css';
-import { useState } from "react";
+import { useState, useEffect, useRef} from "react";
+import RangeSlider from 'react-range-slider-input'
+import 'react-range-slider-input/dist/style.css';
+import Multiselect from 'multiselect-react-dropdown';
 import axios from 'axios'
 
-function Bar(props) {
+function AdvanceBar(props) {
     const [search_key, setSearchKey] = useState();
+    const [categories, setcategories] = useState('');
+    const [isLoading, setisLoading] = useState(true);
+    const [lower, setLower] = useState(0);
+    const [upper, setUpper] = useState(5000);
+
+
+    const handleMin = (e) => {
+        if(e.target.value < upper && e.target.value != '') {
+            setLower(e.target.value);
+        }
+    }
+
+    const handleMax = (e) => {
+        if(e.target.value > lower && e.target.value != '') {
+            setUpper(e.target.value);
+        }
+    }
+
+    const handleCat = (e) => {
+        setcategories(e.target.value)
+    }
 
     const search = () => {
-        axios(`http://localhost:3030/search?key=${search_key}`)
-        .then((res) => {
+        axios.post(`http://localhost:3030/adv_search`, {
+            categories: [categories],
+            lower: lower,
+            upper: upper
+        })
+        .then(res => {
+            if(res.data['err']) {
+                console.log(res.data['err']);
+                return;
+            }
             props.setProductInfo(res.data);
             props.setSearched(true);
         })
-        .catch((err) => {
-            console.log(err);
-        })
+        .catch(err => console.log(err))
     }
-
-    useEffect(() => {
-        const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}&asc=1`) //fetch seller products product_id
-            setlist(res.data)
-            setLoading(false)
-        }
-        fetch();
-    }, [])
-
-    // return (
-    //     <div className='home_searchbar'>
-    //         <input type="text" name="search" placeholder="type your interested cate" onChange={(e) => setSearchKey(e.target.value)}/>
-    //         <button type="submit" onClick={search}>search</button>
-    //     </div>
-    // )
 
     return (
         <div>
-            <label>Category: (at most 5)</label><Multiselect
-                options={categories}
-                name="particulars"
-                displayValue='name'
-                closeIcon='cancel'
-                onSelect={onSelectOptions}
-                onremove={onRemoveOptions}
-                selectedValues={''}
-                selectionLimit={5}
-                />
+            <label>Price Range</label><br/>
+            Min:<input type="number" min="0.0" max="5000.0" step="0.1" onChange={handleMin} value={lower}/>
+            Max:<input type="number" min="0.0" max="5000.0" step="0.1" onChange={handleMax} value={upper}/><br/>
+            categories: <input onChange={handleCat}/>
+            <button onClick={search}>Search</button>
         </div>
     )
 }
 
-export default Bar;
+export default AdvanceBar;

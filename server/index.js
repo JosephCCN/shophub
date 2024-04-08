@@ -697,16 +697,6 @@ app.post('/adv_search', async(req, res) => {
     }
 })
 
-app.get('/product_category', async(req, res) => {
-    try{
-        const result = await db.query(`select distinct tag from category where product_id=${req.query.productid}`);
-        res.json(result.rows)
-    }
-    catch(err) {
-        res.json({err: err})
-    }
-})
-
 app.listen(port, (err) => {
     console.log('running...')
 });
