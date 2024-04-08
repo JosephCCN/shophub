@@ -73,6 +73,17 @@ app.get('/search', async(req, res) => {
     res.json(result.rows);
 })
 
+
+app.get('/categories', async(req, res) =>{
+    try{
+        result = await db.query(`select * from categories`);
+        res.json(result.rows);
+    }
+    catch(err){
+        res.json({'err': err})
+    }
+})
+
 app.get('/product_img', async(req, res) => {
     id = req.query.id;
     try{

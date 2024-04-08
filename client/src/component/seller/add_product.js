@@ -1,13 +1,15 @@
 import {useNavigate, Navigate} from 'react-router-dom'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import Multiselect from 'multiselect-react-dropdown';
 var FormData = require('form-data')
 
 function AddProduct(props) {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const userid = cookies.get('userid');
+    const [isLoading, setisLoading] = useState(true)
     if(!userid) navigate('/login');
 
     const [productname, setproductname] = useState();
@@ -21,7 +23,6 @@ function AddProduct(props) {
         try{
             //fetch maximum productid
             const res1 = await axios.get(`http://localhost:3030/maxproductid`)
-            console.log(res1)
             const nextproductid = parseInt(res1.data[0]['last_value'], 10) + 1
 
             //add image
@@ -43,6 +44,31 @@ function AddProduct(props) {
             console.log(err)
         }      
     }
+    const [categories, setcategories] = useState(0);
+    useEffect(() => {
+        const fetch_categories = async() =>{
+            const result = await axios.get(`http://localhost:3030/categories`)
+            var tmp = result.data;
+            var list = [];
+            const L = Object.keys(tmp).length;
+            for(var i=0;i<L;i++){
+                const cur_category = tmp[i]['tag']
+                list.push({name: cur_category, id: i+1});
+            }
+            setcategories(list);
+            setisLoading(false);
+        }
+        fetch_categories();
+    }, [])
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [removedOptions, setRemovedOptions] = useState([]);
+    const onSelectOptions = (selectedList, selectedItem) => {
+        setSelectedOptions([...selectedOptions, selectedItem]);   
+    };
+    const onRemoveOptions = (selectedList, removedItem) => {
+        setRemovedOptions([...removedOptions, removedItem]);
+    };
+    if(isLoading) return <p>Loading</p>;
     return (
         <div>
             <h1>Add Product Page</h1>
@@ -54,7 +80,16 @@ function AddProduct(props) {
             <br/>
             <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
             <br/>
-            <label>Category:</label><input type="text" onChange={(e) => setcategory(e.target.value)}/>
+            <label>Category: (at most 5)</label><Multiselect
+                options={categories}
+                name="particulars"
+                displayValue='name'
+                closeIcon='cancel'
+                onSelect={onSelectOptions}
+                onremove={onRemoveOptions}
+                selectedValues={''}
+                selectionLimit={5}
+                />
             <br/>
             <label>Producat Image:</label><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input>
             <br/>
