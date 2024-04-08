@@ -153,9 +153,10 @@ app.post('/edit_profile', async(req, res) => {
     userid = req.body.userid;
     username = req.body.username;
     password = req.body.password;
+    contact = req.body.contact.replace('\'', '\'\'')
     var result;
     try{
-        result = await db.query(`update users set (username, password) = ("${username}", "${password}") where user_id = ${userid}`)
+        result = await db.query(`update users set (username, password, contact) = ('${username}', '${password}', '${contact}') where user_id = ${userid}`)
         res.json({'success': 1});
     }
     catch(err){

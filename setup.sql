@@ -21,6 +21,7 @@ CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
     password VARCHAR(30) NOT NULL,
+    contact varchar(30) NOT NULL DEFAULT 'N/A',
     is_admin boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
 );
