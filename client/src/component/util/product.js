@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/product.css'
 
 // this function loads photo from backend server
 // input: productid
@@ -41,7 +42,7 @@ export function LoadProductPhoto(prop){
     if(isLoading) return <p>Loading...</p> ;
     return (
         <div onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
-            <img src={img}/>
+            <img src={img} className="product_img"/>
         </div>
     )
 }

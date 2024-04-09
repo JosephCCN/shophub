@@ -1,9 +1,11 @@
 import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
+import './css/Header.css';
+import HomeLogo from "./css/home_icon2.jpg"
 
 
-function HomeHeader() {
+function PageHeader() {
 
     const cookies = new Cookies();
 
@@ -83,6 +85,9 @@ function HomeHeader() {
         navigate('/admin')
       }, [gotoAdmin])
 
+      const GotoHome = () => {
+        setGotoHome(1);
+      }
       useEffect(() => {
         if(!gotoHome) return;
         navigate('/home')
@@ -91,8 +96,9 @@ function HomeHeader() {
     return (
     <nav className='header'>
         <div className='clearfix'>
-          <div className='hometopright'>
-            <ul>
+            <img src={HomeLogo} alt = "Logo" className='img' onClick={GotoHome}/>
+            <div className='hometopright'>
+              <ul>
                 <li>
                   <button onClick={logout}>Logout</button>
                 </li>
@@ -122,4 +128,4 @@ function HomeHeader() {
     )
 }
 
-export default HomeHeader
+export default PageHeader;

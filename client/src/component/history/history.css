@@ -1,0 +1,40 @@
+.historytable{
+    background-color:navajowhite;
+    border-style: inset;
+    border-width: medium;
+    max-height: 200px;
+    min-height: 200px;
+    text-align: center;
+}
+
+.first_col{
+    width: 350px;
+    height: 200px;
+    display: block;
+}
+
+.first_col>:nth-child(1){
+    text-align: left;
+    font-size: 20px;
+}
+
+
+.first_col>:nth-child(2){
+    font-size: 20px;
+    max-height: 175px;
+}
+
+.second_col{
+    width: 100px;
+    max-height: 200px;
+    min-height: 200px;
+}
+.second_col>:nth-child(1){
+    height: 100px;
+    vertical-align: middle;
+}
+.second_col>:nth-child(2){
+    height: 100px;
+    vertical-align: middle;
+}
+

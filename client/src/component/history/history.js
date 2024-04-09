@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
-import Cookies from 'universal-cookie'
 import axios from 'axios'
 import LoadProductPhoto from "../util/product"
 import Username from "../util/user"
+import './history.css'
 
 function OrderHistoryInfoSource(infolist){
     var list = []
@@ -31,7 +31,7 @@ function OrderHistoryInfoSource(infolist){
             cur_product_table.push(cur_order_list[j]['review'])
             cur_order_table.push(<tr>{cur_product_table}</tr>)
         }
-        var temp = <center> <table>{cur_order_table}</table> </center>
+        var temp = <center> <table className = "table">{cur_order_table}</table> </center>
         list.push(temp)
     }
 
@@ -122,21 +122,17 @@ function SalesHistoryInfoSource(infolist){
     }
 
     var tmp = []
-    tmp.push(<tr><td></td><td>Seller</td><td>Product Name</td><td>Quantity</td><td>Price</td><td>Order Date</td><td></td></tr>)
     for(var i=0;i<L;i++){
         const cur_sales_list = infolist[i];
-        var column = []
-        column.push(<td>{cur_sales_list['product_img']}</td>)
-        column.push(<td>{cur_sales_list['buyer_name']}</td>)
-        column.push(<td>{cur_sales_list['product_name']}</td>)
-        column.push(<td>{cur_sales_list['quantity']}</td>)
-        column.push(<td>{cur_sales_list['price']}</td>)
-        column.push(<td>{cur_sales_list['order_date']}</td>)
-        tmp.push(<tr>{column}</tr>)
+        var row = []
+        row.push(<td>{cur_sales_list['product_img']}</td>)
+        var product_info = [<td><table className="first_col"><tr><th>{cur_sales_list['buyer_name']}</th></tr><tr><td>{cur_sales_list['product_name']}</td></tr></table></td>]
+        product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_sales_list['quantity']}</td></tr><tr><td>Price: {cur_sales_list['price']}</td></tr></table></td>)
+        product_info.push(<td>Order Time:<br/>{cur_sales_list['order_date']}</td>)
+        row.push(product_info)
+        tmp.push(<center><table className="historytable"><tr>{row}</tr></table></center>)
     }
-
-    var temp2 = <center> <table>{tmp}</table> </center>
-    list.push(temp2)
+    list.push(tmp)
     return list
 }
 
