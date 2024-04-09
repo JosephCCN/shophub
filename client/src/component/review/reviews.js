@@ -101,8 +101,6 @@ function Reviews(props) {
     
     if(review == 'nth' || bought == 'nth') return <p>Loading...</p>
 
-    console.log(bought);
-
     const L = Object.keys(review).length;
 
     var reviewList = [];

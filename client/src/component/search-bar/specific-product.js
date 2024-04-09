@@ -12,8 +12,6 @@ function SpecificProduct() {
     var [back, setBack] = useState(false);
     const navigate = useNavigate();
     const cookies = new Cookies();
-    var [quantity, setQuantity] = useState(1);
-    const [msg, setMsg] = useState('');
     var userid;
     var isAdmin = false;
 
@@ -21,28 +19,12 @@ function SpecificProduct() {
     const [sellerName, setSellerName] = useState('');
     const [product, setProduct] = useState([]);
     const [productimg, setProductImg] = useState('');
+    const [productInfo, setProductInfo] = useState();
     const [edit, setEdit] = useState(false);
+    var [quantity, setQuantity] = useState(1);
+    const [msg, setMsg] = useState('');
 
     useEffect(() => {
-
-        const fetch_product = async() => {
-            try{
-                cookies.set('productid', productID, {
-                    path: '/'
-                });
-                const result = await axios.get(`http://localhost:3030/product?productid=${productID}`)
-                const entities = ['price', 'quantity', 'category', 'info']
-                const prefix = ['$', 'In Stock: ', 'Category: ', 'Description: ']
-                setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
-                setProductImg(<LoadProductPhoto productid={productID}/>)
-                setSellerName(<Username userid={result.data[0]['seller_id']} prefix={['Sold by ']}/>)
-                setisLoading(false);
-            }
-            catch(err){
-                console.log(err);
-                return;
-            }
-        }
 
         axios.get(`http://localhost:3030/product?productid=${productID}`)
         .then(res => {
@@ -54,7 +36,16 @@ function SpecificProduct() {
                 navigate('/login')
             }
             if(cookies.get('admin')) isAdmin = true;
-            fetch_product();
+            cookies.set('productid', productID, {
+                path: '/'
+            });
+            const entities = ['price', 'quantity', 'category', 'info']
+            const prefix = ['$', 'In Stock: ', 'Category: ', 'Description: ']
+            setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
+            setProductImg(<LoadProductPhoto productid={productID}/>)
+            setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['Sold by ']}/>)
+            setProductInfo(res.data[0])
+            setisLoading(false);
         })
         .catch(err => console.log(err))
     }, [])
@@ -75,19 +66,6 @@ function SpecificProduct() {
 
     const goBack = () => {
         setBack(true);
-    }
-
-    const handleQuantityChange = (e) => {
-        var t = e.target.value
-        for(var i=0;i<t.length;i++) {
-            if(!('0' <= t[i] && t[i] <= '9')) {
-                return;
-            }
-        }
-        if(t < 0 || t > product['quantity']){
-            return
-        }
-        setQuantity(t);
     }
 
     const addToShoppingCart = () => {
@@ -136,6 +114,29 @@ function SpecificProduct() {
     const GoToEditProduct = () => {
         setEdit(true);
     }
+
+    const handleQuantityIncrease = () => {
+        if(quantity + 1 <= productInfo['quantity']) setQuantity(quantity + 1);
+        else return;
+    }
+    
+    const handleQuantityDecrease = () => {
+        if(quantity - 1 > 0) setQuantity(quantity - 1)
+        else return
+    }
+
+    const handleQuantityChange = (e) => {
+        var t = e.target.value
+        for(var i=0;i<t.length;i++) {
+            if(!('0' <= t[i] && t[i] <= '9')) {
+                return;
+            }
+        }
+        if(t < 0 || t > productInfo['quantity']){
+            return
+        }
+        setQuantity(t);
+    }
     
 
     return (
@@ -145,9 +146,9 @@ function SpecificProduct() {
             {productimg}
             {sellerName}
             {product}
-            <button onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>-</button>
+            <button onClick={handleQuantityDecrease}>-</button>
             <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-            <button onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>+</button>
+            <button onClick={handleQuantityIncrease}>+</button>
             <br/>
             <button onClick={addToShoppingCart}>Add to Shopping Cart</button>
             <button onClick={addToWishlist}>Add to Wishlist</button>
