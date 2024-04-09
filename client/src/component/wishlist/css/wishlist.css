@@ -1,0 +1,55 @@
+.wishlist>h1{
+    background-color: rgb(233, 138, 35);
+    margin: 0;
+    text-align: left;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.wishlist_content{
+    float: left;
+    width: 100%;
+    /*border: 1px solid;*/
+}
+
+.wishlist_content img{
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    padding-left: 60px;
+    padding-top: 60px;
+    float: left;
+}
+
+.wishlist_back{
+    background-color: rgb(246, 153, 53);
+    margin: 10px;
+    float: left;
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.wishlist_content div.dec{
+    text-align: left;
+    font-size: 20px;
+    width: 1100px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.wishlist button.wishlist_button{
+    background-color: rgb(246, 153, 53);
+    float: right;
+    margin: 10px;
+    border: none;
+    width: 180px;
+    height: 70px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}

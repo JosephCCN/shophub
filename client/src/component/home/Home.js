@@ -1,6 +1,7 @@
 // Importing Link from react-router-dom to 
 // navigate to different end points.
 import './css/Home.css';
+import './css/notice.css';
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
@@ -30,16 +31,19 @@ function Actual_home() {
       <div className='searching'>
         <table>
           <tr>
+            <td><h1>Home Page</h1></td>
+            <td className="ad_search"><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
             <td>
             {advance ? <AdvanceBar setSearched={setSearched} setProductInfo={setProductInfo}/>: <Bar setSearched={setSearched} setProductInfo={setProductInfo}/>}
             </td>
-            <td><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
           </tr>
         </table>
       </div>
-        {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
+      <div className='notice'>
+        <p>Notification</p>
         <ShowNotification userid={userid}/>
-      
+      </div>
+      {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
     </body>
   )
 }

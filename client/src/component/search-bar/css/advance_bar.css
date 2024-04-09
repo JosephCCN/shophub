@@ -1,0 +1,17 @@
+.advance_bar{
+    padding-left: 60px;
+    /*border: 1px solid;*/
+    height: 75px;
+    width: 400px;
+}
+
+.advance_bar button{
+    color: rgb(233, 138, 35);
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    background-color: black;
+    text-align: center;
+    cursor: pointer;
+    float: right;
+}

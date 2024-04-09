@@ -1,4 +1,6 @@
 import {LoadProductPhoto, LoadProduct} from '../util/product'
+import "./css/list_product.css";
+
 
 function ListProduct(props) {
     const products = props.products;
@@ -10,13 +12,15 @@ function ListProduct(props) {
         const entities = ['product_name', 'price', 'category']
         const prefix = ['', '$', 'Category: ']
         list.push(
+            <div className='product_list'>
             <LoadProductPhoto productid={cur_product_id}/>,
             <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
+            </div>
         );
     }
     return (
-        <div>
-            <p>{list}</p>
+        <div className='product_result'>
+            {list}
         </div>
     )
 }

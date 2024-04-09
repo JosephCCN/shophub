@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import  { LoadProductPhoto, LoadProduct } from "../util/product";
+import "./css/wishlist.css";
 
 function FetchWishlistPageSource(prop){
     const cookies = new Cookies();
@@ -61,8 +62,8 @@ function FetchWishlistPageSource(prop){
     const cur_product_id = cur_product['product_id']
     list.push(<LoadProductPhoto productid={cur_product_id}/>) 
     list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ', 'Stock: ']} entities={['product_name', 'price', 'quantity']}/>)
-    list.push(<button onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button>);
-    list.push(<button onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button>)
+    list.push(<button className="wishlist_button" onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button>);
+    list.push(<button className="wishlist_button" onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button>)
     const showList = [list, <p></p>]
     const show = showList[removed]
     return(
@@ -121,10 +122,12 @@ function Wishlist(){
         list.push(<FetchWishlistPageSource cur_product={cur_product}/>)
     }
     return (
-        <div>
-        <button onClick={goBack}>Back</button>
+        <div className="wishlist">
         <h1>Wishlist</h1>
-        {list}
+        <div className="wishlist_content">
+            {list}
+        </div>
+        <button className="wishlist_back" onClick={goBack}>Back</button>
         </div>
     )
 

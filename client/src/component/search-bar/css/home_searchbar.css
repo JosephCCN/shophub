@@ -1,10 +1,10 @@
 .home_searchbar{
     padding-left: 20%;
-    padding-top: 30px; 
+    padding-top: px20; 
     display: flex;
 }
 
-.home_searchbar>input{
+.home_searchbar input{
     width: 500px;
     height: 35px;
     background-color: #ffffff;
@@ -20,10 +20,12 @@
     color :rgb(102, 102, 101);
 }
 
-.home_searchbar>button{
+.home_searchbar button{
+    color: rgb(233, 138, 35);
+    border: none;
     border-radius: 5px;
     height: 40px;
-    background-color: rgb(233, 138, 35);
+    background-color: black;
     text-align: center;
     cursor: pointer;
 }
