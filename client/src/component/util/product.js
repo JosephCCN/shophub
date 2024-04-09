@@ -79,6 +79,14 @@ export function LoadProduct(prop){
         const L = Object.keys(entity_list).length; 
         for(var i=0;i<L;i++){
             var output = product[entity_list[i]]
+            if(entity_list[i] == 'category') {
+                var l = product['category'].length;
+                output = '';
+                for(var j=0;j<l;j++) {
+                    output += product['category'][j];
+                    if(j != l - 1) output += ', '
+                }
+            }
             list.push(<p>{prefix_list[i]}{output}</p>)
         }
         return list;

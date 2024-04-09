@@ -1,26 +1,13 @@
 // Importing Link from react-router-dom to 
 // navigate to different end points.
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import {Get} from '../util/util'
-
-function ShowUser(props) {
-  return <p>{props.userid}: {props.username}</p>
-}
-
-function ShowProduct(props) {
-
-  const fetchUserName = (id) => {
-    var {data, isLoading} = Get(`http://localhost:3030/username?id=${id}`);
-    if(isLoading) return 'loading';
-    else return data[0]['username']
-  }
-
-  const name = fetchUserName(1);
-  return <p>{props.productID}: selling by {name} {props.productName} ${props.price}</p>
-}
+import {LoadProduct,  LoadProductCategory,  LoadProductPhoto } from '../util/product'
+import Username from "../util/user";
+import HomeHeader from "../util/miss";
+import Home from "../home/Home";
 
 function FetchAllUser() {
   const [isLoading, setLoading] = useState(true);
@@ -39,10 +26,10 @@ function FetchAllUser() {
   else {
     const L = Object.keys(users).length;
     var list = []
-    list.push(<ShowUser userid={'User ID'} username={'Username'}/>)
+    list.push(<h1>Users</h1>)
     for(var i=0;i<L;i++) {
       const cur = users[i]
-      list.push(<ShowUser userid={cur['user_id']} username={cur['username']}/>)
+      list.push(<Username userid={cur['user_id']}/>)
     }
     return list
   }
@@ -50,12 +37,12 @@ function FetchAllUser() {
 
 function FetchAllProduct() {
   const [isLoading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
+  const [products, setproducts] = useState([]);
 
   useEffect(() => {
     const fetch = async() => {
       const result = await axios('http://localhost:3030/all_products');
-      setUsers(result.data);
+      setproducts(result.data);
       setLoading(false);
     }
     fetch();
@@ -63,12 +50,18 @@ function FetchAllProduct() {
   
   if(isLoading) return <p>Loading...</p>
   else {
-    const L = Object.keys(users).length;
+    const L = Object.keys(products).length;
     var list = []
-    //list.push(<ShowProduct userid={'Product ID'} username={'Product Name'}/>)
+    list.push(<h1>Products</h1>)
     for(var i=0;i<L;i++) {
-      const cur = users[i]
-      list.push(<ShowProduct productID={cur['product_id']} productName={cur['product_name']} price={cur['price']} sellerID={cur['seller_id']}/>)
+      const cur = products[i]
+      const entities = ['product_name', 'price']
+      const prefix = ['Name: ', '$']
+      list.push(
+        <LoadProductPhoto productid={cur['product_id']}/>,
+        <LoadProduct productid={cur['product_id']} entities={entities} prefix={prefix}/>,
+        <LoadProductCategory productid={cur['product_id']}/>
+    )
     }
     return list
   }
@@ -78,6 +71,7 @@ function Actual_admin() {
   const cookies = new Cookies();
   const navigate = useNavigate();
   const [logOut, setLogout] = useState(0);
+  const [showAllUser, setShowAllUser] = useState(true);
 
   const logout = () => {
     setLogout(1);
@@ -96,12 +90,10 @@ function Actual_admin() {
 
   return (
     <div>
-      <h1>Real Admin</h1>
-      <button onClick={logout}>logout</button>
-      <h1>User</h1>
-      <FetchAllUser/>
-      <h1>Product</h1>
-      <FetchAllProduct/>
+      <HomeHeader/>
+      <h2>Admin Page</h2>
+      {showAllUser ? <button onClick={() => {setShowAllUser(false)}}>Show All Product</button> : <button onClick={() => {setShowAllUser(true)}}>Show All User</button>}
+      {showAllUser ? <FetchAllUser/> : <FetchAllProduct/>}
     </div>
   )
 }
