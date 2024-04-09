@@ -64,7 +64,7 @@ function FetchWishlistPageSource(prop){
     list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ', 'Stock: ']} entities={['product_name', 'price', 'quantity']}/>)
     list.push(<button className="wishlist_button" onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button>);
     list.push(<button className="wishlist_button" onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button>)
-    const showList = [list, <p></p>]
+    const showList = [<div className="wishlist_content">{list}</div>, <p></p>]
     const show = showList[removed]
     return(
         <div>
@@ -124,7 +124,7 @@ function Wishlist(){
     return (
         <div className="wishlist">
         <h1>Wishlist</h1>
-        <div className="wishlist_content">
+        <div>
             {list}
         </div>
         <button className="wishlist_back" onClick={goBack}>Back</button>
