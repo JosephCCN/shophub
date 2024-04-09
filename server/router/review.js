@@ -33,11 +33,12 @@ router.get('/product_review', async(req, res) => {
 router.post('/review', async(req, res) => {
     const productID = req.body.product_id;
     const userID = req.body.user_id;
-    const context = req.body.context.replace('\'', '\'\'');
+    var context = req.body.context;
     const rating = req.body.rating
+    console.log(productID, userID, context, rating);
     try {
         const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
-        if(result.rows == []) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, "${context}", ${rating})`)
+        if(result.rows.length == 0) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
         else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, "${context}", ${rating}) where product_id=${productID} and user_id=${userID}`);
     }
     catch(err) {

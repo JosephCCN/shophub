@@ -12,6 +12,12 @@ function EditProfile() {
     const [isLoading, setLoading] = useState(true);
     const [err, setErr] = useState();
     const [originalprofile, setoriginalprofile] = useState([]);
+
+    const [username, setusername] = useState();
+    const [password1, setpassword1] = useState();
+    const [password2, setpassword2] = useState();
+    const [contact, setcontact] = useState();
+
     //fetch original profile
     useEffect(() => {
         const fetch = async() => {
@@ -19,28 +25,27 @@ function EditProfile() {
             // const L = res.data[0]['password'].length
             // res.data[0]['password'] = Array(L+1).join('*')
             setoriginalprofile(res.data)
+            setusername(res.data[0]['username'])
             setLoading(false)
         }
         fetch();
     }, [])
 
-    const [username, setusername] = useState();
-    const [password1, setpassword1] = useState();
-    const [password2, setpassword2] = useState();
-    const [contact, setcontact] = useState();
+    
 
     const handleeditprofile = async(e) =>{
         try{
             //check edited username and password
             if(password1 != password2) throw('Password not the same!')
-            else if(password1.length > 30) throw('Password length should be less than 30')
+            else if(password1 && password1.length > 30) throw('Password length should be less than 30')
             const res = await axios.post('http://localhost:3030/edit_profile', {
                 'userid': userid,
                 'username': username,
                 'password': password1,
                 'contact': contact
             });
-            navigate('/profile')
+            if(res.data['username_exist']) setErr('username already exist');
+            else navigate('/profile')
         }
         catch(err){
             setErr(err)
@@ -49,6 +54,7 @@ function EditProfile() {
     }
 
     if(isLoading) return <p>Loading...</p>;
+
     return (
         <div>
             <h1>Edit Profile Page</h1>

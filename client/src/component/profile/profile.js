@@ -45,12 +45,18 @@ function Profile() {
     var [userid, setuserid] = useState(0);
     var {profile_userid} = useParams();
     const [isLoading, setisLoading] = useState(true)
+    const [isAdmin, setAdmin] = useState(false);
+
     useEffect(() =>{
         const tmp = cookies.get('userid');
         if(!tmp) navigate('/login');
+        if(cookies.get('admin')) {
+            setAdmin(true);
+        }
         setuserid(tmp);
         setisLoading(false)
     }, [])
+    
     const top = 10
     var [editprofile, seteditprofile] = useState(0);
     function gotoeditprofile(){
@@ -66,40 +72,27 @@ function Profile() {
     useEffect(() => {
         if(back) {
             back = false;
-            navigate(-1);
+            navigate('/home');
         }
     }, [back])
     const goBack = () => {
         setBack(true);
     }
     if(isLoading) return <p>Loading...</p>
+
     if(!profile_userid) profile_userid = userid
 
-    if(userid == profile_userid){       //viewing own profile
-        return (
-            <div>
-                <button onClick={goBack}>Back</button>
-                <h1>Profile Page</h1>
-                <h2>Profile</h2>
-                <button onClick={() => gotoeditprofile()}>Edit Profile</button>
-                <ShowProfile userid={userid}/>
-                <h1>Order History:</h1>
-                <ShowOrderHistory userid={userid} top={top}/>
-            </div>
-        )
-    }
-    else{
-        return (
-            <div>
-                <button onClick={goBack}>Back</button>
-                <h1>Profile Page</h1>
-                <h2>Profile</h2>
-                <ShowProfile userid={profile_userid}/>
-                <h1>Sales History:</h1>
-                <ShowSalesHistory userid={profile_userid} top={top}/>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <button onClick={goBack}>Home</button>
+            <h1>Profile Page</h1>
+            <h2>Profile</h2>
+            {(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit Profile</button> : <></>}
+            <ShowProfile userid={profile_userid}/>
+            <h1>Order History:</h1>
+            <ShowOrderHistory userid={profile_userid} top={top}/>
+        </div>
+    )
 }
 
 export default Profile;

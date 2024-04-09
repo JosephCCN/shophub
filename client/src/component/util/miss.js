@@ -52,13 +52,9 @@ function HomeHeader() {
           navigate('/seller');
       }, [gotoSell])
       
-    
-      const GotoProfile = () =>{
-        setprofile(userid); 
-      }
       useEffect(() => {
           if(!profile) return;
-          navigate(`/profile/${profile}`);
+          navigate(`/profile/${userid}`);
       }, [profile])
     
       const GotoCart = () => {
@@ -107,10 +103,10 @@ function HomeHeader() {
                   <button onClick={GotoCart}>Shopping Cart</button>
                 </li>
                 <li>
-                <button onClick={GotoSell}>Sell History</button>
+                <button onClick={GotoSell}>Seller</button>
                 </li>
                 <li>
-                  <button>History</button>
+                  <button onClick={() => {setprofile(true)}}>Profile</button>
                 </li>
                 <li>
                   
