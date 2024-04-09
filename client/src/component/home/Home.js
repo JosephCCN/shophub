@@ -9,7 +9,7 @@ import ListProduct from "../search-bar/list_product";
 import Recommendation from '../recommendation/recommendation';
 import ShowNotification from '../wishlist/notification';
 import AdvanceBar from '../search-bar/advance_bar';
-import HomeHeader from '../util/miss';
+import PageHeader from '../util/miss';
 
 function Actual_home() {
   const [product_info, setProductInfo] = useState({});
@@ -26,7 +26,7 @@ function Actual_home() {
 
   return (
     <body>
-      <HomeHeader/>
+      <PageHeader/>
       <div className='searching'>
         <table>
           <tr>

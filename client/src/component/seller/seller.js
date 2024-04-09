@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import {LoadProductCategory, LoadProductPhoto} from '../util/product'
 import {ShowSalesHistory} from '../history/history'
+import PageHeader from '../util/miss'
 
 function ProductInfoSource(prop){
     const cur_product = prop.cur_product
@@ -123,15 +124,18 @@ function Seller(props) {
     }
     
     return (
-        <div>
-            <button onClick={goBack}>Back</button>
-            <h1>Seller Page</h1>
-            <h1>Inventory:</h1>
-            <button onClick={GoToAddProduct}>Add Product</button>
-            <ShowSellerProduct userid={userid}/>
-            <h1>Sales History</h1>
-            <ShowSalesHistory userid={userid} top={top}/>
-        </div>
+        <body>
+            <PageHeader/>
+            <div>
+                <button onClick={goBack}>Back</button>
+                <h1>Seller Page</h1>
+                <h1>Inventory:</h1>
+                <button onClick={GoToAddProduct}>Add Product</button>
+                <ShowSellerProduct userid={userid}/>
+                <h1>Sales History</h1>
+                <ShowSalesHistory userid={userid} top={top}/>
+            </div>
+        </body>
     )
 }
 
