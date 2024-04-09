@@ -19,20 +19,19 @@ function OrderHistoryInfoSource(infolist){
         const L2 = Object.keys(cur_order_list).length;
         var cur_order_table = []
         //set up column
-        cur_order_table.push(<tr><td></td><td>Seller</td><td>Product Name</td><td>Quantity</td><td>Price</td><td>Order Date</td><td></td></tr>)
         for(var j=0;j<L2;j++){
-            var cur_product_table = []
-            cur_product_table.push(<td>{cur_order_list[j]['product_img']}</td>)
-            cur_product_table.push(<td>{cur_order_list[j]['seller_name']}</td>)
-            cur_product_table.push(<td>{cur_order_list[j]['product_name']}</td>)
-            cur_product_table.push(<td>{cur_order_list[j]['quantity']}</td>)
-            cur_product_table.push(<td>{cur_order_list[j]['price']}</td>)
-            cur_product_table.push(<td>{cur_order_list[j]['order_date']}</td>)
-            cur_product_table.push(cur_order_list[j]['review'])
-            cur_order_table.push(<tr>{cur_product_table}</tr>)
+            const cur_product = cur_order_list[j];
+            var row = []
+            row.push(<td>{cur_product['product_img']}</td>)
+            var product_info = [<td><table className="first_col"><tr><th>{cur_product['seller_name']}</th></tr><tr><td>{cur_product['product_name']}</td></tr></table></td>]
+            product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_product['quantity']}</td></tr><tr><td>Price: {cur_product['price']}</td></tr></table></td>)
+            product_info.push(<td>Order Time:<br/>{cur_product['order_date'].slice(0, 10)}<br/>{cur_product['order_date'].slice(11,19)}</td>)
+            product_info.push(cur_product['review'])
+            row.push(product_info)
+            cur_order_table.push(<tr><td><center><table className="orderproduct"><tr>{row}</tr></table></center></td></tr>)
         }
-        var temp = <center> <table className = "table">{cur_order_table}</table> </center>
-        list.push(temp)
+        var temp = <center> <table className="ordertable">{cur_order_table}</table> </center>
+        list.push(temp, <p></p>)
     }
 
     return list
@@ -93,8 +92,8 @@ export function ShowOrderHistory(prop) {
                         //check if there is any review for the specific prodduct
                         const res5 = await axios.get(`http://localhost:3030/review?productid=${cur_product_id}&userid=${userid}`)
                         //add review button to order_list
-                        if(!res5.data[0]['exist']) cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)}>Add Review</button></td>;
-                        else cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)}>Edit Review</button></td>;
+                        if(!res5.data[0]['exist']) cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)} className="review">Add Review</button></td>;
+                        else cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)} className="reivew">Edit Review</button></td>;
                     }
                     //add specific product page to order_list
                     cur_order_list[j]['path_to_product'] = `/product/${cur_product_id}`
@@ -128,9 +127,9 @@ function SalesHistoryInfoSource(infolist){
         row.push(<td>{cur_sales_list['product_img']}</td>)
         var product_info = [<td><table className="first_col"><tr><th>{cur_sales_list['buyer_name']}</th></tr><tr><td>{cur_sales_list['product_name']}</td></tr></table></td>]
         product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_sales_list['quantity']}</td></tr><tr><td>Price: {cur_sales_list['price']}</td></tr></table></td>)
-        product_info.push(<td>Order Time:<br/>{cur_sales_list['order_date']}</td>)
+        product_info.push(<td>Order Time:<br/>{cur_sales_list['order_date'].slice(0, 10)}<br/>{cur_sales_list['order_date'].slice(11,19)}</td>)
         row.push(product_info)
-        tmp.push(<center><table className="historytable"><tr>{row}</tr></table></center>)
+        tmp.push(<center><table className="historytable"><tr>{row}</tr></table></center>,<p></p>)
     }
     list.push(tmp)
     return list
@@ -153,7 +152,7 @@ export function ShowSalesHistory(prop) {
             const L = Object.keys(tmp).length;
             for(var i=0;i<L;i++){
                 var cur_sales_list = tmp[i];
-                console.log(cur_sales_list)
+                // console.log(cur_sales_list)
                 //fetch buyer username by buyer_id
                 const cur_buyer_id = cur_sales_list['buyer_id']
                 //add to sales_list

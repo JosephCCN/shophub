@@ -2,28 +2,28 @@
     background-color:navajowhite;
     border-style: inset;
     border-width: medium;
-    max-height: 200px;
-    min-height: 200px;
+    border-spacing: 5px;
+    width: 700px;
     text-align: center;
+    font-size: 18px;
+}
+.historytable>tr:nth-child(3){
+    width: 50;
+    text-align: middle;
 }
 
 .first_col{
-    width: 350px;
+    width: 300px;
     height: 200px;
     display: block;
 }
-
 .first_col>:nth-child(1){
     text-align: left;
     font-size: 20px;
 }
-
-
-.first_col>:nth-child(2){
-    font-size: 20px;
-    max-height: 175px;
+.first_col>:nth-child(2)>:nth-child(2){
+    font-size: 16px;
 }
-
 .second_col{
     width: 100px;
     max-height: 200px;
@@ -38,3 +38,26 @@
     vertical-align: middle;
 }
 
+.ordertable{
+    background-color:navajowhite;
+    border-style: inset;
+    border-width: medium;
+    width: 800px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.orderproduct{
+    text-align: center;
+    font-size: 18px;
+    border-spacing: 5px;
+    border-style: double;
+}
+
+.review{
+    border-radius: 5px;
+    height: 40px;
+    background-color: rgb(233, 138, 35);
+    text-align: center;
+    cursor: pointer;
+}
