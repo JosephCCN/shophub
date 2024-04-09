@@ -101,11 +101,7 @@ function Reviews(props) {
     
     if(review == 'nth' || bought == 'nth') return <p>Loading...</p>
 
-    console.log(bought);
-
     const L = Object.keys(review).length;
-
-    if(L == 0) return <h3>No Review...</h3>
 
     var reviewList = [];
     var myReview = {
@@ -125,7 +121,7 @@ function Reviews(props) {
     return (
         <div>
             {bought ? <UserReview myReview={myReview}/>: <p></p>}
-            <h3>Others Review</h3>
+            {L > 0 ? <h3>Others Review</h3> : <></>}
             {reviewList}
         </div>
     )

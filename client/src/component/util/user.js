@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 import { Router, Navigate, Link, useNavigate } from "react-router-dom";
-
+import './css/user.css'
 // this function loads the username from backend server
 // input: userid
 // output: username page source
@@ -37,7 +37,7 @@ export function Username(prop){
     if(isLoading) return <p>Loading...</p>
     else{
         const tmp = `/profile/${userid}`;
-        return (<p onClick={ () => setUserLink(tmp)}>{prefix}{username}</p>);
+        return (<table><tr><td><label>{prefix}</label></td><td><label className="username" type="button" onClick={ () => setUserLink(tmp)} style={{cursor:'pointer'}}>{username}</label></td></tr></table>);
     }
 }
 

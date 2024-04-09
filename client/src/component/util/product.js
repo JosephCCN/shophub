@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/product.css'
 
 // this function loads photo from backend server
 // input: productid
@@ -41,7 +42,7 @@ export function LoadProductPhoto(prop){
     if(isLoading) return <p>Loading...</p> ;
     return (
         <div onClick={() => gotoviewproduct(true)} style={{cursor:'pointer'}}>
-            <img src={img}/>
+            <img src={img} className="product_img"/>
         </div>
     )
 }
@@ -79,6 +80,14 @@ export function LoadProduct(prop){
         const L = Object.keys(entity_list).length; 
         for(var i=0;i<L;i++){
             var output = product[entity_list[i]]
+            if(entity_list[i] == 'category') {
+                var l = product['category'].length;
+                output = '';
+                for(var j=0;j<l;j++) {
+                    output += product['category'][j];
+                    if(j != l - 1) output += ', '
+                }
+            }
             list.push(<p>{prefix_list[i]}{output}</p>)
         }
         return list;

@@ -41,7 +41,7 @@ router.get('/bought', async(req, res) => {
         res.json({'err': err});
         return;
     }
-    if(result.rows == []) res.json({'bought': false});
+    if(result.rows.length == 0) res.json({'bought': false});
     else res.json({'bought': true});
 })
 
