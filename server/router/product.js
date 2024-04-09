@@ -38,11 +38,6 @@ router.get('/product', async(req, res) => {
             res.json({'empty': 1});
             return;
         }
-        const r2 = await db.query(`select tag from category where product_id=${productid}`);
-        result.rows[0]['category'] = []
-        for(var i=0;i<r2.rows.length;i++) {
-            result.rows[0]['category'].push(r2.rows[i]['tag'])
-        }
     }
     catch(err) {
         res.json({'err': err});

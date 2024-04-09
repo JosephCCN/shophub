@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import Reviews from "../review/reviews";
-import {LoadProductPhoto, LoadProduct} from "../util/product";
+import {LoadProductPhoto, LoadProduct, LoadProductCategory} from "../util/product";
 import {Username} from "../util/user";
 import "./css/specific-product.css";
 
@@ -24,6 +24,8 @@ function SpecificProduct() {
     const [edit, setEdit] = useState(false);
     var [quantity, setQuantity] = useState(1);
     const [msg, setMsg] = useState('');
+    const [productCat, setProductCat] = useState();
+    const [cat, setCat] = useState();
 
     useEffect(() => {
 
@@ -60,10 +62,12 @@ function SpecificProduct() {
             cookies.set('productid', productID, {
                 path: '/'
             });
-            const entities = ['price', 'quantity', 'category', 'info']
-            const prefix = ['$', 'In Stock: ', 'Category: ', 'Description: ']
+            const entities = ['price', 'quantity']
+            const prefix = ['$', 'In Stock: ']
             setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
+            setCat(<LoadProduct productid={productID} entities={['info']} prefix={['Description: ']}/>)
             setProductImg(<LoadProductPhoto productid={productID}/>)
+            setProductCat(<LoadProductCategory productid={productID}/>)
             setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['Sold by ']}/>)
             setProductInfo(res.data[0])
             setisLoading(false);
@@ -166,6 +170,7 @@ function SpecificProduct() {
             {productimg}
             {sellerName}
             {product}
+            {productCat}
             <button onClick={handleQuantityDecrease}>-</button>
             <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
             <button onClick={handleQuantityIncrease}>+</button>
@@ -174,6 +179,7 @@ function SpecificProduct() {
             <button onClick={addToWishlist}>Add to Wishlist</button>
             {isAdmin ? <button onClick={GoToEditProduct}>Edit Product</button> : <></>}
             <p>{msg}</p>
+            {cat}
             <Reviews productID={productID}/>
             <div className="s_img">{productimg}</div>
             <div className="s_dec">

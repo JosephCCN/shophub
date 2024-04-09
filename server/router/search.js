@@ -36,7 +36,7 @@ router.post('/adv_search', async(req, res) => {
     }
 
     try {
-        const categories = req.body.categories[0];
+        const categories = req.body.categories;
         var cat_query = 'select distinct product_id from category where '
         for(var i=0;i<categories.length;i++) {
             cat_query += `tag='${categories[i]['name']}' or `

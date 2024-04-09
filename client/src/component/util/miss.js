@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import './css/Header.css';
 import HomeLogo from "./css/home_icon2.jpg"
+import Bar from "../search-bar/bar";
+import AdvanceBar from "../search-bar/advance_bar";
 
 
 function PageHeader() {
@@ -126,6 +128,28 @@ function PageHeader() {
         </div>
       </nav>
     )
+}
+
+export function SearchBar(props) {
+  const [advance, setAdvance] = useState(props.advance);
+
+  const handleAdvance = () => {
+    if(advance) setAdvance(false);
+    else setAdvance(true);
+  }
+
+  return (
+    <div className='searching'>
+        <table>
+          <tr>
+            <td>
+            {advance ? <AdvanceBar/>: <Bar/>}
+            </td>
+            <td><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
+          </tr>
+        </table>
+      </div>
+  )
 }
 
 export default PageHeader;

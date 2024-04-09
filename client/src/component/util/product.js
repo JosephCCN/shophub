@@ -63,6 +63,7 @@ export function LoadProduct(prop){
         const fetch_product = async() => {
             try{
                 const res = await axios.get(`http://localhost:3030/product?productid=${productid}`)
+                const tmp = res.data[0]
                 setproduct(res.data[0]);
                 setLoading(false);
             }
@@ -73,8 +74,7 @@ export function LoadProduct(prop){
         }
         fetch_product();
     }, [])
-    // console.log(productid, product)
-    if(isLoading) return <p>Loading...</p> ;
+    if(isLoading) return <p>Loading...</p>;
     else{
         var list = [];
         const L = Object.keys(entity_list).length; 

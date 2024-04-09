@@ -2,11 +2,18 @@ import { useState, useEffect, useRef} from "react";
 import Multiselect from 'multiselect-react-dropdown';
 import axios from 'axios'
 import "./css/advance_bar.css";
+import Cookies from 'universal-cookie'
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 
 function AdvanceBar(props) {
+
+    const cookies = new Cookies;
+    const navigate = useNavigate();
+
     const [isLoading, setisLoading] = useState(true);
     const [lower, setLower] = useState(0);
     const [upper, setUpper] = useState(5000);
+    const [searched, setSearched] = useState(false);
 
 
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -37,6 +44,11 @@ function AdvanceBar(props) {
         fetch_categories();
     }, [])
 
+    useEffect(() => {
+        if(!searched) return;
+        navigate('/adv')
+    }, [searched])
+
     if(isLoading) return <p>Loading...</p>
 
 
@@ -53,20 +65,19 @@ function AdvanceBar(props) {
     }
 
     const search = () => {
-        axios.post(`http://localhost:3030/adv_search`, {
-            categories: [selectedOptions],
-            lower: lower,
-            upper: upper
+
+        cookies.set('categories', selectedOptions, {
+            path: '/'
         })
-        .then(res => {
-            if(res.data['err']) {
-                console.log(res.data['err']);
-                return;
-            }
-            props.setProductInfo(res.data);
-            props.setSearched(true);
+        cookies.set('lower', lower, {
+            path: '/'
         })
-        .catch(err => console.log(err))
+        cookies.set('upper', upper, {
+            path: '/'
+        })
+
+        setSearched(true);
+
     }
     return (
         <div className="advance_bar">
