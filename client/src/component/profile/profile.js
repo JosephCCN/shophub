@@ -105,43 +105,16 @@ function Profile() {
     }
 
     return (
-        <div>
-            <button onClick={goBack}>Back</button>
-            <h1>Profile Page</h1>
-            <h2>Profile</h2>
-            {(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit Profile</button> : <></>}
+        <div className='profile'>
+            <h1>Shophub</h1>
+            <h2>Profile{(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}</h2>
             <ShowProfile userid={profile_userid}/>
             {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}
+            <button onClick={goBack}>Back</button>
             <h1>Order History:</h1>
             <ShowOrderHistory userid={profile_userid} top={top}/>
         </div>
     )
-    if(userid == profile_userid){       //viewing own profile
-        return (
-            <div className='profile'>
-                <h1>Profile Page</h1>
-                <h2>Profile</h2>
-                <ShowProfile userid={userid}/>
-                <button onClick={() => gotoeditprofile()}>Edit Profile</button>
-                <br/>
-                <button onClick={goBack}>Back</button>
-                <h1>Order History:</h1>
-                <ShowOrderHistory userid={userid} top={top}/>
-            </div>
-        )
-    }
-    else{
-        return (
-            <div>
-                <button onClick={goBack}>Back</button>
-                <h1>Profile Page</h1>
-                <h2>Profile</h2>
-                <ShowProfile userid={profile_userid}/>
-                <h1>Sales History:</h1>
-                <ShowSalesHistory userid={profile_userid} top={top}/>
-            </div>
-        )
-    }
 }
 
 export default Profile;

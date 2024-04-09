@@ -1,27 +1,48 @@
 .profile>h1{
-    color: rgb(233, 138,35);
+    color: black;
     text-align: center;
     font-size: 35px;
 }
 
 .profile>h2{
-    color: rgb(233, 138,35);
-    text-align: left;
+    color: black;
     margin-left: 25%;
+    text-align: left;
     font-size: 25px;
 }
 
-.profile>button{
-    width: 10%;
+.profile>h2>button{
     background-color: rgb(233, 138,35);
-    color: white;
+    color: black;
+    width: 6%;
+    margin-top: 8px;
+    float: right;
+    margin-right: 50%;
+    display: inline-block;
     border: none;
     border-radius: 4px;
     padding: 14px 20px;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.profile>button{
+    background-color: rgb(233, 138,35);
+    color: black;
+    width: 5%;
     margin-top: 8px;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 15px;
     cursor: pointer;
 }
 
 .profile>center>table{
     width: 50%;
+    text-align: left;
+    font-size: 20px;
 }

@@ -64,8 +64,8 @@ function EditProfile() {
 
     return (
         <div className='edit_profile'>
-            <button onClick={() => setBack(true)}>Back</button>
-            <h1>Edit Profile Page</h1>
+            <h1>Shophub</h1>
+            <h2>Edit</h2>
             <center>
             <table>
                 <tr>
@@ -91,6 +91,7 @@ function EditProfile() {
             </table>
             </center>
             <button type="submit" onClick={handleeditprofile}>Save</button>
+            <button onClick={() => setBack(true)}>Back</button>
         </div>
     )
 
