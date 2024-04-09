@@ -2,6 +2,7 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import Multiselect from 'multiselect-react-dropdown';
 import LoadProductPhoto from '../util/product'
 
 function EditProduct(prop) {
@@ -11,17 +12,30 @@ function EditProduct(prop) {
     const productid = cookies.get('productid');
     if(!userid) navigate('/login');
     if(!productid) navigate('/seller');
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setisLoading] = useState(true);
 
     const [product, setproduct] = useState([]);
     const [img_source, setimg_source] = useState();
-    //fetch product and image with productid
+    const [categorylist, setcategorylist] = useState(0);
+    //fetch product and image with productid, fetch category list
     useEffect(() => {
         const fetch = async() => {
+            //fetch product
             const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
             setimg_source(<LoadProductPhoto productid={productid}/>)
-            setproduct(res.data)
-            setLoading(false)
+            setproduct(res.data);
+
+            //fetch category_list
+            const result = await axios.get(`http://localhost:3030/category_list`)
+            var tmp = result.data;
+            var list = [];
+            const L = Object.keys(tmp).length;
+            for(var i=0;i<L;i++){
+                const cur_category = tmp[i]['tag']
+                list.push({name: cur_category, id: i+1});
+            }
+            setcategorylist(list);
+            setisLoading(false);
         }
         fetch();
     }, [])
@@ -30,13 +44,27 @@ function EditProduct(prop) {
     const [productinfo, setproductinfo] = useState();
     const [price, setprice] = useState();
     const [quantity, setquantity] = useState();
-    const [category, setcategory] = useState();
     const [image, setImage] = useState();
     const [err, setErr] = useState();
 
-
+     //multiselect
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const onSelectOptions = (selectedList, selectedItem) => {
+        setSelectedOptions(selectedList);   
+        // setSelectedOptions([...selectedOptions, selectedItem]);   
+    };
+    const onRemoveOptions = (selectedList, removedItem) => {
+        setSelectedOptions(selectedList);   
+        // setRemovedOptions([...removedOptions, removedItem]);
+    };
     const handleeditproduct = async(e) => {
         try{
+            //make category as string
+            const L = Object.keys(selectedOptions).length;
+            var category = ''
+            for(var i=0;i<L;i++){
+                category = category + selectedOptions[i]['name'] + ','
+            }
             const res1 = await axios.post('http://localhost:3030/delete_img',{
                 'productid': productid
             })
@@ -62,9 +90,24 @@ function EditProduct(prop) {
             console.log(err) //cannot update product, thus return
         }
     } 
+
+    // go back
+    var [back, setBack] = useState(false);
+    useEffect(() => {
+        if(back) {
+            back = false;
+            navigate(-1);
+        }
+    }, [back])
+    const goBack = () => {
+        setBack(true);
+    }
+
     if(isLoading) return <p>Loading...</p>;
+    console.log(categorylist, 1)
     return (
         <div>
+            <button onClick={goBack}>Back</button>
             <h1>Edit Product Page</h1>
             <center>
             <table>
@@ -91,7 +134,15 @@ function EditProduct(prop) {
                 <tr>
                     <td><label>Category:</label></td>
                     <td><label>{product[0]['category']}</label></td>
-                    <td><input type="text" onChange={(e) => setcategory(e.target.value)}/></td>
+                    <td><Multiselect
+                            options={categorylist}
+                            name="particulars"
+                            displayValue='name'
+                            closeIcon='cancel'
+                            onSelect={onSelectOptions}
+                            onRemove={onRemoveOptions}
+                            selectedValues={''}
+                            selectionLimit={5}/></td>
                 </tr>
                 <tr>
                     <td><label>Producat Image:</label></td>

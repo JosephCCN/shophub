@@ -9,8 +9,8 @@ function ListProduct(props) {
     for(var i=0;i<L;i++) {
         const cur = products[i];
         const cur_product_id = cur['product_id']
-        const entities = ['product_name', 'price']
-        const prefix = ['', '']
+        const entities = ['product_name', 'price', 'category']
+        const prefix = ['', '$', 'Category: ']
         list.push(
             <div className='product_list'>
             <LoadProductPhoto productid={cur_product_id}/>,

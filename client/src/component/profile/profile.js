@@ -12,6 +12,7 @@ function ProfileInfoSource(infolist){
         const cur = infolist[i];
         list.push(<tr><td>Username:</td> <td>{cur['username']}</td></tr>)
         list.push(<tr><td>Password:</td> <td>{cur['password']}</td></tr>)
+        list.push(<tr><td>Contact:</td> <td>{cur['contact']}</td></tr>)
     }
     return <center><table>{list}</table></center>
 }
@@ -25,8 +26,8 @@ function ShowProfile(prop) {
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/profile?userid=${userid}`)
-            const L = res.data[0]['password'].length
-            res.data[0]['password'] = Array(L+1).join('*')
+            // const L = res.data[0]['password'].length
+            // res.data[0]['password'] = Array(L+1).join('*')
             setuserinfolist(res.data)
             setLoading(false)
         }
@@ -41,11 +42,14 @@ function ShowProfile(prop) {
 function Profile() {
     const cookies = new Cookies();
     const navigate = useNavigate();
-    const userid = cookies.get('userid');
-    const {profile_userid} = useParams();
+    var [userid, setuserid] = useState(0);
+    var {profile_userid} = useParams();
+    const [isLoading, setisLoading] = useState(true)
     useEffect(() =>{
-        if(!userid) navigate('/login');
-        if(!profile_userid) profile_userid = userid;
+        const tmp = cookies.get('userid');
+        if(!tmp) navigate('/login');
+        setuserid(tmp);
+        setisLoading(false)
     }, [])
     const top = 10
     var [editprofile, seteditprofile] = useState(0);
@@ -68,6 +72,8 @@ function Profile() {
     const goBack = () => {
         setBack(true);
     }
+    if(isLoading) return <p>Loading...</p>
+    if(!profile_userid) profile_userid = userid
 
     if(userid == profile_userid){       //viewing own profile
         return (

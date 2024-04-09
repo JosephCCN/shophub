@@ -9,6 +9,9 @@ DROP TABLE if exists product;
 DROP TABLE if exists cart;
 DROP TABLE if exists wishlist;
 DROP TABLE if exists review;
+DROP TABLE if exists noti;
+DROP TABLE if exists category;
+DROP TABLE if exists category_product;
 DROP SEQUENCE if exists history_order_id;
 
 CREATE SEQUENCE if not exists history_order_id
@@ -18,9 +21,14 @@ CREATE SEQUENCE if not exists history_order_id
 CREATE TABLE if not exists users(
     user_id serial PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL unique,
-    password VARCHAR(30) NOT NULL ,
+    password VARCHAR(30) NOT NULL,
+    contact varchar(30) NOT NULL DEFAULT 'N/A',
     is_admin boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT users_no_duplicate UNIQUE (user_id, username)
+);
+
+CREATE TABLE if not exists category_list(
+    tag VARCHAR(30) PRIMARY KEY NOT NULL
 );
 
 CREATE TABLE if not exists product(
@@ -30,7 +38,6 @@ CREATE TABLE if not exists product(
     info varchar(200),
     price DECIMAL(19, 1) NOT NULL,
     quantity integer CHECK (0 <= quantity),
-    category varchar(100),
     is_deleted boolean NOT NULL DEFAULT FALSE,
     CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
@@ -76,17 +83,31 @@ CREATE TABLE if not exists review(
 );
 
 CREATE TABLE if not exists noti(
-    product_id integer NOT NULL,
     user_id integer NOT NULL,
+    product_id integer NOT NULL,
     context varchar(400),
     create_at TIMESTAMP DEFAULT current_timestamp,
     CONSTRAINT noti_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id),
     CONSTRAINT noti_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
+CREATE TABLE if not exists category(
+    tag varchar(40),
+    product_id integer,
+    CONSTRAINT category_exist FOREIGN KEY (tag) REFERENCES category_list(tag),
+    CONSTRAINT cate_produt_id_exist FOREIGN KEY(product_id) REFERENCES product(product_id)
+);
+
+
+INSERT INTO category_list (tag) values ('Fashion'), ('Sports'), ('Accessories'), ('Health and Wellness'), ('Electronics and Gadgets'),
+('Toys and Games'), ('Stationery'), ('Music and Movies'), ('Luggage'), ('Grocery'), ('Food'), ('Wearables'), ('Pet Supplies'), ('Men'),
+('Women'), ('Underwear'), ('Kids'), ('Cosmetics and Skincare'), ('Music'), ('Greenery'), ('Personal Care'), ('Others');
 
 INSERT INTO users (username, password, is_admin) VALUES ('admin', 'admin', TRUE);
-insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
 
-insert into product (product_name, seller_id, info, quantity, price, category) values ('item1', 2,'oops', 10, 12.2, 'fuck');
-insert into product (product_name, seller_id, info, quantity, price, category) values ('item2', 2, 'hi', 1, 2.4, 'hell');
+insert into users (username, password, is_admin) values ('user1', 'a', FALSE);
+insert into product (product_name, seller_id, info, quantity, price) values ('item1', 2,'oops', 10, 12.2);
+insert into product (product_name, seller_id, info, quantity, price) values ('item2', 2, 'hi', 1, 2.4);
+insert into category values ('Fashion', 2);
+insert into category values ('Fashion', 1);
+insert into category values ('Sports', 1);

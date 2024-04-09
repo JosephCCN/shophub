@@ -21,6 +21,7 @@ function SpecificProduct() {
     const [sellerName, setSellerName] = useState('');
     const [product, setProduct] = useState([]);
     const [productimg, setProductImg] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
 

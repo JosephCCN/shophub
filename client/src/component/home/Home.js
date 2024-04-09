@@ -8,6 +8,7 @@ import Bar from '../search-bar/bar'
 import ListProduct from "../search-bar/list_product";
 import Recommendation from '../recommendation/recommendation';
 import ShowNotification from '../wishlist/notification';
+import AdvanceBar from '../search-bar/advance_bar';
 
 function Actual_home() {
   const [product_info, setProductInfo] = useState({});
@@ -21,6 +22,7 @@ function Actual_home() {
   var [profile, setprofile] = useState(0);
   var [gotoCart, setGoToCart] = useState(0);
   var [gotoWishlist, setgotoWishlist] = useState(0);
+  const [advance, setAdvance] = useState(false);
 
   const logout = () => {
     setLogout(1);
@@ -75,6 +77,12 @@ function Actual_home() {
       navigate(`/wishlist`)
   }, [gotoWishlist])
 
+
+  const handleAdvance = () => {
+    if(advance) setAdvance(false);
+    else setAdvance(true);
+  }
+
   return (
     <body>
       <nav className='header'>
@@ -104,9 +112,15 @@ function Actual_home() {
         </div>
       </nav>
       <div className='searching'>
-        <h1>Home Page</h1>
-        <Bar setSearched={setSearched} setProductInfo={setProductInfo}/> 
-        <br/>
+        <table>
+          <tr>
+            <td><h1>Home Page</h1></td>
+            <td>
+            {advance ? <AdvanceBar setSearched={setSearched} setProductInfo={setProductInfo}/>: <Bar setSearched={setSearched} setProductInfo={setProductInfo}/>}
+            </td>
+            <td><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
+          </tr>
+        </table>
       </div>
         {searched ? <ListProduct products={product_info}/> : <Recommendation userid={userid}/>}
         <ShowNotification userid={userid}/>

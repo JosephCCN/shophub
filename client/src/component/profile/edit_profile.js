@@ -27,6 +27,7 @@ function EditProfile() {
     const [username, setusername] = useState();
     const [password1, setpassword1] = useState();
     const [password2, setpassword2] = useState();
+    const [contact, setcontact] = useState();
 
     const handleeditprofile = async(e) =>{
         try{
@@ -36,7 +37,8 @@ function EditProfile() {
             const res = await axios.post('http://localhost:3030/edit_profile', {
                 'userid': userid,
                 'username': username,
-                'password': password1
+                'password': password1,
+                'contact': contact
             });
             navigate('/profile')
         }
@@ -66,6 +68,11 @@ function EditProfile() {
                     <td>Re-enter password:</td>
                     <td></td>
                     <td><input type="password" onChange={(e) => setpassword2(e.target.value)}/></td>
+                </tr>
+                <tr>
+                    <td>Contact:</td>
+                    <td>{originalprofile[0]['contact']}</td>
+                    <td><input type="text" onChange={(e) => setcontact(e.target.value)}/></td>
                 </tr>
             </table>
             </center>

@@ -2,11 +2,12 @@ import { useEffect, useInsertionEffect, useState } from "react"
 import {useNavigate, Navigate} from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import {LoadProductPhoto} from '../util/product'
+import {LoadProductCategory, LoadProductPhoto} from '../util/product'
 import {ShowSalesHistory} from '../history/history'
 
 function ProductInfoSource(prop){
     const cur_product = prop.cur_product
+    // console.log(cur_product)
     const [err, setErr] = useState('');
     //delete product
     var [deleteproduct, setdeleteproduct] = useState(0);
@@ -53,7 +54,8 @@ function ProductInfoSource(prop){
     const productid = cur_product['product_id']
     var list = []
     list.push(<p>{cur_product['product_id']}:</p>)
-    list.push(<p>name: {cur_product['product_name']}, price: {cur_product['price']}, quantity left: {cur_product['quantity']}, category: {cur_product['category']}</p>)   
+    list.push(<p>Name: {cur_product['product_name']}, Price: {cur_product['price']}, Stock: {cur_product['quantity']}</p>)
+    list.push(<LoadProductCategory productid={productid}/>)
     list.push(<LoadProductPhoto productid={productid}/>)
     list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
     list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
@@ -81,11 +83,11 @@ function ShowSellerProduct(props){
     else {
         var list = []
         var L = Object.keys(productlist).length;
+        if(L === 0) list.push(<p>No Product Selling! Click Add Product button to add product for sale!!</p>)
         for(var i=0;i<L;i++) {
             const cur = productlist[i];
             list.push(<ProductInfoSource cur_product={cur}/>)
         }
-        if(L === 0) list.push(<p>No Product Selling! Click Add Product button to add product for sale!!</p>)
         return list
     }
     
