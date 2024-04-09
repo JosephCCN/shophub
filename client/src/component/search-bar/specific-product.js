@@ -15,22 +15,27 @@ function SpecificProduct() {
     var [quantity, setQuantity] = useState(1);
     const [msg, setMsg] = useState('');
     var userid;
+    var isAdmin = false;
 
     const [isLoading, setisLoading] = useState(true);
     const [sellerName, setSellerName] = useState('');
     const [product, setProduct] = useState([]);
     const [productimg, setProductImg] = useState('');
-    const [description, setDescription] = useState('');
+    const [edit, setEdit] = useState(false);
 
     useEffect(() => {
 
         const fetch_product = async() => {
             try{
-                const entities = ['price', 'quantity', 'category']
-                const prefix = ['$', 'In Stock: ', 'Category: ']
+                cookies.set('productid', productID, {
+                    path: '/'
+                });
+                const result = await axios.get(`http://localhost:3030/product?productid=${productID}`)
+                const entities = ['price', 'quantity', 'category', 'info']
+                const prefix = ['$', 'In Stock: ', 'Category: ', 'Description: ']
                 setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
                 setProductImg(<LoadProductPhoto productid={productID}/>)
-                setSellerName(<Username userid={userid} prefix={['Sold by ']}/>)
+                setSellerName(<Username userid={result.data[0]['seller_id']} prefix={['Sold by ']}/>)
                 setisLoading(false);
             }
             catch(err){
@@ -39,16 +44,16 @@ function SpecificProduct() {
             }
         }
 
-        userid = cookies.get('userid');
-        if(!userid) {
-            navigate('/login')
-        }
-
         axios.get(`http://localhost:3030/product?productid=${productID}`)
         .then(res => {
             if(res.data.length == 0) {
                 navigate('/home');
             }
+            userid = cookies.get('userid');
+            if(!userid) {
+                navigate('/login')
+            }
+            if(cookies.get('admin')) isAdmin = true;
             fetch_product();
         })
         .catch(err => console.log(err))
@@ -60,6 +65,11 @@ function SpecificProduct() {
             navigate(-1);
         }
     }, [back])
+
+    useEffect(() => {
+        if(!edit) return;
+        navigate('/seller/edit_product')
+    }, [edit])
 
     if(isLoading) return <p>Loading...</p>
 
@@ -123,6 +133,11 @@ function SpecificProduct() {
         .catch(err => console.log('error', err))
     }
 
+    const GoToEditProduct = () => {
+        setEdit(true);
+    }
+    
+
     return (
         <div>
             <button onClick={goBack}>Back</button>
@@ -130,12 +145,13 @@ function SpecificProduct() {
             {productimg}
             {sellerName}
             {product}
-            <label>Quantity</label>
+            <button onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>-</button>
             <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-            <button onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>Add</button>
-            <button onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>Delete</button><br/>
+            <button onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>+</button>
+            <br/>
             <button onClick={addToShoppingCart}>Add to Shopping Cart</button>
             <button onClick={addToWishlist}>Add to Wishlist</button>
+            {isAdmin ? <button onClick={GoToEditProduct}>Edit Product</button> : <></>}
             <p>{msg}</p>
             <Reviews productID={productID}/>
         </div>
