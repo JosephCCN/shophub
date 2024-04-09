@@ -79,12 +79,11 @@ function Profile() {
     if(userid == profile_userid){       //viewing own profile
         return (
             <div className='profile'>
-                <h1>Profile Page</h1>
-                <h2>Profile</h2>
+                <h1>Shophub</h1>
+                <h2>Profile<button onClick={() => gotoeditprofile()}>Edit</button></h2>
                 <ShowProfile userid={userid}/>
-                <button onClick={() => gotoeditprofile()}>Edit Profile</button>
-                <br/>
                 <button onClick={goBack}>Back</button>
+                <br/>
                 <h1>Order History:</h1>
                 <ShowOrderHistory userid={userid} top={top}/>
             </div>

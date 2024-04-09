@@ -52,7 +52,8 @@ function EditProfile() {
     if(isLoading) return <p>Loading...</p>;
     return (
         <div className='edit_profile'>
-            <h1>Edit Profile Page</h1>
+            <h1>Shophub</h1>
+            <h2>Edit</h2>
             <center>
             <table>
                 <tr>

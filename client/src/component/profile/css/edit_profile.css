@@ -4,13 +4,21 @@
     font-size: 35px;
 }
 
+.edit_profile>h2{
+    color: rgb(233, 138,35);
+    text-align: left;
+    margin-left: 25%;
+    font-size: 25px;
+}
+
 .edit_profile>center>table{
     width: 50%;
+    text-align: left;
 }
 
 .edit_profile>button{
-    width: 10%;
-    background-color: rgb(233, 138,35);
+    width: 5%;
+    background-color: rgb(233, 138, 35);
     color: white;
     border: none;
     border-radius: 4px;
