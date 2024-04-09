@@ -57,7 +57,10 @@ export function Search() {
             <PageHeader/>
             <SearchBar advance={false}/>
             <ListProduct products={products}/>
-            <ShowNotifcation userid={userid}/>
+            <div className='notice'>
+                <p>Notification</p>
+                <ShowNotifcation userid={userid}/>
+            </div> 
         </body>
     )
 }
@@ -102,7 +105,10 @@ export function AdvSearch() {
             <PageHeader/>
             <SearchBar advance={true}/>
             <ListProduct products={products}/>
-            <ShowNotifcation userid={userid}/>
+            <div className='notice'>
+                <p>Notification</p>
+                <ShowNotifcation userid={userid}/>
+            </div> 
         </body>
     )
 }

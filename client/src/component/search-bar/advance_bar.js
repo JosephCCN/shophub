@@ -17,7 +17,6 @@ function AdvanceBar(props) {
 
 
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [removedOptions, setRemovedOptions] = useState([]);
 
     const onSelectOptions = (selectedList, selectedItem) => {
         setSelectedOptions(selectedList);    

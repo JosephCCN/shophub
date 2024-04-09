@@ -19,9 +19,10 @@ function ListProduct(props) {
         const prefix = ['', '$']
         
         list.push(
-            <div className='product_list'>
-            <LoadProductPhoto productid={cur_product_id}/>,
-            <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
+            <div classname='product_list'>
+                <LoadProductPhoto productid={cur_product_id}/>
+                <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
+            </div>
         );
     }
     

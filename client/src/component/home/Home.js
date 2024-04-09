@@ -10,7 +10,6 @@ import ShowNotification from '../wishlist/notification';
 import PageHeader, { SearchBar } from '../util/miss';
 
 function Actual_home() {
-
   const cookies = new Cookies();
   const userid = cookies.get('userid');
 
@@ -19,8 +18,10 @@ function Actual_home() {
         <PageHeader/>
         <SearchBar/>
         <Recommendation userid={userid}/>
-        <ShowNotification userid={userid}/>
-      
+        <div className='notice'>
+          <p>Notification</p>
+          <ShowNotification userid={userid}/>
+        </div>  
     </body>
   )
 }

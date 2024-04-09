@@ -166,21 +166,6 @@ function SpecificProduct() {
 
     return (
         <div className="specific_product">
-            <p>{product['info']}</p>
-            {productimg}
-            {sellerName}
-            {product}
-            {productCat}
-            <button onClick={handleQuantityDecrease}>-</button>
-            <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-            <button onClick={handleQuantityIncrease}>+</button>
-            <br/>
-            <button onClick={addToShoppingCart}>Add to Shopping Cart</button>
-            <button onClick={addToWishlist}>Add to Wishlist</button>
-            {isAdmin ? <button onClick={GoToEditProduct}>Edit Product</button> : <></>}
-            <p>{msg}</p>
-            {cat}
-            <Reviews productID={productID}/>
             <div className="s_img">{productimg}</div>
             <div className="s_dec">
                 <p>{sellerName}</p>
@@ -189,8 +174,8 @@ function SpecificProduct() {
                 <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
                 <br/>
                 <br/>
-                <button className="s_add" onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>Add</button>
-                <button className="s_add" onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>Delete</button>
+                <button className="s_add" onClick={handleQuantityDecrease}>-</button>
+                <button className="s_add" onClick={handleQuantityIncrease}>+</button>
                 <br/>
                 <br/>
                 <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>

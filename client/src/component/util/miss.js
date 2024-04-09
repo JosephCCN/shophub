@@ -142,10 +142,11 @@ export function SearchBar(props) {
     <div className='searching'>
         <table>
           <tr>
+            <td><h1>Home Page</h1></td>
+            <td className="ad_search"><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
             <td>
             {advance ? <AdvanceBar/>: <Bar/>}
-            </td>
-            <td><input type="checkbox" checked={advance} onChange={handleAdvance}/> advance</td>
+            </td> 
           </tr>
         </table>
       </div>
