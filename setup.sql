@@ -39,7 +39,7 @@ CREATE TABLE if not exists product(
     price DECIMAL(19, 1) NOT NULL,
     quantity integer CHECK (0 <= quantity),
     is_deleted boolean NOT NULL DEFAULT FALSE,
-    CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id)
+    CONSTRAINT product_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id) on delete CASCADE
 );
 
 CREATE TABLE if not exists history(
@@ -50,9 +50,9 @@ CREATE TABLE if not exists history(
     order_date timestamp NOT NULL DEFAULT current_timestamp,
     quantity integer NOT NULL CHECK (1 <= quantity),
     price DECIMAL(19, 1) NOT NULL,
-    CONSTRAINT history_buyer_id_exist FOREIGN KEY (buyer_id) REFERENCES users(user_id),
-    CONSTRAINT history_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id),
-    CONSTRAINT history_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id)
+    CONSTRAINT history_buyer_id_exist FOREIGN KEY (buyer_id) REFERENCES users(user_id) on delete CASCADE,
+    CONSTRAINT history_seller_id_exist FOREIGN KEY (seller_id) REFERENCES users(user_id) on delete CASCADE,
+    CONSTRAINT history_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id) on delete CASCADE
 );
 
 CREATE TABLE if not exists cart(
@@ -60,16 +60,16 @@ CREATE TABLE if not exists cart(
     user_id integer NOT NULL,
     quantity integer NOT NULL,
     CONSTRAINT cart_no_duplicate UNIQUE (user_id, product_id),
-    CONSTRAINT cart_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
-    CONSTRAINT cart_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
+    CONSTRAINT cart_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id) on delete CASCADE,
+    CONSTRAINT cart_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id) on delete CASCADE
 );
 
 CREATE TABLE if not exists wishlist(
     product_id integer NOT NULL,
     user_id integer NOT NULL,
     CONSTRAINT wishlist_no_duplicate UNIQUE (user_id, product_id),
-    CONSTRAINT wishlist_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
-    CONSTRAINT wishlist_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
+    CONSTRAINT wishlist_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id) on delete CASCADE,
+    CONSTRAINT wishlist_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id) on delete CASCADE
 );
 
 CREATE TABLE if not exists review(
@@ -78,8 +78,8 @@ CREATE TABLE if not exists review(
     context varchar(400),
     rating integer CHECK (1 <= rating and rating <= 5),
     CONSTRAINT review_no_duplicate UNIQUE (user_id, product_id),
-    CONSTRAINT review_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id),
-    CONSTRAINT review_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id)
+    CONSTRAINT review_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id) on delete CASCADE,
+    CONSTRAINT review_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id) on delete CASCADE
 );
 
 CREATE TABLE if not exists noti(
@@ -87,15 +87,15 @@ CREATE TABLE if not exists noti(
     product_id integer NOT NULL,
     context varchar(400),
     create_at TIMESTAMP DEFAULT current_timestamp,
-    CONSTRAINT noti_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CONSTRAINT noti_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id)
+    CONSTRAINT noti_user_id_exist FOREIGN KEY (user_id) REFERENCES users(user_id) on delete CASCADE,
+    CONSTRAINT noti_product_id_exist FOREIGN KEY (product_id) REFERENCES product(product_id) on delete CASCADE
 );
 
 CREATE TABLE if not exists category(
     tag varchar(40),
     product_id integer,
     CONSTRAINT category_exist FOREIGN KEY (tag) REFERENCES category_list(tag),
-    CONSTRAINT cate_produt_id_exist FOREIGN KEY(product_id) REFERENCES product(product_id)
+    CONSTRAINT cate_produt_id_exist FOREIGN KEY(product_id) REFERENCES product(product_id) on delete CASCADE
 );
 
 

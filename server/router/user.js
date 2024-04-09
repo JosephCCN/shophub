@@ -36,4 +36,28 @@ router.get('/username', async(req, res) => {
     res.json(result.rows);
 })
 
+router.get('/delete_user', async(req, res) => {
+    const userid = req.query.userid;
+    try{
+        result = await db.query(`delete from users where user_id=${userid}`);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+    res.json({'success': 1});
+})
+
+router.get('/admin', async(req, res) => {
+    const userid = req.query.userid;
+    try{
+        result = await db.query(`select is_admin from users where user_id=${userid}`);
+        res.json(result.rows[0]['is_admin']);
+    }
+    catch(err) {
+        res.json({'err': err});
+        return;
+    }
+})
+
 module.exports = router;

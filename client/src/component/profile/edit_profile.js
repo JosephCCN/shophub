@@ -12,6 +12,7 @@ function EditProfile() {
     const [isLoading, setLoading] = useState(true);
     const [err, setErr] = useState();
     const [originalprofile, setoriginalprofile] = useState([]);
+    const [back, setBack] = useState(false);
 
     const [username, setusername] = useState();
     const [password1, setpassword1] = useState();
@@ -31,6 +32,11 @@ function EditProfile() {
         fetch();
     }, [])
 
+    useEffect(() => {
+        if(!back) return;
+        navigate(-1);
+    }, [back])
+
     
 
     const handleeditprofile = async(e) =>{
@@ -45,7 +51,7 @@ function EditProfile() {
                 'contact': contact
             });
             if(res.data['username_exist']) setErr('username already exist');
-            else navigate('/profile')
+            else navigate(-1)
         }
         catch(err){
             setErr(err)
@@ -57,6 +63,7 @@ function EditProfile() {
 
     return (
         <div>
+            <button onClick={() => setBack(true)}>Back</button>
             <h1>Edit Profile Page</h1>
             <center>
             <table>

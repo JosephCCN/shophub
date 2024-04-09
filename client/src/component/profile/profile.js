@@ -14,6 +14,7 @@ function ProfileInfoSource(infolist){
         list.push(<tr><td>Password:</td> <td>{cur['password']}</td></tr>)
         list.push(<tr><td>Contact:</td> <td>{cur['contact']}</td></tr>)
     }
+    list.push(<tr><td></td></tr>)
     return <center><table>{list}</table></center>
 }
 
@@ -46,6 +47,7 @@ function Profile() {
     var {profile_userid} = useParams();
     const [isLoading, setisLoading] = useState(true)
     const [isAdmin, setAdmin] = useState(false);
+    const [profileAdmin, setProfileAdmin] = useState(false);
 
     useEffect(() =>{
         const tmp = cookies.get('userid');
@@ -53,6 +55,12 @@ function Profile() {
         if(cookies.get('admin')) {
             setAdmin(true);
         }
+        axios.get(`http://localhost:3030/admin?userid=${profile_userid}`)
+        .then(res => {
+            if(res.data['err']) console.log(res.data['err'])
+            setProfileAdmin(res.data);
+        })
+        .catch(err => console.log(err))
         setuserid(tmp);
         setisLoading(false)
     }, [])
@@ -72,23 +80,37 @@ function Profile() {
     useEffect(() => {
         if(back) {
             back = false;
-            navigate('/home');
+            navigate(-1);
         }
     }, [back])
     const goBack = () => {
         setBack(true);
     }
+
     if(isLoading) return <p>Loading...</p>
 
     if(!profile_userid) profile_userid = userid
 
+    const handleDeleteUser = () => {
+        axios.get(`http://localhost:3030/delete_user?userid=${profile_userid}`)
+        .then(res => {
+            if(res.data['err']) {
+                console.log(res.data['err']);
+                return;
+            }
+            navigate(-1);
+        })
+        .catch(err => console.log(err))
+    }
+
     return (
         <div>
-            <button onClick={goBack}>Home</button>
+            <button onClick={goBack}>Back</button>
             <h1>Profile Page</h1>
             <h2>Profile</h2>
             {(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit Profile</button> : <></>}
             <ShowProfile userid={profile_userid}/>
+            {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}
             <h1>Order History:</h1>
             <ShowOrderHistory userid={profile_userid} top={top}/>
         </div>
