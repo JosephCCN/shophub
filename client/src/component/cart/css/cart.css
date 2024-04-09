@@ -12,7 +12,7 @@
     color: rgb(246, 153, 53);
     font-weight: bold;
     margin: 10px;
-    float: left;
+    float: right;
     width: 140px;
     height: 50px;
     border: none;
@@ -32,58 +32,88 @@
 }
 
 .cart_content{
-    border: 1px solid;
+    /*border: 1px solid;*/
 }
 
 .cart_content div.cart_img img{
-    min-width: 250px;
-    min-height: 250px;
-    max-width: 250px;
-    max-height: 250px;
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
     padding-left: 60px;
     padding-top: 60px;
     float: left;
+    /*border: 1px solid black;*/
+}
+.cart_info{
+    /*border: 1px solid;*/
+    float: left;
+    width: 800px;
+    height: 210px;
 }
 
-.cart_content p{
-    text-align: center;
+
+.cart_info p{
+    text-align:left;
+    font-size: 20px;
 }
 
-.cart_content button.cart_button1{
+.cart_select{
+    float: left;
+    border: 1px none;
+    height: 210px;
+    width: 30%;
+}
+
+
+.cart_select button.cart_button1{
     background-color: rgb(246, 153, 53);
-    float: unset;
+    float: right;
     margin: 10px;
+    width: 180px;
+    height: 70px;
     border: none;
     margin-top: 20px;
-    width: 140px;
-    height: 50px;
     border-radius: 10px;
     cursor: pointer;
+    font-size: 18px;
 }
 
-.cart_content button.cart_button2{
+.cart_select button.cart_button2{
     background-color: rgb(246, 153, 53);
-    float: unset;
+    float: right;
     margin: 10px;
     border: none;
-    width: 140px;
-    height: 50px;
+    width: 180px;
+    height: 70px;
     border-radius: 10px;
     cursor: pointer;
+    font-size: 18px;
 }
 
 .cart_quantity_input{
     width: 40px;
     height: 27px;
     border: none;
+    margin-top: 80px;
 }
 
 .cart_add_btn{
-    margin-top: 10px;
-    background-color: rgb(246, 153, 53);
+    margin-top: 40px;
+    background-color: rgb(255, 50, 50);
     width: 40px;
     height: 27px;
     border: none;
-    font-size: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.cart_min_btn{
+    margin-top: 40px;
+    background-color: rgb(97, 249, 27);
+    width: 40px;
+    height: 27px;
+    border: none;
+    font-size: 18px;
     cursor: pointer;
 }
