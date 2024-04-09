@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef} from "react";
 import Multiselect from 'multiselect-react-dropdown';
 import axios from 'axios'
+import "./css/advance_bar.css";
 
 function AdvanceBar(props) {
     const [isLoading, setisLoading] = useState(true);
@@ -68,7 +69,7 @@ function AdvanceBar(props) {
         .catch(err => console.log(err))
     }
     return (
-        <div>
+        <div className="advance_bar">
             <table>
                 <tr>
                     <td>Price Range</td>
@@ -90,9 +91,9 @@ function AdvanceBar(props) {
                             selectionLimit={5}
                             />
                     </td>
+                    <td><button onClick={search}>Search</button></td>
                 </tr>
                 <tr>
-                    <td><button onClick={search}>Search</button></td>
                 </tr>
             </table>
         </div>

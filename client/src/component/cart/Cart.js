@@ -120,10 +120,10 @@ function CartProduct(props) {
       <div className="cart_img">
         <LoadProductPhoto productid={cur['product_id']}/>
       </div>
-      <p>ID: {cur['product_id']}</p>
-      <p>Name: {product['product_name']}</p>
+      <p><b>{product['product_name']}</b></p>
+      <p>{product['info']}</p>
       <p>Price: {product['price']}</p>
-      <p>Left: {product['quantity']}</p>
+      <p>Stock: {product['quantity']}</p>
       {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
       {notEnough ? <br/>: <></>}
       <button className="cart_add_btn" onClick={handleQuantityDecrease}>-</button>

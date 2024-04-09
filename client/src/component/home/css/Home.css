@@ -16,7 +16,7 @@ body{
 }
 
 .header{
-  background-color: rgb(233, 138, 35);
+  background-color: black;
   border: 0;
   height: 75px;
   padding-top: 0px;
@@ -67,8 +67,8 @@ body{
 }
 
 .hometopright button{
-  background-color: rgb(233, 138, 35);
-  color: rgb(0, 0, 0);
+  background-color: black;
+  color: rgb(233, 138, 35);
   padding: 5px;
   font-size: 16px;
   border: none;
@@ -76,18 +76,22 @@ body{
 }
 
 .searching{
-  background-color: black;
+  background-color: rgb(233, 138, 35);
   border: 0;
   margin-top: 0%;
   padding-top: 0px;
   height: 80px;
   /*margin-top: -22px;*/
-  color: rgb(233, 138, 35);
+  color: black;
 }
 
 .searching h1{
   float: left;
   margin-left: 20px;
+}
+
+.searching td.ad_search{
+  padding-left: 30px;
 }
 /*.home-logo{
   background: url(./home_icon2.jpg) no-repeat center;

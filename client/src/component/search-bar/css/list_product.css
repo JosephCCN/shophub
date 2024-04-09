@@ -15,3 +15,8 @@
     max-width: 150px;
     max-height: 150px;
 }
+
+.product_result{
+    border: 1px solid black;
+    position: absolute;
+}

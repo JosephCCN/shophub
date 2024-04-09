@@ -19,7 +19,7 @@ function ListProduct(props) {
         );
     }
     return (
-        <div>
+        <div className='product_result'>
             {list}
         </div>
     )
