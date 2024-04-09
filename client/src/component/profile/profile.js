@@ -1,3 +1,4 @@
+import './css/profile.css';
 import { useParams, Navigate, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
@@ -77,12 +78,13 @@ function Profile() {
 
     if(userid == profile_userid){       //viewing own profile
         return (
-            <div>
-                <button onClick={goBack}>Back</button>
+            <div className='profile'>
                 <h1>Profile Page</h1>
                 <h2>Profile</h2>
-                <button onClick={() => gotoeditprofile()}>Edit Profile</button>
                 <ShowProfile userid={userid}/>
+                <button onClick={() => gotoeditprofile()}>Edit Profile</button>
+                <br/>
+                <button onClick={goBack}>Back</button>
                 <h1>Order History:</h1>
                 <ShowOrderHistory userid={userid} top={top}/>
             </div>
