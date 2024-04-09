@@ -1,34 +1,42 @@
 .register{
     background-color: black;
-    padding-bottom: 5.8%;
+    padding-bottom: 4.5%;
 }
 
 .register>p{
     text-align: center;
-    font-size: 30px;
-    color: orange;
+    font-size: 35px;
+    color: rgb(233, 138, 35);
 }
 
 .register>div{
     text-align: center;
     margin: auto;
-    margin-top: 7.5%;
-    border-radius: 50px;
-    padding: 30px;
-    height: 340px;
+    margin-top: 5%;
+    border-radius: 15px;
+    padding: 3px 25px 3px 25px;
+    height: 440px;
     width: 230px;
-    background-color: orange;
+    background-color: rgb(233, 138, 35);
 }
   
+.register>div>h1{
+    text-align: left;
+    font-size: 25px;
+    color: black;
+}
+
 .register>div>label{
-    text-align: center;
+    display: inline-block;
+    width: 230px;
+    text-align: left;
     color: black;
 }
   
 .register>div>input{
     width: 100%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 8px 0px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -40,7 +48,7 @@
     background-color: #119ec9;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 8px 0px;
     border: none;
     border-radius: 4px;
     cursor: pointer;

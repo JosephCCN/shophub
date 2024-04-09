@@ -64,8 +64,9 @@ function Login() {
     return (
       <body className='login'>
         <br/>
-        <p>Login page</p>
+        <p>Shophub</p>
         <div>
+          <h1>Login</h1>
           <label>Username</label>
           <br/>
           <input type="text" onChange={(e) => setUsername(e.target.value)}/>

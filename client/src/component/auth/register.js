@@ -66,8 +66,9 @@ function Reg() {
     return (
       <body className='register'>
       <br/>
-      <p>Registration</p>
+      <p>Shophub</p>
       <div>
+        <h1>Registration</h1>
         <label>Username</label>
         <br/>
         <input type="text" onChange={(e) => setUsername(e.target.value)}/>

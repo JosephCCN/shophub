@@ -1,3 +1,4 @@
+import './css/edit_profile.css';
 import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
@@ -62,7 +63,7 @@ function EditProfile() {
     if(isLoading) return <p>Loading...</p>;
 
     return (
-        <div>
+        <div className='edit_profile'>
             <button onClick={() => setBack(true)}>Back</button>
             <h1>Edit Profile Page</h1>
             <center>
