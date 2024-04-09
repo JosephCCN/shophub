@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState } from "react";
 import  { LoadProductPhoto, LoadProduct } from "../util/product";
 import "./css/wishlist.css";
+import PageHeader from "../util/miss"
 
 function FetchWishlistPageSource(prop){
     const cookies = new Cookies();
@@ -122,13 +123,16 @@ function Wishlist(){
         list.push(<FetchWishlistPageSource cur_product={cur_product}/>)
     }
     return (
-        <div className="wishlist">
-        <h1>Wishlist</h1>
-        <div className="wishlist_content">
-            {list}
-        </div>
-        <button className="wishlist_back" onClick={goBack}>Back</button>
-        </div>
+        <body>
+            <PageHeader/>
+            <div className="wishlist">
+            <h1>Wishlist</h1>
+            <div className="wishlist_content">
+                {list}
+            </div>
+            <button className="wishlist_back" onClick={goBack}>Back</button>
+            </div>
+        </body>
     )
 
 }

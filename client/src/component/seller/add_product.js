@@ -3,6 +3,7 @@ import {useState, useEffect, useRef} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown';
+import PageHeader from '../util/miss';
 var FormData = require('form-data')
 
 function AddProduct(props) {
@@ -91,32 +92,35 @@ function AddProduct(props) {
 
     if(isLoading) return <p>Loading</p>;
     return (
-        <div>
-            <button onClick={goBack}>Back</button>
-            <h1>Add Product Page</h1>
-            <label>Product Name:</label><input type="text" onChange={(e) => setproductname(e.target.value)}/>
-            <br/>
-            <label>Product Info:</label><input type="text" onChange={(e) => setproductinfo(e.target.value)}/>
-            <br/>
-            <label>Quantity:</label><input type="text" onChange={(e) => setquantity(e.target.value)}/>
-            <br/>
-            <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
-            <br/>
-            <label>Category: (at most 5)</label><Multiselect
-                options={categorylist}
-                name="particulars"
-                displayValue='name'
-                closeIcon='cancel'
-                onSelect={onSelectOptions}
-                onRemove={onRemoveOptions}
-                selectedValues={''}
-                selectionLimit={5}
-                />
-            <br/>
-            <label>Producat Image:</label><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input>
-            <br/>
-            <button type="submit" onClick={handleaddproduct}> Add Product</button>
-        </div>
+        <body>
+            <PageHeader/>
+            <div>
+                <button onClick={goBack}>Back</button>
+                <h1>Add Product Page</h1>
+                <label>Product Name:</label><input type="text" onChange={(e) => setproductname(e.target.value)}/>
+                <br/>
+                <label>Product Info:</label><input type="text" onChange={(e) => setproductinfo(e.target.value)}/>
+                <br/>
+                <label>Quantity:</label><input type="text" onChange={(e) => setquantity(e.target.value)}/>
+                <br/>
+                <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
+                <br/>
+                <label>Category: (at most 5)</label><Multiselect
+                    options={categorylist}
+                    name="particulars"
+                    displayValue='name'
+                    closeIcon='cancel'
+                    onSelect={onSelectOptions}
+                    onRemove={onRemoveOptions}
+                    selectedValues={''}
+                    selectionLimit={5}
+                    />
+                <br/>
+                <label>Producat Image:</label><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input>
+                <br/>
+                <button type="submit" onClick={handleaddproduct}> Add Product</button>
+            </div>
+        </body>
     )
     
 }

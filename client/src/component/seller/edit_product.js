@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown';
 import LoadProductPhoto from '../util/product'
+import PageHeader from '../util/miss';
 
 function EditProduct(prop) {
     const cookies = new Cookies();
@@ -106,53 +107,56 @@ function EditProduct(prop) {
     if(isLoading) return <p>Loading...</p>;
     console.log(categorylist, 1)
     return (
-        <div>
-            <button onClick={goBack}>Back</button>
-            <h1>Edit Product Page</h1>
-            <center>
-            <table>
-                <tr>
-                    <td><label>Product Name:</label></td>
-                    <td><label>{product[0]['product_name']}</label></td>
-                    <td><input type="text" onChange={(e) => setproductname(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td><label>Product Info:</label></td>
-                    <td><label>{product[0]['info']}</label></td>
-                    <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td><label>Quantity:</label></td>
-                    <td><label>{product[0]['quantity']}</label></td>
-                    <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td><label>Price:</label></td>
-                    <td><label>{product[0]['price']}</label></td>
-                    <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td><label>Category:</label></td>
-                    <td><label>{product[0]['category']}</label></td>
-                    <td><Multiselect
-                            options={categorylist}
-                            name="particulars"
-                            displayValue='name'
-                            closeIcon='cancel'
-                            onSelect={onSelectOptions}
-                            onRemove={onRemoveOptions}
-                            selectedValues={''}
-                            selectionLimit={5}/></td>
-                </tr>
-                <tr>
-                    <td><label>Producat Image:</label></td>
-                    {img_source}
-                    <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
-                </tr>
-            </table>
-            </center>
-            <button type="submit" onClick={handleeditproduct}>Save</button>
-        </div>
+        <body>
+            <PageHeader/>
+            <div>
+                <button onClick={goBack}>Back</button>
+                <h1>Edit Product Page</h1>
+                <center>
+                <table>
+                    <tr>
+                        <td><label>Product Name:</label></td>
+                        <td><label>{product[0]['product_name']}</label></td>
+                        <td><input type="text" onChange={(e) => setproductname(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Product Info:</label></td>
+                        <td><label>{product[0]['info']}</label></td>
+                        <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Quantity:</label></td>
+                        <td><label>{product[0]['quantity']}</label></td>
+                        <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Price:</label></td>
+                        <td><label>{product[0]['price']}</label></td>
+                        <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Category:</label></td>
+                        <td><label>{product[0]['category']}</label></td>
+                        <td><Multiselect
+                                options={categorylist}
+                                name="particulars"
+                                displayValue='name'
+                                closeIcon='cancel'
+                                onSelect={onSelectOptions}
+                                onRemove={onRemoveOptions}
+                                selectedValues={''}
+                                selectionLimit={5}/></td>
+                    </tr>
+                    <tr>
+                        <td><label>Producat Image:</label></td>
+                        {img_source}
+                        <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
+                    </tr>
+                </table>
+                </center>
+                <button type="submit" onClick={handleeditproduct}>Save</button>
+            </div>
+        </body>
     )
     
 }

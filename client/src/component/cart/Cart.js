@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import LoadProductPhoto from "../util/product";
+import PageHeader from "../util/miss";
 import "./css/cart.css";
 
 function CartProduct(props) {
@@ -204,11 +205,14 @@ function Cart(){
 
   if(L == 0) {
     return (
+      <body>
+      <PageHeader/>
       <div className="cart">
-      <h1>Shopping Cart</h1>
-      <p>You have no item in Cart!</p>
-      <button className="cart_back" onClick={goBack}>Back</button>
-    </div>
+        <h1>Shopping Cart</h1>
+        <p>You have no item in Cart!</p>
+      < button className="cart_back" onClick={goBack}>Back</button>
+      </div>
+    </body>
     )
   }
 
@@ -218,12 +222,15 @@ function Cart(){
   }
 
   return (
-    <div className="cart">
-      <h1>Shopping Cart</h1>
-      {cartList}
-      <button className="cart_pay" onClick={payment}>Payment</button>
-      <button className="cart_back" onClick={goBack}>Back</button>
-    </div>
+    <body>
+      <PageHeader/>
+      <div className="cart">
+        <h1>Shopping Cart</h1>
+        {cartList}
+        <button className="cart_pay" onClick={payment}>Payment</button>
+        <button className="cart_back" onClick={goBack}>Back</button>
+      </div>
+    </body>
   )
   
 };

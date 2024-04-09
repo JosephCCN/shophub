@@ -3,6 +3,7 @@ import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import PageHeader from '../util/miss'
 
 function EditProfile() {
     const cookies = new Cookies();
@@ -63,36 +64,39 @@ function EditProfile() {
     if(isLoading) return <p>Loading...</p>;
 
     return (
-        <div className='edit_profile'>
-            <h1>Shophub</h1>
-            <h2>Edit</h2>
-            <center>
-            <table>
-                <tr>
-                    <td>Username:</td>
-                    <td>{originalprofile[0]['username']}</td>
-                    <td><input type="text" onChange={(e) => setusername(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td>{originalprofile[0]['password']}</td>
-                    <td><input type="password" onChange={(e) => setpassword1(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td>Re-enter password:</td>
-                    <td></td>
-                    <td><input type="password" onChange={(e) => setpassword2(e.target.value)}/></td>
-                </tr>
-                <tr>
-                    <td>Contact:</td>
-                    <td>{originalprofile[0]['contact']}</td>
-                    <td><input type="text" onChange={(e) => setcontact(e.target.value)}/></td>
-                </tr>
-            </table>
-            </center>
-            <button type="submit" onClick={handleeditprofile}>Save</button>
-            <button onClick={() => setBack(true)}>Back</button>
-        </div>
+        <body>
+            <PageHeader/>
+            <div className='edit_profile'>
+                <h1>Shophub</h1>
+                <h2>Edit</h2>
+                <center>
+                <table>
+                    <tr>
+                        <td>Username:</td>
+                        <td>{originalprofile[0]['username']}</td>
+                        <td><input type="text" onChange={(e) => setusername(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td>{originalprofile[0]['password']}</td>
+                        <td><input type="password" onChange={(e) => setpassword1(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td>Re-enter password:</td>
+                        <td></td>
+                        <td><input type="password" onChange={(e) => setpassword2(e.target.value)}/></td>
+                    </tr>
+                    <tr>
+                        <td>Contact:</td>
+                        <td>{originalprofile[0]['contact']}</td>
+                        <td><input type="text" onChange={(e) => setcontact(e.target.value)}/></td>
+                    </tr>
+                </table>
+                </center>
+                <button type="submit" onClick={handleeditprofile}>Save</button>
+                <button onClick={() => setBack(true)}>Back</button>
+            </div>
+        </body>
     )
 
 }
