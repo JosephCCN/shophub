@@ -8,6 +8,28 @@
     cursor: pointer;
 }
 
+.add_product>button:hover{
+    border-style: inset;
+    border-width: medium;
+    border-color: black;
+}
+
 .add_product>center>table>tr>td{
     height: 40px;
+}
+
+.add_product>center>table{
+    font-size: 18px;
+}
+
+.add_product>center>table td:first-child{
+    width: 200px;
+}
+
+.add_product>center>table td:nth-child(2){
+    width: 200px;
+}
+
+.multiselect_dropdown {
+    width: 200px;
 }

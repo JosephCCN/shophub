@@ -8,6 +8,24 @@
     cursor: pointer;
 }
 
+.edit_product>button:hover{
+    border-style: inset;
+    border-width: medium;
+    border-color: black;
+}
+
 .edit_product>center>table>tr>td{
     height: 40px;
+}
+
+.edit_product>center>table td:first-child{
+    width: 150px;
+}
+
+.edit_product>center>table td:nth-child(2){
+    width: 200px;
+}
+
+.edit_product>center>table td:nth-child(3){
+    width: 200px;
 }

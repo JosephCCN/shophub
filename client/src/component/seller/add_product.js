@@ -119,10 +119,9 @@ function AddProduct(props) {
                             <td><label>Product Image:</label></td>
                             <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input></td>
                         </tr>
-                    </table>
-                </center>
-                <br/>
-                <label>Category: (at most 5)</label><Multiselect
+                        <tr>
+                            <td><label>Category: (at most 5)</label></td>
+                            <td><Multiselect className="multiselect_dropdown"
                                                     options={categorylist}
                                                     name="particulars"
                                                     displayValue='name'
@@ -131,11 +130,16 @@ function AddProduct(props) {
                                                     onRemove={onRemoveOptions}
                                                     selectedValues={''}
                                                     selectionLimit={5}
-                                                    />
+                                                    /></td>
+                        </tr>
+                    </table>
+                </center>
+                <br/>
+                
                 <br/>
                 <button type="submit" onClick={handleaddproduct}>Add Product</button>
-                <button onClick={goBack}>Back</button>
             </div>
+            <button onClick={goBack}>Back</button>
         </body>
     )
     
