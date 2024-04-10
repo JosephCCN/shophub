@@ -250,7 +250,10 @@ function Cart(){
       <div className="cart">
         <h1>Shopping Cart</h1>
         {cartList}
-        <p><b>Total: {totalPrice}</b></p>
+        <br/>
+        <div className="total_price">
+          <p><b>Total: {totalPrice}</b></p>
+        </div>
         <button className="cart_pay" onClick={payment}>Payment</button>
         <button className="cart_back" onClick={goBack}>Back</button>
       </div>
