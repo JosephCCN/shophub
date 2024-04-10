@@ -115,13 +115,13 @@ function Wishlist(){
     const L = Object.keys(wishlist).length;
     var list = []
     if(L === 0){
-        list.push(<p>Wishlist is empty! Please add product into wishlist</p>)
+        list.push(<p style={{'text-align': 'center'}}>Wishlist is empty! Please add product into wishlist</p>)
     }
     for(var i=0;i<L;i++){
         const cur_product = wishlist[i]
         list.push(<tr><td><FetchWishlistPageSource cur_product={cur_product}/></td></tr>)
     }
-    const tmp = <table>{list}</table>
+    const tmp = <center><table>{list}</table></center>
     return (
         <body>
             <PageHeader/>

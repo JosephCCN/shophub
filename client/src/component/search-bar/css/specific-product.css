@@ -2,6 +2,15 @@
     /* border: 2px solid black; */
 }
 
+.product_header{
+    background-color: rgb(233, 138, 35);
+    margin: 0;
+    text-align: left;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
 .specific_product div.s_img{
     /* border: 1px solid hsl(36, 100%, 53%); */
     margin: 20px;
@@ -23,6 +32,12 @@
     margin-top: 30px;
     width: 400px;
     height: 400px;
+}
+
+.specific_product div.s_dec:hover{
+    border-style: double;
+    border-width: medium;
+    background-color:blanchedalmond;
 }
 
 .specific_product div.s_dec>p{

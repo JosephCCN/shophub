@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import Reviews from "../review/reviews";
 import {LoadProductPhoto, LoadProduct, LoadProductCategory} from "../util/product";
 import {Username} from "../util/user";
+import PageHeader from "../util/miss";
 import "./css/specific-product.css";
 
 
@@ -49,7 +50,7 @@ function SpecificProduct() {
                 path: '/'
             });
             const entities = ['price', 'quantity', 'product_id']
-            const prefix = ['$', 'In Stock: ', 'Product ID: ']
+            const prefix = ['Price: $', 'Stock: ', 'Product ID: ']
             setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
             setProductName(<LoadProduct productid={productID} entities={['product_name']} prefix={['']}/>)
             setDescription(<LoadProduct productid={productID} entities={['info']} prefix={['Description: ']}/>)
@@ -154,10 +155,12 @@ function SpecificProduct() {
 
     return (
         <body>
+            <PageHeader/>
+            <h1 className="product_header">Product</h1>
             <div className="specific_product">
                 <div className="s_img">{productimg}</div>
                 <div className="s_dec">
-                    <h2>{productName}</h2>
+                    <p style={{'font-size': 25}}><b>{productName}</b></p>
                     <p>{sellerName}</p>
                     <p>{product}</p>
                     <p>{productCat}</p>

@@ -24,9 +24,9 @@ body{
   background-color: rgb(233, 138, 35);
   border: 0;
   margin-top: 0%;
+  padding-bottom: 0px;
+  padding-left: 20px;
   padding-top: 0px;
-  height: 80px;
-  /*margin-top: -22px;*/
   color: black;
 }
 
@@ -44,7 +44,7 @@ body{
   width: 66%;
 }
 
-.recommend h1{
+.recommend>h1{
   padding-left: 40%;
 }
 /*.home-logo{
