@@ -68,9 +68,8 @@ function EditProfile() {
             <PageHeader/>
             <div className='edit_profile'>
                 <h1>Edit your profile</h1>
-                <h2>Edit</h2>
                 <center>
-                <table>
+                <table className='edit_profile_table'>
                     <tr>
                         <td>Username:</td>
                         <td>{originalprofile[0]['username']}</td>
