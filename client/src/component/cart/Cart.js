@@ -8,6 +8,7 @@ import LoadProductPhoto from "../util/product";
 import PageHeader from "../util/miss";
 import "./css/cart.css";
 import Username from "../util/user";
+import '../util/css/back.css'
 
 function CartProduct(props) {
   const cur = props.cur;
@@ -261,7 +262,7 @@ function Cart(){
           <table className="totalprice_table">
             <tr>
               <td className="left">
-                <button className="cart_back" onClick={goBack}>Back</button>
+                <button className="back" onClick={goBack}>Back</button>
               </td>
               <td className="right">
                 <div className="total_price">

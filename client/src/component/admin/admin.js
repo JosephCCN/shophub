@@ -4,10 +4,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import axios from 'axios'
-import {LoadProduct,  LoadProductCategory,  LoadProductPhoto } from '../util/product'
 import Username from "../util/user";
 import HomeHeader from "../util/miss";
-import Home from "../home/Home";
+import './css/admin.css'
+import ListProduct from "../search-bar/list_product";
 
 function FetchAllUser() {
   const [isLoading, setLoading] = useState(true);
@@ -26,12 +26,20 @@ function FetchAllUser() {
   else {
     const L = Object.keys(users).length;
     var list = []
-    list.push(<h1>Users</h1>)
     for(var i=0;i<L;i++) {
       const cur = users[i]
-      list.push(<Username userid={cur['user_id']}/>)
+      list.push(
+        <div className="user_list">
+          <Username userid={cur['user_id']}/>
+        </div>
+        
+      )
     }
-    return list
+    return (
+      <div className="user_result">
+        {list}
+      </div>
+    )
   }
 }
 
@@ -50,20 +58,7 @@ function FetchAllProduct() {
   
   if(isLoading) return <p>Loading...</p>
   else {
-    const L = Object.keys(products).length;
-    var list = []
-    list.push(<h1>Products</h1>)
-    for(var i=0;i<L;i++) {
-      const cur = products[i]
-      const entities = ['product_name', 'price']
-      const prefix = ['Name: ', '$']
-      list.push(
-        <LoadProductPhoto productid={cur['product_id']}/>,
-        <LoadProduct productid={cur['product_id']} entities={entities} prefix={prefix}/>,
-        <LoadProductCategory productid={cur['product_id']}/>
-    )
-    }
-    return list
+    return <ListProduct products={products}/>
   }
 }
 
@@ -91,9 +86,27 @@ function Actual_admin() {
   return (
     <div>
       <HomeHeader/>
-      <h2>Admin Page</h2>
-      {showAllUser ? <button onClick={() => {setShowAllUser(false)}}>Show All Product</button> : <button onClick={() => {setShowAllUser(true)}}>Show All User</button>}
-      {showAllUser ? <FetchAllUser/> : <FetchAllProduct/>}
+      <h1>Admin Page</h1>
+      <table className="table">
+        <tr>
+          <td>
+          <div>
+            {showAllUser ? <button onClick={() => {setShowAllUser(false)}} className="toggle_btn">Show All Product</button> : <button onClick={() => {setShowAllUser(true)}} className="toggle_btn">Show All User</button>}
+          </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {showAllUser ? <h2>Users</h2> : <h2>Products</h2>}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {showAllUser ? <FetchAllUser/> : <></>}
+          </td>
+        </tr>
+      </table>
+      {showAllUser ? <></> : <FetchAllProduct/>}
     </div>
   )
 }

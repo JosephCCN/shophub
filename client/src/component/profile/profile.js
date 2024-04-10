@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import axios from "axios";
 import {ShowOrderHistory, ShowSalesHistory} from '../history/history';
 import PageHeader from '../util/miss';
+import '../util/css/back.css'
 
 function ProfileInfoSource(infolist){
     var list = []
@@ -114,7 +115,7 @@ function Profile() {
                 <h1>Order History:</h1>
                 <ShowOrderHistory userid={profile_userid} top={top}/>
             </div>
-            <button onClick={goBack}>Back</button>
+            <button onClick={goBack} className='back'>Back</button>
         </body>
     )
 }

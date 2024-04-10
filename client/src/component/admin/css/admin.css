@@ -1,0 +1,38 @@
+.user_list{
+    margin: 10px;
+    border: none;
+    float: left;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    margin-top: 50px;
+    background-color: pink;
+    border-radius: 10px;
+}
+
+.user_list:hover{
+    border: 2px solid black;
+}
+
+.user_result{
+    position: absolute;
+}
+
+.table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.toggle_btn{
+    background-color: rgb(6, 6, 6);
+    color: rgb(246, 153, 53);
+    font-weight: bold;
+    margin: 10px;
+    float: right;
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

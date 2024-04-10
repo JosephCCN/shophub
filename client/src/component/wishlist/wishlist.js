@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import  { LoadProductPhoto, LoadProduct } from "../util/product";
 import "./css/wishlist.css";
 import PageHeader from "../util/miss"
+import '../util/css/back.css'
 
 function FetchWishlistPageSource(prop){
     const cookies = new Cookies();
@@ -130,7 +131,7 @@ function Wishlist(){
             <div className="wishlist_content">
                 {tmp}
             </div>
-            <button className="wishlist_back" onClick={goBack}>Back</button>
+            <button className="back" onClick={goBack}>Back</button>
             </div>
         </body>
     )
