@@ -18,7 +18,9 @@ function Actual_home() {
     <body>
         <PageHeader/>
         <SearchBar/>
-        <Recommendation userid={userid}/>
+        <div  className="recommend">
+          <Recommendation userid={userid}/>
+        </div>
         <div className='notice'>
           <p>Notification</p>
           <ShowNotification userid={userid}/>
