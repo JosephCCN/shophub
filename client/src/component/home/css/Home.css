@@ -38,6 +38,15 @@ body{
 .searching td.ad_search{
   padding-left: 30px;
 }
+
+.recommend{
+  float: left;
+  width: 66%;
+}
+
+.recommend h1{
+  padding-left: 40%;
+}
 /*.home-logo{
   background: url(./home_icon2.jpg) no-repeat center;
   float: left;

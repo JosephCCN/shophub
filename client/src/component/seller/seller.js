@@ -5,7 +5,7 @@ import axios from 'axios'
 import {LoadProductCategory, LoadProductPhoto} from '../util/product'
 import {ShowSalesHistory} from '../history/history'
 import PageHeader from '../util/miss'
-import './css/seller.css'
+import './css/seller.css';
 
 function ProductInfoSource(prop){
     const cur_product = prop.cur_product
