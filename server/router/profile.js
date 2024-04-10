@@ -23,7 +23,6 @@ router.post('/edit_profile', async(req, res) => {
     contact = req.body.contact;
     if(contact) contact = contact.replace('\'', '\'\'')
     var result;
-    console.log(userid, username, password, contact)
     try{
         result = await db.query(`select * from users where user_id!=${userid} and username='${username}'`);
         if(result.rows.length != 0){
@@ -32,7 +31,6 @@ router.post('/edit_profile', async(req, res) => {
         }
         if(!password) {
             result = await db.query(`select password from users where user_id=${userid}`);
-            console.log(result.rows)
             password = result.rows[0]['password']
         }
         if(!contact) {

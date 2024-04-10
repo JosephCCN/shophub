@@ -45,15 +45,15 @@ function ShowProfile(prop) {
 function Profile() {
     const cookies = new Cookies();
     const navigate = useNavigate();
-    var [userid, setuserid] = useState(0);
     var {profile_userid} = useParams();
     const [isLoading, setisLoading] = useState(true)
     const [isAdmin, setAdmin] = useState(false);
     const [profileAdmin, setProfileAdmin] = useState(false);
+    const userid = cookies.get('userid')
+    if(!userid) navigate('/login');
+    if(!profile_userid) profile_userid = parseInt(userid, 10);
 
     useEffect(() =>{
-        const tmp = cookies.get('userid');
-        if(!tmp) navigate('/login');
         if(cookies.get('admin')) {
             setAdmin(true);
         }
@@ -63,7 +63,6 @@ function Profile() {
             setProfileAdmin(res.data);
         })
         .catch(err => console.log(err))
-        setuserid(tmp);
         setisLoading(false)
     }, [])
     
@@ -91,8 +90,6 @@ function Profile() {
 
     if(isLoading) return <p>Loading...</p>
 
-    if(!profile_userid) profile_userid = userid
-
     const handleDeleteUser = () => {
         axios.get(`http://localhost:3030/delete_user?userid=${profile_userid}`)
         .then(res => {
@@ -104,7 +101,6 @@ function Profile() {
         })
         .catch(err => console.log(err))
     }
-
     return (
         <body>
             <PageHeader/>
