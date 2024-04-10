@@ -7,6 +7,8 @@ function ListProduct(props) {
     const products = props.products;
     const L = Object.keys(products).length;
     let list = [];
+
+    if(L == 0) return <h1>There is no product suit your criteria</h1>
     
 
     for(var i=0;i<L;i++) {

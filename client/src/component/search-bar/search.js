@@ -81,11 +81,13 @@ export function AdvSearch() {
         const selectedOptions = cookies.get('categories');
         const lower = cookies.get('lower')
         const upper = cookies.get('upper')
+        const key = cookies.get('key')
 
         axios.post(`http://localhost:3030/adv_search`, {
             categories: selectedOptions,
             lower: lower,
-            upper: upper
+            upper: upper,
+            key: key
         })
         .then(res => {
             if(res.data['err']) {

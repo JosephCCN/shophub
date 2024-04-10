@@ -37,6 +37,8 @@ router.post('/adv_search', async(req, res) => {
 
     try {
         const categories = req.body.categories;
+        const key = req.body.key;
+        const key_length = key.length;
         var cat_query = 'select distinct product_id from category where '
         for(var i=0;i<categories.length;i++) {
             cat_query += `tag='${categories[i]['name']}' or `
@@ -46,7 +48,9 @@ router.post('/adv_search', async(req, res) => {
         console.log(cat_result.rows)
         var range_result = []
         for(var i=0;i<cat_result.rows.length;i++) {
-            const r = await db.query(`select * from product where product_id=${cat_result.rows[i]['product_id']} and ${req.body.lower}<=price and price<=${req.body.upper}`);
+            var r;
+            if(key_length > 0) r = await db.query(`select * from product where product_id=${cat_result.rows[i]['product_id']} and ${req.body.lower}<=price and price<=${req.body.upper} and LEFT(product_name, ${key_length})='${key}'`);
+            else r = await db.query(`select * from product where product_id=${cat_result.rows[i]['product_id']} and ${req.body.lower}<=price and price<=${req.body.upper}`);
             range_result.push(r.rows[0])
         }
         const list = unqiue(range_result)

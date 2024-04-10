@@ -14,6 +14,7 @@ function AdvanceBar(props) {
     const [lower, setLower] = useState(0);
     const [upper, setUpper] = useState(5000);
     const [searched, setSearched] = useState(false);
+    const [search_key, setSearchKey] = useState('');
 
 
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -68,6 +69,9 @@ function AdvanceBar(props) {
         cookies.set('categories', selectedOptions, {
             path: '/'
         })
+        cookies.set('key', search_key, {
+            path: '/'
+        })
         cookies.set('lower', lower, {
             path: '/'
         })
@@ -79,33 +83,48 @@ function AdvanceBar(props) {
 
     }
     return (
-        <div className="advance_bar">
+        <div>
             <table>
                 <tr>
-                    <td>Price Range</td>
                     <td>
-                        <input type="number" min="0.0" max="5000.0" step="0.1" onChange={handleMin} value={lower}/>
-                        -<input type="number" min="0.0" max="5000.0" step="0.1" onChange={handleMax} value={upper}/>
+                        <div className="home_searchbar">
+                            <input type="text" name="search" placeholder="type your interested product" onChange={(e) => setSearchKey(e.target.value)}/>
+                        </div>
                     </td>
-                </tr>
-                <tr>
-                    <td>Categories</td>
-                    <td><Multiselect
-                            options={categories}
-                            name="particulars"
-                            displayValue='name'
-                            closeIcon='cancel'
-                            onSelect={onSelectOptions}
-                            onRemove={onRemoveOptions}
-                            selectedValues={''}
-                            selectionLimit={5}
-                            />
+                    <td>
+                    <div className="advance_bar">
+                        <table>
+                            <tr>
+                                <td>Price Range</td>
+                                <td>
+                                    <input type="number" min="0.0" max="5000.0" step="0.1" onChange={handleMin} value={lower}/>
+                                    -<input type="number" min="0.0" max="5000.0" step="0.1" onChange={handleMax} value={upper}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                                <td>Categories</td>
+                                <td><Multiselect
+                                        options={categories}
+                                        name="particulars"
+                                        displayValue='name'
+                                        closeIcon='cancel'
+                                        onSelect={onSelectOptions}
+                                        onRemove={onRemoveOptions}
+                                        selectedValues={''}
+                                        selectionLimit={5}
+                                        />
+                                </td>
+                                <td><button onClick={search}>Search</button></td>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+                        </div>
                     </td>
-                    <td><button onClick={search}>Search</button></td>
-                </tr>
-                <tr>
                 </tr>
             </table>
+            
         </div>
     )
 }
