@@ -6,8 +6,8 @@
 
 .profile>h2{
     color: black;
-    margin-left: 30%;
     text-align: left;
+    margin-left: 30%;
     font-size: 25px;
 }
 
@@ -16,8 +16,8 @@
     color: black;
     width: 7%;
     margin-top: 8px;
+    margin-right: 56%;
     float: right;
-    margin-right: 57%;
     display: inline-block;
     border: none;
     border-radius: 4px;
@@ -47,6 +47,6 @@
     font-size: 20px;
 }
 
-.profile>center>table>tr{
-    height: 35px;
+.profile>center>table>tr>td{
+    height: 15px;
 }
