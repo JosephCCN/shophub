@@ -17,6 +17,10 @@
     font-size: 20px;
 }
 
+.edit_profile>center>table>tr{
+    height: 35px;
+}
+
 .edit_profile>button{
     background-color: rgb(233, 138, 35);
     color: black;
