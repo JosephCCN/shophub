@@ -109,7 +109,7 @@ function Profile() {
         <body>
             <PageHeader/>
             <div className='profile'>
-                <h1>Shophub</h1>
+                <h1>Your account</h1>
                 <h2>Profile{(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}</h2>
                 <ShowProfile userid={profile_userid}/>
                 {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}

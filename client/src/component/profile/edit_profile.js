@@ -67,7 +67,7 @@ function EditProfile() {
         <body>
             <PageHeader/>
             <div className='edit_profile'>
-                <h1>Shophub</h1>
+                <h1>Edit your profile</h1>
                 <h2>Edit</h2>
                 <center>
                 <table>
