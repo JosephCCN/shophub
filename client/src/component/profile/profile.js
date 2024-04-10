@@ -103,14 +103,15 @@ function Profile() {
     return (
         <body>
             <PageHeader/>
+            <h1 className='profile_header'>Profile</h1>
+            <p></p>
             <div className='profile'>
-                <h1>Profile</h1>
                 <ShowProfile userid={profile_userid}/>
                 {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}
                 {(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}
                 <h1>Order History:</h1>
-                <ShowOrderHistory userid={profile_userid} top={top}/>
             </div>
+            <ShowOrderHistory userid={profile_userid} top={top}/>
             <button onClick={goBack} className='back'>Back</button>
         </body>
     )

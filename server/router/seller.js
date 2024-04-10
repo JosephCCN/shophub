@@ -24,8 +24,6 @@ router.get('/seller_history', async(req, res) => {
     var result;
     try{
         result = await db.query(`select history.* from history join product on history.product_id = product.product_id where (history.seller_id, product.is_deleted) = (${userid}, false) order by history.order_date desc limit ${amount}`);
-        const result2 = await db.query(`select history.order_date at time zone ('Asia/Hong_Kong') from history join product on history.product_id = product.product_id where (history.seller_id, product.is_deleted) = (${userid}, false) order by history.order_date desc limit ${amount}`);
-        console.log(result2);
     }
     catch(err) {
         res.json({'err': err});

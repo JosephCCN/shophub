@@ -42,3 +42,12 @@
 .profile td:nth-child(2){
     float: right;
 }
+
+.profile_header{
+    background-color: rgb(233, 138, 35);
+    margin: 0;
+    text-align: left;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}

@@ -66,8 +66,9 @@ function EditProfile() {
     return (
         <body>
             <PageHeader/>
+            <h1 className='profile_header'>Edit your profile</h1>
+            <p></p>
             <div className='edit_profile'>
-                <h1>Edit your profile</h1>
                 <center>
                 <table className='edit_profile_table'>
                     <tr>
