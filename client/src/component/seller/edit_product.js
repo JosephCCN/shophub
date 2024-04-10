@@ -132,7 +132,7 @@ function EditProduct(prop) {
                     <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
                 </tr>
                 <tr>
-                    <td><label>Producat Image:</label></td>
+                    <td><label>Product Image:</label></td>
                     {img_source}
                     <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
                 </tr>
