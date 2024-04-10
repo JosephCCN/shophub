@@ -130,28 +130,36 @@ function CartProduct(props) {
 
 
   const showList = [
-    <div className="cart_content">
-      <div className="cart_img">
-        <LoadProductPhoto productid={cur['product_id']}/>
+    <tr>
+      <div className="cart_content">
+        <td className="left_col">
+          <div className="cart_img">
+            <LoadProductPhoto productid={cur['product_id']}/>
+          </div>
+        </td>
+        <td className="mid_col">
+          <div className="cart_info"> 
+            <p><b>{product['product_name']}</b></p>
+            <Username userid={product['seller_id']} prefix={['by']}/>
+            <p><b>Unit Price: {product['price']}</b></p>
+            <p><b>Stock: {product['quantity']}</b></p>
+            {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
+            {notEnough ? <br/>: <></>}
+          </div>
+          <div className="cart_select">
+            <button className="cart_min_btn" onClick={handleQuantityDecrease}>-</button>
+            <input className="cart_quantity_input" type='text' inputMode="numeric" onChange={handleQuantityChange} value={cartQuantity}/>
+            <button className="cart_add_btn" onClick={handleQuantityIncrease}>+</button>
+            <button className="cart_button1" onClick={handleRemove}>Remove from Cart</button>
+            <br/>
+            <button className="cart_button2" onClick={handleRemoveandAddtoWishlist}>Remove and Add to Wishlist</button>    
+          </div>
+        </td>
+        <td className="right_col">
+            <p><b>Subtotal: {totalPrice}</b></p>
+        </td>
       </div>
-      <div className="cart_info">
-        <p><b>{product['product_name']}</b></p>
-        <Username userid={product['seller_id']} prefix={['by']}/>
-        <p><b>Unit Price: {product['price']}</b></p>
-        <p><b>Subtotal: {totalPrice}</b></p>
-        <p><b>Stock: {product['quantity']}</b></p>
-        {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
-        {notEnough ? <br/>: <></>}
-      </div>
-      <div className="cart_select">
-        <button className="cart_min_btn" onClick={handleQuantityDecrease}>-</button>
-        <input className="cart_quantity_input" type='text' inputMode="numeric" onChange={handleQuantityChange} value={cartQuantity}/>
-        <button className="cart_add_btn" onClick={handleQuantityIncrease}>+</button>
-        <button className="cart_button1" onClick={handleRemove}>Remove from Cart</button>
-        <br/>
-        <button className="cart_button2" onClick={handleRemoveandAddtoWishlist}>Remove and Add to Wishlist</button>
-        </div>
-    </div>
+    </tr>
     ,
     <p>Removed</p>
   ]
@@ -159,9 +167,7 @@ function CartProduct(props) {
   const show = showList[removed]
 
   return (
-    <div>
-      <p>{show}</p>
-    </div>
+    show
   )
 }
 
@@ -249,13 +255,19 @@ function Cart(){
       <PageHeader/>
       <div className="cart">
         <h1>Shopping Cart</h1>
-        {cartList}
-        <br/>
-        <div className="total_price">
-          <p><b>Total: {totalPrice}</b></p>
-        </div>
-        <button className="cart_pay" onClick={payment}>Payment</button>
-        <button className="cart_back" onClick={goBack}>Back</button>
+        <table className="center_table">
+          {cartList}
+          <br/>
+          <tr>
+            <td>
+              <div className="total_price">
+                <p><b>Total: {totalPrice}</b></p>
+              </div>
+              <button className="cart_pay" onClick={payment}>Payment</button>
+              <button className="cart_back" onClick={goBack}>Back</button>
+            </td>
+          </tr>
+        </table>
       </div>
     </body>
   )
