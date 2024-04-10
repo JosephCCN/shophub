@@ -105,7 +105,7 @@ function AddProduct(props) {
                         <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
                     </tr>
                     <tr>
-                        <td><label>Quantity:</label></td>
+                        <td><label>Slot:</label></td>
                         <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
                     </tr>
                     <tr>
@@ -113,7 +113,7 @@ function AddProduct(props) {
                         <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
                     </tr>
                     <tr>
-                        <td><label>Producat Image:</label></td>
+                        <td><label>Product Image:</label></td>
                         <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input></td>
                     </tr>
                 </table>
@@ -130,7 +130,7 @@ function AddProduct(props) {
                                                 selectionLimit={5}
                                                 />
             <br/>
-            <button type="submit" onClick={handleaddproduct}> Add Product</button>
+            <button type="submit" onClick={handleaddproduct}>Add Product</button>
             <button onClick={goBack}>Back</button>
         </div>
     )
