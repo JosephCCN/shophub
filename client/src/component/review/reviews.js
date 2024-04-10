@@ -121,7 +121,7 @@ function Reviews(props) {
     return (
         <div>
             {bought ? <UserReview myReview={myReview}/>: <p></p>}
-            {L > 0 ? <h3>Others Review</h3> : <></>}
+            {L > 0 ? <h3>Others Review</h3> : <h3>No Others Reviews</h3>}
             {reviewList}
         </div>
     )
