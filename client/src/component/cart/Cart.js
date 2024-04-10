@@ -130,8 +130,8 @@ function CartProduct(props) {
 
 
   const showList = [
-    <tr>
-      <div className="cart_content">
+    <table className="product_table">
+      <tr>
         <td className="left_col">
           <div className="cart_img">
             <LoadProductPhoto productid={cur['product_id']}/>
@@ -158,8 +158,8 @@ function CartProduct(props) {
         <td className="right_col">
             <p><b>Subtotal: {totalPrice}</b></p>
         </td>
-      </div>
-    </tr>
+      </tr>
+    </table>
     ,
     <p>Removed</p>
   ]
@@ -251,25 +251,28 @@ function Cart(){
   }
 
   return (
-    <body>
+    <div>
       <PageHeader/>
       <div className="cart">
         <h1>Shopping Cart</h1>
-        <table className="center_table">
+
           {cartList}
-          <br/>
-          <tr>
-            <td>
-              <div className="total_price">
-                <p><b>Total: {totalPrice}</b></p>
-              </div>
-              <button className="cart_pay" onClick={payment}>Payment</button>
-              <button className="cart_back" onClick={goBack}>Back</button>
-            </td>
-          </tr>
-        </table>
+
+          <table className="totalprice_table">
+            <tr>
+              <td className="left">
+                <button className="cart_back" onClick={goBack}>Back</button>
+              </td>
+              <td className="right">
+                <div className="total_price">
+                  <p><b>Total: {totalPrice}</b></p>
+                </div>
+                <button className="cart_pay" onClick={payment}>Payment</button>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
-    </body>
   )
   
 };
