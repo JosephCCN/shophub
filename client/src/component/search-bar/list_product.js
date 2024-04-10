@@ -18,7 +18,7 @@ function ListProduct(props) {
         
         list.push(
             <div className='product_list'>
-                <LoadProductPhoto productid={cur_product_id}/>,
+                <LoadProductPhoto productid={cur_product_id}/>
                 <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
             </div>
         );

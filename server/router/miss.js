@@ -46,13 +46,13 @@ router.get('/recommendation', async(req, res) =>{
         const result2 = await db.query(`select tag, count(tag) from category inner join history on history.product_id=category.product_id where history.buyer_id=${userid} group by tag order by count desc limit ${Math.ceil(limit / 2.0)}`)
         var list = []
         for(var i=0;i<result.rows.length;i++) {
-            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted='f'`)
+            const r = await db.query(`select * from product where product_id=${result.rows[i]['product_id']} and is_deleted=false and quantity > 0`)
             if(r.rows.length > 0) list.push(r.rows[0]);
         }
         for(var i=0;i<result2.rows.length;i++) {
             const r = await db.query(`select * from category where tag='${result2.rows[i]['tag']}'`)
             for(var j=0;j<r.rows.length;j++) {
-                const r2 = await db.query(`select * from product where product_id=${r.rows[j]['product_id']} and is_deleted='f'`)
+                const r2 = await db.query(`select * from product where product_id=${r.rows[j]['product_id']} and is_deleted=false and quantity > 0`)
                 if(r2.rows.length > 0) list.push(r2.rows[0]);
             }
         }
