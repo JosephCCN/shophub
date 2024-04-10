@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SearchBar } from '../util/miss';
+import { SearchBar } from '../util/search';
 import ListProduct from './list_product';
 import ShowNotifcation from '../wishlist/notification';
 import { useState, useEffect } from 'react';

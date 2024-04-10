@@ -7,7 +7,8 @@ import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import Recommendation from '../recommendation/recommendation';
 import ShowNotification from '../wishlist/notification';
-import PageHeader, { SearchBar } from '../util/miss';
+import PageHeader from '../util/miss';
+import { SearchBar } from '../util/search';
 
 function Actual_home() {
   const cookies = new Cookies();

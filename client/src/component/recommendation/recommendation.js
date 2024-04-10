@@ -1,10 +1,5 @@
-import { Axios } from "axios";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
-import { Rating } from 'react-simple-star-rating'
-import Cookies from 'universal-cookie'
+import { useEffect, useState } from "react";
 import axios from 'axios'
-import { LoadProduct } from "../util/product";
 import ListProduct from "../search-bar/list_product";
 
 function Recommendation(props) {

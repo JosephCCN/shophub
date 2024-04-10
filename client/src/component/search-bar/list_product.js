@@ -1,7 +1,4 @@
-import { useEffect, useState, useMemo, useReducer} from 'react';
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
-import { LoadProduct , LoadProductCategory, LoadProductPhoto} from '../util/product';
+import { LoadProduct, LoadProductPhoto} from '../util/product';
 import "./css/list_product.css";
 
 
@@ -17,10 +14,11 @@ function ListProduct(props) {
         const cur_product_id = cur['product_id']
         const entities = ['product_name', 'price']
         const prefix = ['', '$']
+
         
         list.push(
-            <div classname='product_list'>
-                <LoadProductPhoto productid={cur_product_id}/>
+            <div className='product_list'>
+                <LoadProductPhoto productid={cur_product_id}/>,
                 <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
             </div>
         );
