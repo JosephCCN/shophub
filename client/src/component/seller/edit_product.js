@@ -135,28 +135,30 @@ function EditProduct(prop) {
                         <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
                     </tr>
                     <tr>
-                        <td><label>Producat Image:</label></td>
+                        <td><label>Product Image:</label></td>
                         {img_source}
                         <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
+                    </tr>
+                    <tr>
+                        <td><label>Category: </label></td>
+                        <td><label>{product[0]['category']}</label></td>
+                        <td><Multiselect className="multiselect_dropdown"
+                                options={categorylist}
+                                name="particulars"
+                                displayValue='name'
+                                closeIcon='cancel'
+                                onSelect={onSelectOptions}
+                                onRemove={onRemoveOptions}
+                                selectedValues={''}
+                                selectionLimit={5}/></td>
                     </tr>
                 </table>
                 </center>
                 <br/>
-                <label>Category: </label>
-                <label>{product[0]['category']}</label>
-                <Multiselect
-                        options={categorylist}
-                        name="particulars"
-                        displayValue='name'
-                        closeIcon='cancel'
-                        onSelect={onSelectOptions}
-                        onRemove={onRemoveOptions}
-                        selectedValues={''}
-                        selectionLimit={5}/>
                 <br/>
                 <button type="submit" onClick={handleeditproduct}>Save</button>
-                <button onClick={goBack}>Back</button>
             </div>
+            <button onClick={goBack}>Back</button>
         </body>
     )
     

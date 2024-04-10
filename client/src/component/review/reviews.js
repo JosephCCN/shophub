@@ -4,13 +4,14 @@ import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { Rating } from 'react-simple-star-rating'
 import Cookies from 'universal-cookie'
 import Username from "../util/user";
+import './review.css'
 
 function Star(props) {
     const max = props.max;
     const active = props.active;
     const setActive = props.setActive;
     return (
-        <Rating
+        <Rating size={25}
             onClick={(e) => setActive(e)}
             initialValue={active}
             iconsCount={max}
@@ -23,8 +24,12 @@ function SingleReview(props) {
     const cur = props.cur;
     return (
         <div>
-            <p><Username userid={props.userid}/> said : {cur['context']}</p>
-            <Star max={5} active={cur['rating']} edit={false} setActive={() => {}}/>
+            <table className = "review_table">
+                <tr><td><table className = "review_row"><tr><td><Username userid={props.userid}/></td>
+                <td><Star max={5} active={cur['rating']} edit={false} setActive={() => {}}/></td></tr></table></td></tr>
+                <tr><td>{cur['context']}</td></tr>
+                </table>
+                <p></p>
         </div>
     )
 }
@@ -120,9 +125,11 @@ function Reviews(props) {
     
     return (
         <div>
-            {bought ? <UserReview myReview={myReview}/>: <p></p>}
-            {L > 0 ? <h3>Others Review</h3> : <h3>No Others Reviews</h3>}
-            {reviewList}
+            <center>
+                {bought ? <UserReview myReview={myReview}/>: <p></p>}
+                {L > 0 ? <h3>Others Review</h3> : <h3>No Others Reviews</h3>}
+                {reviewList}
+            </center>
         </div>
     )
 

@@ -1,6 +1,6 @@
 .home_searchbar{
     padding-left: 20%;
-    padding-top: px20; 
+    padding-top: 0; 
     display: flex;
 }
 
@@ -12,6 +12,7 @@
     font-size: 15px;
     outline: none;
     border: none;
+    padding-top: 0;
     border-radius: 5px;
     flex: 1;
 }

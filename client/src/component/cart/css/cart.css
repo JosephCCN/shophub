@@ -101,7 +101,7 @@
 
 .cart_add_btn{
     margin-top: 40px;
-    background-color: rgb(255, 50, 50);
+    background-color: rgb(97, 249, 27);
     width: 40px;
     height: 27px;
     border: none;
@@ -111,7 +111,7 @@
 
 .cart_min_btn{
     margin-top: 40px;
-    background-color: rgb(97, 249, 27);
+    background-color: rgb(255, 50, 50);
     width: 40px;
     height: 27px;
     border: none;
