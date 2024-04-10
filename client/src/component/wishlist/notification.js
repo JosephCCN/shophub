@@ -56,7 +56,8 @@ export function ShowNotifcation(prop) {
     }, [])
 
     if(isLoading) return <p>Loading...</p>;
-    else return NotificationInfoSource(notilist)
+    console.log(notilist)
+    return NotificationInfoSource(notilist)
 }
 
 export default ShowNotifcation;

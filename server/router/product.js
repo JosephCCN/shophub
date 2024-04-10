@@ -46,6 +46,22 @@ router.get('/product', async(req, res) => {
     res.json(result.rows);
 })
 
+//with deleted product
+router.get('/product_all', async(req, res) => {
+    productid = req.query.productid;
+    try{
+        result = await db.query(`select * from product where product_id=${productid}`);
+        if(result.rows == []){
+            res.json({'empty': 1});
+            return;
+        }
+    }
+    catch(err){
+        res.json({'err': err});
+    }
+    res.json(result.rows);
+})
+
 router.get('/product_name', async(req, res) => {
     productid = req.query.productid;
     try{
@@ -177,7 +193,6 @@ router.post('/edit_product', upload.single('image'), async(req, res) => {
         if(category[i] == ',') category_list.push(tmp), tmp = ''
         else tmp = tmp + category[i];
     }
-    console.log(category_list)
 
     try{
         add_noti(`The product ${productname} has been edited! Click to check!`, productid)

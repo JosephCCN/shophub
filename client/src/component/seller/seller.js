@@ -5,7 +5,9 @@ import axios from 'axios'
 import {LoadProductCategory, LoadProductPhoto} from '../util/product'
 import {ShowSalesHistory} from '../history/history'
 import PageHeader from '../util/miss'
-import './css/seller.css';
+import './css/seller.css'
+import DeleteIcon from './css/delete_icon.png'
+import EditIcon from './css/edit_icon.png'
 
 function ProductInfoSource(prop){
     const cur_product = prop.cur_product
@@ -56,11 +58,11 @@ function ProductInfoSource(prop){
     const productid = cur_product['product_id']
     var list = []
     /*list.push(<p>{cur_product['product_id']}:</p>)*/
-    list.push(<LoadProductPhoto productid={productid}/>)
-    list.push(<p>Name: {cur_product['product_name']}, Price: {cur_product['price']}, Stock: {cur_product['quantity']}</p>)
+    list.push(<LoadProductPhoto productid={productid} className='product_img'/>)
+    list.push(<p>Name: {cur_product['product_name']} <br/> Price: ${cur_product['price']} <br/> Stock: {cur_product['quantity']}</p>)
     /*list.push(<LoadProductCategory productid={productid}/>)*/
-    list.push(<button className="seller_button" onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
-    list.push(<button className="seller_button" onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
+    list.push(<img src={EditIcon} className='icon' onClick={() => gotoeditproduct(productid)}/>)
+    list.push(<img src={DeleteIcon} className='icon' onClick={() => gotodeleteproduct(productid)}/>)
     const show_product=[<div className="seller_content">{list}</div>, <p></p>]
     // if deleted = 0, show product
     // if deleted = 1, hide product
