@@ -21,11 +21,12 @@ function OrderHistoryInfoSource(infolist){
         //set up column
         for(var j=0;j<L2;j++){
             const cur_product = cur_order_list[j];
+            const cur_date = new Date(cur_product['order_date'])
             var row = []
             row.push(<td>{cur_product['product_img']}</td>)
             var product_info = [<td><table className="first_col"><tr><th>{cur_product['seller_name']}</th></tr><tr><td>{cur_product['product_name']}</td></tr></table></td>]
             product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_product['quantity']}</td></tr><tr><td>Price: {cur_product['price']}</td></tr></table></td>)
-            product_info.push(<td>Order Time:<br/>{cur_product['order_date'].slice(0, 10)}<br/>{cur_product['order_date'].slice(11,19)}</td>)
+            product_info.push(<td>Order Time:<br/>{cur_date.toLocaleDateString()}<br/>{cur_date.getHours()}:{cur_date.getMinutes()}:{cur_date.getSeconds()}</td>)
             product_info.push(cur_product['review'])
             row.push(product_info)
             cur_order_table.push(<tr><td><center><table className="orderproduct"><tr>{row}</tr></table></center></td></tr>)
@@ -123,11 +124,12 @@ function SalesHistoryInfoSource(infolist){
     var tmp = []
     for(var i=0;i<L;i++){
         const cur_sales_list = infolist[i];
+        const cur_date = new Date(cur_sales_list['order_date'])
         var row = []
         row.push(<td>{cur_sales_list['product_img']}</td>)
         var product_info = [<td><table className="first_col"><tr><th>{cur_sales_list['buyer_name']}</th></tr><tr><td>{cur_sales_list['product_name']}</td></tr></table></td>]
         product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_sales_list['quantity']}</td></tr><tr><td>Price: {cur_sales_list['price']}</td></tr></table></td>)
-        product_info.push(<td>Order Time:<br/>{cur_sales_list['order_date'].slice(0, 10)}<br/>{cur_sales_list['order_date'].slice(11,19)}</td>)
+        product_info.push(<td>Order Time:<br/>{cur_date.toLocaleDateString()}<br/>{cur_date.getHours()}:{cur_date.getMinutes()}:{cur_date.getSeconds()}</td>)
         row.push(product_info)
         tmp.push(<center><table className="historytable"><tr>{row}</tr></table></center>,<p></p>)
     }
@@ -157,7 +159,6 @@ export function ShowSalesHistory(prop) {
                 const cur_buyer_id = cur_sales_list['buyer_id']
                 //add to sales_list
                 cur_sales_list['buyer_name'] = <Username userid={cur_buyer_id}/>
-                
                 //fetch product_name by product_id
                 const cur_product_id = cur_sales_list['product_id']
                 const res2 = await axios.get(`http://localhost:3030/product?productid=${cur_product_id}`)
