@@ -1,0 +1,17 @@
+.review_row>tr>:first-child{
+    width: 400px;
+}
+.review_table>:nth-child(2){
+    vertical-align: top;
+    height: 150px;
+}
+.review_table{
+    border-style: inset;
+    border-color: black;
+    border-width: medium;
+    background-color: navajowhite;
+}
+.rating{
+    height: 10px;
+    width: 10px;
+}

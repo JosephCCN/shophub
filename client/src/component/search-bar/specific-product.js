@@ -153,33 +153,31 @@ function SpecificProduct() {
     
 
     return (
-        <div className="specific_product">
-            <div className="s_img">{productimg}</div>
-            <div className="s_dec">
-                <h2>{productName}</h2>
-                <p>{sellerName}</p>
-                <p>{product}</p>
-                <p>{productCat}</p>
-                <label>Quantity:</label>
-                <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-                <br/>
-                <br/>
-                <button className="s_add" onClick={handleQuantityDecrease}>-</button>
-                <button className="s_add" onClick={handleQuantityIncrease}>+</button>
-                <br/>
-                <br/>
-                <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>
-                <button className="s_fun" onClick={addToWishlist}>Add to Wishlist</button>
+        <body>
+            <div className="specific_product">
+                <div className="s_img">{productimg}</div>
+                <div className="s_dec">
+                    <h2>{productName}</h2>
+                    <p>{sellerName}</p>
+                    <p>{product}</p>
+                    <p>{productCat}</p>
+                    <label>Quantity:</label>
+                    <button className="s_add1" onClick={handleQuantityDecrease}>-</button>
+                    <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
+                    <button className="s_add2" onClick={handleQuantityIncrease}>+</button>
+                    <br/>
+                    <br/>
+                    <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>
+                    <button className="s_fun" onClick={addToWishlist}>Add to Wishlist</button>
+                </div>
                 <button className="s_fun" onClick={goBack}>Back to Main Page</button>
+                <br/>
+                <div className="specific_message">
+                    <p>{msg}</p>
+                </div>
             </div>
-            <br/>
-            <div className="specific_message">
-                <p>{msg}</p>
-            </div>
-            <div className="spec_review">
-                <Reviews productID={productID}/>
-            </div>
-        </div>
+            <Reviews productID={productID}/>
+        </body>
     )
 
 }

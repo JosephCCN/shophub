@@ -1,23 +1,27 @@
+.specific_product{
+    /* border: 2px solid black; */
+}
+
 .specific_product div.s_img{
-    float: left;
-    border: 1px solid hsl(36, 100%, 53%);
+    /* border: 1px solid hsl(36, 100%, 53%); */
     margin: 20px;
     padding: 30px;
     margin-left: 60px;
+    float: left;
 }
 
 .specific_product div.s_img img{
-    float: left;
     max-width: 300px;
     max-height: 300px;
 }
 
 .specific_product div.s_dec{
+    /* border: 2px solid black; */
     float: right;
     margin: 20px;
-    margin-right: 600px;
+    margin-right: 550px;
     margin-top: 30px;
-    width: 350px;
+    width: 400px;
     height: 400px;
 }
 
@@ -26,20 +30,32 @@
 }
 .specific_product div.s_dec>label{
     float: left;
+    padding-right: 5px;
 }
 .specific_product div.s_dec>input{
-    margin-left: 3%;
     margin-top: 1%;
     float: left;
     width: 30px;
+    margin-right: 0px;
 }
 
-.s_add{
-    background-color: rgb(246, 153, 53);
-    margin-left: 5%;
-    margin-bottom: 5%;
+.s_add1{
+    background-color: rgb(255, 50, 50);
+    margin-top: 4px;
+    margin-right: 0px;
     float: left;
-    width: 70px;
+    width: 30px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.s_add2{
+    background-color: rgb(97, 249, 27) ;
+    margin-top: 4px;
+    margin-right: 0px;
+    float: left;
+    width: 30px;
     height: 20px;
     border: none;
     cursor: pointer;
