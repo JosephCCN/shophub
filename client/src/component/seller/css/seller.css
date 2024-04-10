@@ -89,6 +89,9 @@
     max-width: 50px;
     cursor: pointer;
 }
+.icon:hover{
+    border: 1px solid rgb(246, 153, 53);
+}
 
 .back{
     background-color: rgb(246, 153, 53);
