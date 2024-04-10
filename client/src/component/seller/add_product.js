@@ -105,7 +105,7 @@ function AddProduct(props) {
                         <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
                     </tr>
                     <tr>
-                        <td><label>Slot:</label></td>
+                        <td><label>Stock:</label></td>
                         <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
                     </tr>
                     <tr>
