@@ -61,11 +61,10 @@ function FetchWishlistPageSource(prop){
     var list = []
     const cur_product = prop.cur_product;
     const cur_product_id = cur_product['product_id']
-    list.push(<LoadProductPhoto productid={cur_product_id}/>) 
-    list.push(<LoadProduct productid={cur_product_id} prefix={['Product Name: ', 'Price: ', 'Stock: ']} entities={['product_name', 'price', 'quantity']}/>)
-    list.push(<button className="wishlist_button" onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button>);
-    list.push(<button className="wishlist_button" onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button>)
-    const showList = [<div className="wishlist_content">{list}</div>, <p></p>]
+    list.push(<td><LoadProductPhoto className="product_img" productid={cur_product_id}/></td>) 
+    list.push(<td><LoadProduct className="wishlist_content" productid={cur_product_id} prefix={['Product Name: ', 'Price: ', 'Stock: ']} entities={['product_name', 'price', 'quantity']}/></td>)
+    list.push(<td><table><tr><td><button className="wishlist_button" onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button></td></tr><tr><td><button className="wishlist_button" onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button></td></tr></table></td>)
+    const showList = [<table className="product"><tr>{list}</tr></table>, <p></p>]
     const show = showList[removed]
     return(
         <div>
@@ -120,15 +119,16 @@ function Wishlist(){
     }
     for(var i=0;i<L;i++){
         const cur_product = wishlist[i]
-        list.push(<FetchWishlistPageSource cur_product={cur_product}/>)
+        list.push(<tr><td><FetchWishlistPageSource cur_product={cur_product}/></td></tr>)
     }
+    const tmp = <table>{list}</table>
     return (
         <body>
             <PageHeader/>
             <div className="wishlist">
             <h1>Wishlist</h1>
             <div className="wishlist_content">
-                {list}
+                {tmp}
             </div>
             <button className="wishlist_back" onClick={goBack}>Back</button>
             </div>
