@@ -44,6 +44,7 @@ router.post('/edit_cart_quantity', async(req, res) => {
     const productID = req.body.productID;
     try {
         const result = await db.query(`update cart set quantity=${quantity} where user_id=${userID} and product_id=${productID}`)
+        console.log(1)
         res.json({'success': 1})
     }
     catch(err) {
@@ -57,6 +58,17 @@ router.post('/delete_cart', async(req, res) => {
     try {
         const result = await db.query(`delete from cart where user_id=${userID} and product_id=${productID}`)
         res.json({'success': 1})
+    }
+    catch(err) {
+        res.json({'err':err})
+    }
+})
+
+router.get('/cart_totalprice', async(req, res) => {
+    const userid = req.query.userid;
+    try {
+        var result = await db.query(`select sum(product.price*cart.quantity) from product inner join cart on cart.product_id=product.product_id where user_id=${userid}`)
+        res.json(result.rows)
     }
     catch(err) {
         res.json({'err':err})
