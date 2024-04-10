@@ -13,6 +13,7 @@ import Profile from './component/profile/profile';
 import EditProfile from './component/profile/edit_profile';
 import Wishlist from './component/wishlist/wishlist';
 import Payment from './component/cart/payment'
+import { Search, AdvSearch, SS, ADV } from './component/search-bar/search';
 
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/home" element={<Home/>}/>
+          <Route exact path='/search/:key' element={<Search/>}/>
+          <Route exact path='/ss/:key' element={<SS/>}/>
+          <Route path='/adv_search' element={<AdvSearch/>}/>
+          <Route exact path='/adv' element={<ADV/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path='/registration' element={<Reg/>}/>
           <Route exact path='/profile/:profile_userid' element={<Profile/>}/>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import Reviews from "../review/reviews";
-import {LoadProductPhoto, LoadProduct} from "../util/product";
+import {LoadProductPhoto, LoadProduct, LoadProductCategory} from "../util/product";
 import {Username} from "../util/user";
 import "./css/specific-product.css";
 
@@ -18,29 +18,17 @@ function SpecificProduct() {
 
     const [isLoading, setisLoading] = useState(true);
     const [sellerName, setSellerName] = useState('');
-    const [product, setProduct] = useState([]);
+    const [product, setProduct] = useState();
     const [productimg, setProductImg] = useState('');
     const [productInfo, setProductInfo] = useState();
     const [edit, setEdit] = useState(false);
     var [quantity, setQuantity] = useState(1);
     const [msg, setMsg] = useState('');
+    const [productName, setProductName] = useState();
+    const [productCat, setProductCat]= useState();
+    const [description, setDescription] = useState();
 
     useEffect(() => {
-
-        const fetch_product = async() => {
-            try{
-                const entities = ['price', 'quantity']
-                const prefix = ['Price: HKD$', 'In Stock: ']
-                setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
-                setProductImg(<LoadProductPhoto productid={productID}/>)
-                setSellerName(<Username userid={userid} prefix={['Seller: ']}/>)
-                setisLoading(false);
-            }
-            catch(err){
-                console.log(err);
-                return;
-            }
-        }
 
         userid = cookies.get('userid');
         if(!userid) {
@@ -60,11 +48,15 @@ function SpecificProduct() {
             cookies.set('productid', productID, {
                 path: '/'
             });
-            const entities = ['price', 'quantity', 'category', 'info']
-            const prefix = ['$', 'In Stock: ', 'Category: ', 'Description: ']
+            const entities = ['price', 'quantity', 'product_id']
+            const prefix = ['$', 'In Stock: ', 'Product ID: ']
             setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
+            setProductName(<LoadProduct productid={productID} entities={['product_name']} prefix={['']}/>)
+            setDescription(<LoadProduct productid={productID} entities={['info']} prefix={['Description: ']}/>)
+            setProductCat(<LoadProductCategory productid={productID}/>)
             setProductImg(<LoadProductPhoto productid={productID}/>)
-            setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['Sold by ']}/>)
+            setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['by']}/>)
+
             setProductInfo(res.data[0])
             setisLoading(false);
         })
@@ -162,29 +154,18 @@ function SpecificProduct() {
 
     return (
         <div className="specific_product">
-            <p>{product['info']}</p>
-            {productimg}
-            {sellerName}
-            {product}
-            <button onClick={handleQuantityDecrease}>-</button>
-            <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-            <button onClick={handleQuantityIncrease}>+</button>
-            <br/>
-            <button onClick={addToShoppingCart}>Add to Shopping Cart</button>
-            <button onClick={addToWishlist}>Add to Wishlist</button>
-            {isAdmin ? <button onClick={GoToEditProduct}>Edit Product</button> : <></>}
-            <p>{msg}</p>
-            <Reviews productID={productID}/>
             <div className="s_img">{productimg}</div>
             <div className="s_dec">
+                <h2>{productName}</h2>
                 <p>{sellerName}</p>
                 <p>{product}</p>
+                <p>{productCat}</p>
                 <label>Quantity:</label>
                 <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
                 <br/>
                 <br/>
-                <button className="s_add" onClick={() => {if(quantity < product['quantity']) setQuantity(quantity + 1)}}>Add</button>
-                <button className="s_add" onClick={() => {if(quantity > 1) setQuantity(quantity - 1)}}>Delete</button>
+                <button className="s_add" onClick={handleQuantityDecrease}>-</button>
+                <button className="s_add" onClick={handleQuantityIncrease}>+</button>
                 <br/>
                 <br/>
                 <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>

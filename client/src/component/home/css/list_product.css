@@ -1,0 +1,22 @@
+.product_list{
+    margin: 10px;
+    border: none;
+    float: left;
+    width: 180px;
+    height: 230px;
+    cursor: pointer;
+}
+
+.product_list:hover{
+    border: 1px solid rgb(246, 153, 53);
+}
+
+.product_list img{
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.product_result{
+    /*border: 1px solid black;*/
+    position: absolute;
+}

@@ -4,6 +4,7 @@ import {useState, useEffect, useRef} from 'react'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown';
+import PageHeader from '../util/miss';
 var FormData = require('form-data')
 
 function AddProduct(props) {
@@ -92,47 +93,50 @@ function AddProduct(props) {
 
     if(isLoading) return <p>Loading</p>;
     return (
-        <div className='add_product'>
-            <h1>Add your product</h1>
-            <center>
-                <table>
-                    <tr>
-                        <td><label>Product Name:</label></td>
-                        <td><input type="text" onChange={(e) => setproductname(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td><label>Product Info:</label></td>
-                        <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td><label>Stock:</label></td>
-                        <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td><label>Price:</label></td>
-                        <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td><label>Product Image:</label></td>
-                        <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input></td>
-                    </tr>
-                </table>
-            </center>
-            <br/>
-            <label>Category: (at most 5)</label><Multiselect
-                                                options={categorylist}
-                                                name="particulars"
-                                                displayValue='name'
-                                                closeIcon='cancel'
-                                                onSelect={onSelectOptions}
-                                                onRemove={onRemoveOptions}
-                                                selectedValues={''}
-                                                selectionLimit={5}
-                                                />
-            <br/>
-            <button type="submit" onClick={handleaddproduct}>Add Product</button>
-            <button onClick={goBack}>Back</button>
-        </div>
+        <body>
+            <PageHeader/>
+            <div className='add_product'>
+                <h1>Add your product</h1>
+                <center>
+                    <table>
+                        <tr>
+                            <td><label>Product Name:</label></td>
+                            <td><input type="text" onChange={(e) => setproductname(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Product Info:</label></td>
+                            <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Stock:</label></td>
+                            <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Price:</label></td>
+                            <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Product Image:</label></td>
+                            <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input></td>
+                        </tr>
+                    </table>
+                </center>
+                <br/>
+                <label>Category: (at most 5)</label><Multiselect
+                                                    options={categorylist}
+                                                    name="particulars"
+                                                    displayValue='name'
+                                                    closeIcon='cancel'
+                                                    onSelect={onSelectOptions}
+                                                    onRemove={onRemoveOptions}
+                                                    selectedValues={''}
+                                                    selectionLimit={5}
+                                                    />
+                <br/>
+                <button type="submit" onClick={handleaddproduct}>Add Product</button>
+                <button onClick={goBack}>Back</button>
+            </div>
+        </body>
     )
     
 }

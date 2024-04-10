@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Cookies from 'universal-cookie'
 import axios from "axios";
 import {ShowOrderHistory, ShowSalesHistory} from '../history/history';
+import PageHeader from '../util/miss';
 
 function ProfileInfoSource(infolist){
     var list = []
@@ -105,15 +106,18 @@ function Profile() {
     }
 
     return (
-        <div className='profile'>
-            <h1>Shophub</h1>
-            <h2>Profile{(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}</h2>
-            <ShowProfile userid={profile_userid}/>
-            {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}
-            <button onClick={goBack}>Back</button>
-            <h1>Order History:</h1>
-            <ShowOrderHistory userid={profile_userid} top={top}/>
-        </div>
+        <body>
+            <PageHeader/>
+            <div className='profile'>
+                <h1>Shophub</h1>
+                <h2>Profile{(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}</h2>
+                <ShowProfile userid={profile_userid}/>
+                {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}
+                <button onClick={goBack}>Back</button>
+                <h1>Order History:</h1>
+                <ShowOrderHistory userid={profile_userid} top={top}/>
+            </div>
+        </body>
     )
 }
 

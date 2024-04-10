@@ -47,7 +47,7 @@ CREATE TABLE if not exists history(
     buyer_id integer NOT NULL,
     seller_id integer NOT NULL,
     product_id integer NOT NULL,
-    order_date timestamp NOT NULL DEFAULT current_timestamp,
+    order_date timestamp NOT NULL DEFAULT TIME(0),
     quantity integer NOT NULL CHECK (1 <= quantity),
     price DECIMAL(19, 1) NOT NULL,
     CONSTRAINT history_buyer_id_exist FOREIGN KEY (buyer_id) REFERENCES users(user_id) on delete CASCADE,

@@ -7,8 +7,8 @@ router.get('/search', async(req, res) => {
     const l = key.length;
     var result;
     try{
-        if(Number(key)) result = await db.query(`select * from product where (product_id, is_deleted)=(${key}, false)`);
-        else result = await db.query(`select * from product where (LEFT(product_name, ${l}), is_deleted)=('${key}', false)`);
+        if(Number(key)) result = await db.query(`select * from product where product_id='${key}' and is_deleted=false`);
+        else result = await db.query(`select * from product where LEFT(product_name, ${l})='${key}' and is_deleted=false`);
     }
     catch (err) {
         res.json({'err': err});
@@ -36,7 +36,7 @@ router.post('/adv_search', async(req, res) => {
     }
 
     try {
-        const categories = req.body.categories[0];
+        const categories = req.body.categories;
         var cat_query = 'select distinct product_id from category where '
         for(var i=0;i<categories.length;i++) {
             cat_query += `tag='${categories[i]['name']}' or `

@@ -5,21 +5,24 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import LoadProductPhoto from "../util/product";
+import PageHeader from "../util/miss";
 import "./css/cart.css";
+import Username from "../util/user";
 
 function CartProduct(props) {
   const cur = props.cur;
   const [product, setProduct] = useState('nth');
-  const [img, setImg] = useState('');
   const [cartQuantity, setCartQuantity] = useState(cur['quantity']);
   const cookies = new Cookies();
   const [removed, setRemoved] = useState(0);
   const [notEnough, setNotEnough] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     axios.get(`http://localhost:3030/product?productid=${cur['product_id']}`)
     .then(res => {
       setProduct(res.data[0]);
+      setTotalPrice(Number((res.data[0]['price'] * cur['quantity']).toFixed(1)))
     })
     .catch(err => console.log(err))
   }, [])
@@ -41,6 +44,7 @@ function CartProduct(props) {
     if(t < 0 || t > product['quantity']){
         return
     }
+    const prev = cartQuantity;
     if(t > product['quantity']) t = product['quantity'];
     else if(t < 0) t = 0;
     const userid = cookies.get('userid');
@@ -49,7 +53,10 @@ function CartProduct(props) {
       userID: userid,
       productID: cur['product_id']
     })
-    .then(res => {})
+    .then(res => {
+      setTotalPrice(Number((t * product['price']).toFixed(1)))
+      props.TotalPriceChange(Math.random())
+    })
     .catch(err => console.log(err))
     setCartQuantity(t);
 }
@@ -63,7 +70,10 @@ function CartProduct(props) {
       userID: userid,
       productID: cur['product_id']
     })
-    .then(res => {})
+    .then(res => {
+      setTotalPrice(Number(((cartQuantity + 1) * product['price']).toFixed(1)))
+      props.TotalPriceChange(Math.random())
+    })
     .catch(err => console.log(err))
   }
 
@@ -76,7 +86,10 @@ function CartProduct(props) {
       userID: userid,
       productID: cur['product_id']
     })
-    .then(res => {})
+    .then(res => {
+      setTotalPrice(Number(((cartQuantity - 1) * product['price']).toFixed(1)))
+      props.TotalPriceChange(Math.random())
+    })
     .catch(err => console.log(err))
   }
 
@@ -92,6 +105,7 @@ function CartProduct(props) {
         return;
       }
       setRemoved(1);
+      props.TotalPriceChange(Math.random())
     })
     .catch(err => console.log(err))
   }
@@ -122,8 +136,9 @@ function CartProduct(props) {
       </div>
       <div className="cart_info">
         <p><b>{product['product_name']}</b></p>
-        <p>{product['info']}</p>
-        <p><b>Price: {product['price']}</b></p>
+        <Username userid={product['seller_id']} prefix={['by']}/>
+        <p><b>Unit Price: {product['price']}</b></p>
+        <p><b>Subtotal: {totalPrice}</b></p>
         <p><b>Stock: {product['quantity']}</b></p>
         {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
         {notEnough ? <br/>: <></>}
@@ -156,6 +171,8 @@ function Cart(){
   const [cart, setCart] = useState([]);
   var [back, setBack] = useState(false);
   var [pay, setPayment] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPriceChange, TotalPriceChange] = useState(0);
 
   useEffect(() => {
     const userid = cookies.get('userid');
@@ -190,6 +207,13 @@ function Cart(){
     }
   }, [pay]);
 
+  useEffect(() => {
+    const userid = cookies.get('userid');
+    axios.get(`http://localhost:3030/cart_totalprice?userid=${userid}`)
+    .then(res => setTotalPrice(res.data[0]['sum']))
+    .catch(err => console.log(err))
+  }, [totalPriceChange])
+
   const goBack = () => {
     setBack(true);
   }
@@ -204,26 +228,33 @@ function Cart(){
 
   if(L == 0) {
     return (
+      <body>
+      <PageHeader/>
       <div className="cart">
-      <h1>Shopping Cart</h1>
-      <p>You have no item in Cart!</p>
-      <button className="cart_back" onClick={goBack}>Back</button>
-    </div>
+        <h1>Shopping Cart</h1>
+        <p>You have no item in Cart!</p>
+      < button className="cart_back" onClick={goBack}>Back</button>
+      </div>
+    </body>
     )
   }
 
   for(var i=0;i<L;i++) {
     const cur = cart[i];
-    cartList.push(<CartProduct cur={cur}/>)
+    cartList.push(<CartProduct cur={cur} TotalPriceChange={TotalPriceChange}/>)
   }
 
   return (
-    <div className="cart">
-      <h1>Shopping Cart</h1>
-      {cartList}
-      <button className="cart_pay" onClick={payment}>Payment</button>
-      <button className="cart_back" onClick={goBack}>Back</button>
-    </div>
+    <body>
+      <PageHeader/>
+      <div className="cart">
+        <h1>Shopping Cart</h1>
+        {cartList}
+        <p><b>Total: {totalPrice}</b></p>
+        <button className="cart_pay" onClick={payment}>Payment</button>
+        <button className="cart_back" onClick={goBack}>Back</button>
+      </div>
+    </body>
   )
   
 };

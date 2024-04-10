@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import './css/Header.css';
 import HomeLogo from "./css/home_icon2.jpg"
+import Bar from "../search-bar/bar";
+import AdvanceBar from "../search-bar/advance_bar";
 
 
 function PageHeader() {
