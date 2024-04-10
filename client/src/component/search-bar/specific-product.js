@@ -66,7 +66,7 @@ function SpecificProduct() {
     useEffect(() => {
         if(back) {
             back = false;
-            navigate(-1);
+            navigate('/home');
         }
     }, [back])
 

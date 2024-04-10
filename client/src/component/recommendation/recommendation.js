@@ -4,7 +4,7 @@ import ListProduct from "../search-bar/list_product";
 
 function Recommendation(props) {
     const userid = props.userid;
-    var limit = 5;
+    var limit = 50;
 
     const [products, setProducts] = useState('nth');
 
