@@ -18,31 +18,17 @@ function SpecificProduct() {
 
     const [isLoading, setisLoading] = useState(true);
     const [sellerName, setSellerName] = useState('');
-    const [product, setProduct] = useState([]);
+    const [product, setProduct] = useState();
     const [productimg, setProductImg] = useState('');
     const [productInfo, setProductInfo] = useState();
     const [edit, setEdit] = useState(false);
     var [quantity, setQuantity] = useState(1);
     const [msg, setMsg] = useState('');
-    const [productCat, setProductCat] = useState();
-    const [cat, setCat] = useState();
+    const [productName, setProductName] = useState();
+    const [productCat, setProductCat]= useState();
+    const [description, setDescription] = useState();
 
     useEffect(() => {
-
-        const fetch_product = async() => {
-            try{
-                const entities = ['price', 'quantity']
-                const prefix = ['Price: HKD$', 'In Stock: ']
-                setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
-                setProductImg(<LoadProductPhoto productid={productID}/>)
-                setSellerName(<Username userid={userid} prefix={['Seller: ']}/>)
-                setisLoading(false);
-            }
-            catch(err){
-                console.log(err);
-                return;
-            }
-        }
 
         userid = cookies.get('userid');
         if(!userid) {
@@ -62,13 +48,15 @@ function SpecificProduct() {
             cookies.set('productid', productID, {
                 path: '/'
             });
-            const entities = ['price', 'quantity']
-            const prefix = ['$', 'In Stock: ']
+            const entities = ['price', 'quantity', 'product_id']
+            const prefix = ['$', 'In Stock: ', 'Product ID: ']
             setProduct(<LoadProduct productid={productID} entities={entities} prefix={prefix}/>)
-            setCat(<LoadProduct productid={productID} entities={['info']} prefix={['Description: ']}/>)
-            setProductImg(<LoadProductPhoto productid={productID}/>)
+            setProductName(<LoadProduct productid={productID} entities={['product_name']} prefix={['']}/>)
+            setDescription(<LoadProduct productid={productID} entities={['info']} prefix={['Description: ']}/>)
             setProductCat(<LoadProductCategory productid={productID}/>)
-            setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['Sold by ']}/>)
+            setProductImg(<LoadProductPhoto productid={productID}/>)
+            setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['by']}/>)
+
             setProductInfo(res.data[0])
             setisLoading(false);
         })
@@ -168,8 +156,10 @@ function SpecificProduct() {
         <div className="specific_product">
             <div className="s_img">{productimg}</div>
             <div className="s_dec">
+                <h2>{productName}</h2>
                 <p>{sellerName}</p>
                 <p>{product}</p>
+                <p>{productCat}</p>
                 <label>Quantity:</label>
                 <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
                 <br/>
