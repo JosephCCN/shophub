@@ -9,15 +9,13 @@ import PageHeader from '../util/miss';
 function ProfileInfoSource(infolist){
     var list = []
     const L = Object.keys(infolist).length;
-    list.push(<tr><td></td><td></td></tr>)
     for(var i=0;i<L;i++){
         const cur = infolist[i];
         list.push(<tr><td>Username:</td> <td>{cur['username']}</td></tr>)
         list.push(<tr><td>Password:</td> <td>{cur['password']}</td></tr>)
         list.push(<tr><td>Contact:</td> <td>{cur['contact']}</td></tr>)
     }
-    list.push(<tr><td></td></tr>)
-    return <center><table>{list}</table></center>
+    return <center><table className="profile_table">{list}</table></center>
 }
 
 function ShowProfile(prop) {
@@ -29,8 +27,8 @@ function ShowProfile(prop) {
     useEffect(() => {
         const fetch = async() => {
             const res = await axios.get(`http://localhost:3030/profile?userid=${userid}`)
-            // const L = res.data[0]['password'].length
-            // res.data[0]['password'] = Array(L+1).join('*')
+            const L = res.data[0]['password'].length
+            res.data[0]['password'] = Array(L+1).join('*')
             setuserinfolist(res.data)
             setLoading(false)
         }
@@ -109,14 +107,14 @@ function Profile() {
         <body>
             <PageHeader/>
             <div className='profile'>
-                <h1>Shophub</h1>
-                <h2>Profile{(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}</h2>
+                <h1>Profile</h1>
                 <ShowProfile userid={profile_userid}/>
                 {isAdmin && !profileAdmin ? <button onClick={handleDeleteUser}>Delete User</button> : <></>}
-                <button onClick={goBack}>Back</button>
+                {(userid == profile_userid || isAdmin) ? <button onClick={() => gotoeditprofile()}>Edit</button> : <></>}
                 <h1>Order History:</h1>
                 <ShowOrderHistory userid={profile_userid} top={top}/>
             </div>
+            <button onClick={goBack}>Back</button>
         </body>
     )
 }

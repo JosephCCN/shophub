@@ -4,21 +4,26 @@
     font-size: 35px;
 }
 
-.edit_profile>h2{
-    color: black;
-    text-align: left;
-    margin-left: 25%;
-    font-size: 25px;
+.edit_profile>center>table>tr{
+    height: 35px;
 }
 
-.edit_profile>center>table{
-    width: 50%;
-    text-align: left;
+.edit_profile_table{
+    text-align: center;
     font-size: 20px;
 }
+.edit_profile_table td:first-child{
+    width: 200px;
+}
 
+.edit_profile_table td:nth-child(2){
+    width: 200px;
+}
+.edit_profile_table td:nth-child(3){
+    width: 200px;
+}
 .edit_profile>button{
-    background-color: rgb(233, 138, 35);
+    background-color: rgb(246, 153, 53);
     color: black;
     width: 5%;
     margin-top: 15px;
@@ -29,4 +34,10 @@
     padding: 14px 20px;
     font-size: 15px;
     cursor: pointer;
+}
+
+.edit_profile>button:hover{
+    border-style: inset;
+    border-width: medium;
+    border-color: black;
 }

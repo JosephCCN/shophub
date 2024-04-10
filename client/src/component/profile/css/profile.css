@@ -4,31 +4,9 @@
     font-size: 35px;
 }
 
-.profile>h2{
-    color: black;
-    margin-left: 25%;
-    text-align: left;
-    font-size: 25px;
-}
-
-.profile>h2>button{
-    background-color: rgb(233, 138,35);
-    color: black;
-    width: 6%;
-    margin-top: 8px;
-    float: right;
-    margin-right: 50%;
-    display: inline-block;
-    border: none;
-    border-radius: 4px;
-    padding: 14px 20px;
-    text-align: center;
-    font-size: 15px;
-    cursor: pointer;
-}
 
 .profile>button{
-    background-color: rgb(233, 138,35);
+    background-color: rgb(246, 153, 53);
     color: black;
     width: 5%;
     margin-top: 8px;
@@ -41,8 +19,26 @@
     cursor: pointer;
 }
 
-.profile>center>table{
-    width: 50%;
-    text-align: left;
+.profile>button:hover{
+    border-style: inset;
+    border-color: black;
+    border-width: medium;
+}
+
+.profile>center>table>tr>td{
+    height: 15px;
+}
+
+.profile_table{
+    width: 400px;
     font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.profile td:first-child{
+    width: 200px;
+}
+
+.profile td:nth-child(2){
+    float: right;
 }

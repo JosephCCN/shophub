@@ -67,10 +67,9 @@ function EditProfile() {
         <body>
             <PageHeader/>
             <div className='edit_profile'>
-                <h1>Shophub</h1>
-                <h2>Edit</h2>
+                <h1>Edit your profile</h1>
                 <center>
-                <table>
+                <table className='edit_profile_table'>
                     <tr>
                         <td>Username:</td>
                         <td>{originalprofile[0]['username']}</td>
