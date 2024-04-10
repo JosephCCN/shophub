@@ -56,7 +56,7 @@
     cursor: pointer;
 }
 
-.seller_content img{
+.product_img{
     max-width: 150px;
     max-height: 150px;
     min-width: 150px;
@@ -82,6 +82,13 @@
     cursor: pointer;
 }
 
+.icon{
+    height: auto;
+    width: auto;
+    max-height: 35px;
+    max-width: 50px;
+    cursor: pointer;
+}
 
 .back{
     background-color: rgb(246, 153, 53);
