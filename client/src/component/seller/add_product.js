@@ -1,3 +1,4 @@
+import './css/add_product.css';
 import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect, useRef} from 'react'
 import Cookies from 'universal-cookie'
@@ -94,31 +95,46 @@ function AddProduct(props) {
     return (
         <body>
             <PageHeader/>
-            <div>
-                <button onClick={goBack}>Back</button>
-                <h1>Add Product Page</h1>
-                <label>Product Name:</label><input type="text" onChange={(e) => setproductname(e.target.value)}/>
-                <br/>
-                <label>Product Info:</label><input type="text" onChange={(e) => setproductinfo(e.target.value)}/>
-                <br/>
-                <label>Quantity:</label><input type="text" onChange={(e) => setquantity(e.target.value)}/>
-                <br/>
-                <label>Price:</label><input type="text" onChange={(e) => setprice(e.target.value)}/>
+            <div className='add_product'>
+                <h1>Add your product</h1>
+                <center>
+                    <table>
+                        <tr>
+                            <td><label>Product Name:</label></td>
+                            <td><input type="text" onChange={(e) => setproductname(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Product Info:</label></td>
+                            <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Stock:</label></td>
+                            <td><input type="text" onChange={(e) => setquantity(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Price:</label></td>
+                            <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Product Image:</label></td>
+                            <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input></td>
+                        </tr>
+                    </table>
+                </center>
                 <br/>
                 <label>Category: (at most 5)</label><Multiselect
-                    options={categorylist}
-                    name="particulars"
-                    displayValue='name'
-                    closeIcon='cancel'
-                    onSelect={onSelectOptions}
-                    onRemove={onRemoveOptions}
-                    selectedValues={''}
-                    selectionLimit={5}
-                    />
+                                                    options={categorylist}
+                                                    name="particulars"
+                                                    displayValue='name'
+                                                    closeIcon='cancel'
+                                                    onSelect={onSelectOptions}
+                                                    onRemove={onRemoveOptions}
+                                                    selectedValues={''}
+                                                    selectionLimit={5}
+                                                    />
                 <br/>
-                <label>Producat Image:</label><input onChange={(e)=>{setImage(e.target.files[0])}} name="product_image" type="file"></input>
-                <br/>
-                <button type="submit" onClick={handleaddproduct}> Add Product</button>
+                <button type="submit" onClick={handleaddproduct}>Add Product</button>
+                <button onClick={goBack}>Back</button>
             </div>
         </body>
     )

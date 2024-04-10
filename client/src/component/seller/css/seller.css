@@ -1,3 +1,88 @@
+.seller{
+    height: auto;
+    width: auto;
+    /*border: 5px solid rgb(251, 2, 2);*/
+}
+
+.seller_header{
+    background-color: rgb(233, 138, 35);
+    margin: 0;
+    text-align: left;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+.seller_subheader1{
+    border: 5px solid black;
+}
+
+.seller_inventory{
+    float: left;
+    text-align: left;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    margin: 0;
+}
+
+.seller_add{
+    background-color: rgb(246, 153, 53);
+    margin: 10px;
+    float: left;
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.seller_main{
+    margin: 10px;
+    /*border: 5px solid purple;*/
+    float: left;
+    width: 100%;
+    height: max-content;
+    cursor: pointer;
+}
+
+
+.seller_content{
+    margin-left: 30px;
+    /*border: 5px solid green;*/
+    float: left;
+    width: 180px;
+    height: max-content;
+    cursor: pointer;
+}
+
+.seller_content img{
+    max-width: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+}
+
+.sale_title{
+    text-align: left;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    margin: 0;
+}
+
+.seller_button{
+    background-color: rgb(246, 153, 53);
+    font-size: 16px;
+    margin: 10px;
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
 .back{
     background-color: rgb(246, 153, 53);
     margin: 10px;

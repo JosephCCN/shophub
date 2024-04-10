@@ -1,3 +1,4 @@
+import './css/edit_product.css';
 import {useNavigate, Navigate} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import Cookies from 'universal-cookie'
@@ -109,9 +110,8 @@ function EditProduct(prop) {
     return (
         <body>
             <PageHeader/>
-            <div>
-                <button onClick={goBack}>Back</button>
-                <h1>Edit Product Page</h1>
+            <div className='edit_product'>
+                <h1>Edit your product</h1>
                 <center>
                 <table>
                     <tr>
@@ -135,26 +135,27 @@ function EditProduct(prop) {
                         <td><input type="text" onChange={(e) => setprice(e.target.value)}/></td>
                     </tr>
                     <tr>
-                        <td><label>Category:</label></td>
-                        <td><label>{product[0]['category']}</label></td>
-                        <td><Multiselect
-                                options={categorylist}
-                                name="particulars"
-                                displayValue='name'
-                                closeIcon='cancel'
-                                onSelect={onSelectOptions}
-                                onRemove={onRemoveOptions}
-                                selectedValues={''}
-                                selectionLimit={5}/></td>
-                    </tr>
-                    <tr>
                         <td><label>Producat Image:</label></td>
                         {img_source}
                         <td><input onChange={(e)=>{setImage(e.target.files[0])}} name="image" type="file"></input></td>
                     </tr>
                 </table>
                 </center>
+                <br/>
+                <label>Category: </label>
+                <label>{product[0]['category']}</label>
+                <Multiselect
+                        options={categorylist}
+                        name="particulars"
+                        displayValue='name'
+                        closeIcon='cancel'
+                        onSelect={onSelectOptions}
+                        onRemove={onRemoveOptions}
+                        selectedValues={''}
+                        selectionLimit={5}/>
+                <br/>
                 <button type="submit" onClick={handleeditproduct}>Save</button>
+                <button onClick={goBack}>Back</button>
             </div>
         </body>
     )

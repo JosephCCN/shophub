@@ -1,0 +1,13 @@
+.add_product>button{
+    background-color: rgb(246, 153, 53);
+    margin: 10px;
+    width: 140px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.add_product>center>table>tr>td{
+    height: 40px;
+}

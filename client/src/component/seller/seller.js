@@ -55,13 +55,13 @@ function ProductInfoSource(prop){
     
     const productid = cur_product['product_id']
     var list = []
-    list.push(<p>{cur_product['product_id']}:</p>)
-    list.push(<p>Name: {cur_product['product_name']}, Price: {cur_product['price']}, Stock: {cur_product['quantity']}</p>)
-    list.push(<LoadProductCategory productid={productid}/>)
+    /*list.push(<p>{cur_product['product_id']}:</p>)*/
     list.push(<LoadProductPhoto productid={productid}/>)
-    list.push(<button onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
-    list.push(<button onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
-    const show_product=[list, <p></p>]
+    list.push(<p>Name: {cur_product['product_name']}, Price: {cur_product['price']}, Stock: {cur_product['quantity']}</p>)
+    /*list.push(<LoadProductCategory productid={productid}/>)*/
+    list.push(<button className="seller_button" onClick={() => gotoeditproduct(productid)}>Edit Product</button>)
+    list.push(<button className="seller_button" onClick={() => gotodeleteproduct(productid)}>Delete Product</button>)
+    const show_product=[<div className="seller_content">{list}</div>, <p></p>]
     // if deleted = 0, show product
     // if deleted = 1, hide product
     return show_product[deleted]
@@ -127,12 +127,20 @@ function Seller(props) {
     return (
         <body>
             <PageHeader/>
-            <div>
-                <h1>Seller Page</h1>
-                <h1>Inventory:</h1>
-                <button onClick={GoToAddProduct}>Add Product</button>
-                <ShowSellerProduct userid={userid}/>
-                <h1>Sales History</h1>
+            <div className="seller">
+                <h1 className="seller_header">Seller Page</h1>
+                <div className="seller_main">
+                    <h1 className="seller_inventory">Inventory</h1>
+                    <button className="seller_add" onClick={GoToAddProduct}>Add Product</button>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div>
+                        <ShowSellerProduct userid={userid}/>
+                    </div>
+                </div>
+                <h1 className="sale_title">Sales History</h1>
                 <ShowSalesHistory userid={userid} top={top}/>
                 <button onClick={goBack} className="back">Back</button>
             </div>
