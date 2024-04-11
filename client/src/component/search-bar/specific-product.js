@@ -120,6 +120,9 @@ function SpecificProduct() {
             else if(res.data['in_cart']) {
                 setMsg('Item already in Shopping Cart')
             }
+            else if(res.data['no_stock']){
+                setMsg('Not Enough Stock')
+            }
             else{
                 setMsg('Added to Shopping Cart');
             }
