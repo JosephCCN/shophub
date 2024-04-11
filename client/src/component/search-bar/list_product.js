@@ -51,7 +51,6 @@ function ListProduct(props) {
                 {row}
             </tr>
         );
-        row = [];
         setList(tmp);
         setLoading(false)
     }, [top])
