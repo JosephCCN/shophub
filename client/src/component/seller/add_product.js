@@ -106,7 +106,7 @@ function AddProduct(props) {
                         </tr>
                         <tr>
                             <td><label>Product Info:</label></td>
-                            <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
+                            <td><textarea className="addproductinfo" onChange={(e) => setproductinfo(e.target.value)}/></td>
                         </tr>
                         <tr>
                             <td><label>Stock:</label></td>

@@ -123,7 +123,7 @@ function EditProduct(prop) {
                     <tr>
                         <td><label>Product Info:</label></td>
                         <td><label>{product[0]['info']}</label></td>
-                        <td><input type="text" onChange={(e) => setproductinfo(e.target.value)}/></td>
+                        <td><textarea className="editproductinfo" onChange={(e) => setproductinfo(e.target.value)}/></td>
                     </tr>
                     <tr>
                         <td><label>Quantity:</label></td>
