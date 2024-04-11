@@ -87,7 +87,8 @@ export function LoadProduct(prop){
                     if(j != l - 1) output += ', '
                 }
             }
-            list.push(<div className='dec'>{prefix_list[i]}{product[entity_list[i]]}</div>)
+            if(entity_list[i] == 'info') list.push(<div style={{width: '400px', height: '200px', overflow: 'scroll', border: 'double'}}>{prefix_list[i]}{product[entity_list[i]]}</div>)
+            else list.push(<p>{prefix_list[i]}{product[entity_list[i]]}</p>)
         }
         return list;
     }

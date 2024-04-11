@@ -184,28 +184,46 @@ function SpecificProduct() {
             <PageHeader/>
             <h1 className="product_header">Product</h1>
             <div className="specific_product">
-                <div className="s_img">{productimg}</div>
-                <div className="s_dec">
-                    <p style={{'font-size': 25}}><b>{productName}</b></p>
-                    <p>{sellerName}</p>
-                    <p>{product}</p>
-                    <p>{productCat}</p>
-                    <label>Quantity:</label>
-                    <button className="s_add1" onClick={handleQuantityDecrease}>-</button>
-                    <input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/>
-                    <button className="s_add2" onClick={handleQuantityIncrease}>+</button>
-                    <br/>
-                    <br/>
-                    <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>
-                    <button className="s_fun" onClick={addToWishlist}>Add to Wishlist</button>
-                    {isAdmin ? <button className="s_fun" onClick={GoToEditProduct}>Edit Product</button> : <></>}
-                    {isAdmin ? <button className="s_fun" onClick={() => {setDel(1)}}>Delete Product</button> : <></>}
-                </div>
-                <button className="s_fun" onClick={goBack}>Back to Main Page</button>
+                <table className="debug">
+                    <tr>
+                        <td>
+                            <div className="s_img">{productimg}</div>
+                        </td>
+                        <td>
+                        <table className="specific_product_info">
+                            <tr><td><p style={{'font-size': 25}}><b>{productName}</b></p></td></tr>
+                            <tr><td><p>{sellerName}</p></td></tr>
+                            <tr><td><p>{product}</p></td></tr>
+                            <tr><td><p>{productCat}</p></td></tr>
+                            <tr><td>
+                                <table><tr>
+                                <td><label>Quantity:</label></td>
+                                    <td><button className="s_add1" onClick={handleQuantityDecrease}>-</button></td>
+                                    <td><input type='text' inputMode="numeric" onChange={handleQuantityChange} value={quantity}/></td>
+                                    <td><button className="s_add2" onClick={handleQuantityIncrease}>+</button></td>
+                                </tr></table>
+                            </td></tr>
+                            <tr><td><br></br></td></tr>
+                            <tr><td>
+                                <table>
+                                <tr><td><button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button></td><td><button className="s_fun" onClick={addToWishlist}>Add to Wishlist</button></td></tr>
+                                </table>
+                            </td></tr>
+                            <tr>
+                                <td>{isAdmin ? <button className="s_fun" onClick={GoToEditProduct}>Edit Product</button> : <></>} </td>
+                                <td>{isAdmin ? <button className="s_fun" onClick={() => {setDel(1)}}>Delete Product</button> : <></>} </td>
+                            </tr>
+                            <tr>
+                                <td>{description}</td>
+                            </tr>
+                            <tr>
+                                <td><p>{msg}</p></td>
+                            </tr>
+                        </table>
+                        </td>
+                    </tr>
+                </table>
                 <br/>
-                <div className="specific_message">
-                    <p>{msg}</p>
-                </div>
             </div>
             {productInfo['seller_id'] == userid ? [<h1>Sales History</h1> ,productHistory] : <></>}
             <Reviews productID={productID}/>
