@@ -20,20 +20,37 @@ function ListProduct(props) {
 
     useEffect(() => {
         var tmp = []
+        var row = [];
         for(var i=0;i<L && i < parseInt(top);i++) {
             const cur = products[i];
             const cur_product_id = cur['product_id']
             const entities = ['product_name', 'price']
             const prefix = ['', '$']
-    
+
+            if(i%5 == 0){
+                tmp.push(
+                    <tr>
+                        {row}
+                    </tr>
+                );
+                row = [];
+            }
             
-            tmp.push(
-                <div className='product_list'>
-                    <LoadProductPhoto productid={cur_product_id}/>
-                    <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
-                </div>
+            row.push(
+                <td>
+                    <div className='product_list'>
+                        <LoadProductPhoto productid={cur_product_id}/>
+                        <LoadProduct productid={cur_product_id} entities={entities} prefix={prefix}/>
+                    </div>
+                </td>
+                
             );
         }
+        tmp.push(
+            <tr>
+                {row}
+            </tr>
+        );
         setList(tmp);
         setLoading(false)
     }, [top])
@@ -67,9 +84,12 @@ function ListProduct(props) {
                 </tr>
                 <tr>
                     <td>
-                        <div className='product_result'>
-                            {list}
-                        </div>
+                        <table>
+                            <div className='product_result'>
+                                {list}
+                            </div>
+                        </table>
+                        
                     </td>
                 </tr>
             </table>  

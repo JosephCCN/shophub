@@ -1,7 +1,7 @@
 .product_list{
     margin: 10px;
     border: none;
-    float: left;
+    /* float: left; */
     width: 180px;
     height: 250px;
     cursor: pointer;

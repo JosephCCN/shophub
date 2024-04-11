@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown';
 import PageHeader from '../util/miss';
+import '../util/css/back.css'
 var FormData = require('form-data')
 
 function AddProduct(props) {
@@ -139,7 +140,7 @@ function AddProduct(props) {
                 <br/>
                 <button type="submit" onClick={handleaddproduct}>Add Product</button>
             </div>
-            <button onClick={goBack}>Back</button>
+            <button onClick={goBack} className='back'>Back</button>
         </body>
     )
     

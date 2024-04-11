@@ -76,7 +76,7 @@ router.get('/product_name', async(req, res) => {
 
 router.get('/all_products', async(req, res) => {
     try {
-        result = await db.query(`select * from product`);
+        result = await db.query(`select * from product where is_deleted=false`);
         res.json(result.rows)
     }
     catch(err) {

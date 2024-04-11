@@ -15,8 +15,8 @@ function SpecificProduct() {
     const navigate = useNavigate();
     const cookies = new Cookies();
     var userid;
-    var isAdmin = false;
-
+    
+    const [isAdmin, setAdmin] = useState(false);
     const [isLoading, setisLoading] = useState(true);
     const [sellerName, setSellerName] = useState('');
     const [product, setProduct] = useState();
@@ -28,6 +28,7 @@ function SpecificProduct() {
     const [productName, setProductName] = useState();
     const [productCat, setProductCat]= useState();
     const [description, setDescription] = useState();
+    const [del, setDel] = useState(false);
 
     useEffect(() => {
 
@@ -45,7 +46,7 @@ function SpecificProduct() {
             if(!userid) {
                 navigate('/login')
             }
-            if(cookies.get('admin')) isAdmin = true;
+            if(cookies.get('admin')) setAdmin(true);
             cookies.set('productid', productID, {
                 path: '/'
             });
@@ -75,6 +76,25 @@ function SpecificProduct() {
         if(!edit) return;
         navigate('/seller/edit_product')
     }, [edit])
+
+    useEffect(() => {
+        if(!del) return;
+        const del_product = async() => {
+            try{
+                // const res1 = await axios.post('http://localhost:3030/delete_img',{
+                    // 'productid': deleteproduct
+                // })
+                const res2 = await axios.post(`http://localhost:3030/delete_product`,{
+                    'productid': productID
+                })
+                navigate(-1);
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        del_product();
+    }, [del])
 
     if(isLoading) return <p>Loading...</p>
 
@@ -172,6 +192,8 @@ function SpecificProduct() {
                     <br/>
                     <button className="s_fun" onClick={addToShoppingCart}>Add to Shopping Cart</button>
                     <button className="s_fun" onClick={addToWishlist}>Add to Wishlist</button>
+                    {isAdmin ? <button className="s_fun" onClick={GoToEditProduct}>Edit Product</button> : <></>}
+                    {isAdmin ? <button className="s_fun" onClick={() => {setDel(1)}}>Delete Product</button> : <></>}
                 </div>
                 <button className="s_fun" onClick={goBack}>Back to Main Page</button>
                 <br/>
