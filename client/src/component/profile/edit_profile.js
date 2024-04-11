@@ -52,7 +52,10 @@ function EditProfile() {
                 'password': password1,
                 'contact': contact
             });
-            if(res.data['username_exist']) setErr('username already exist');
+            if(res.data['username_exist']) setErr('Username already exist');
+            else if(Object.keys(password1).length < 8) setErr('Password should be at least 8!')
+            else if(Object.keys(username).length > 30) setErr('Username should not be longer than 30!')
+            else if(Object.keys(password1).length > 30) setErr('Password should be less than 30!')
             else navigate(-1)
         }
         catch(err){

@@ -204,7 +204,7 @@ function SpecificProduct() {
                     <p>{msg}</p>
                 </div>
             </div>
-            {productInfo['seller_id'] == userid ? productHistory : <></>}
+            {productInfo['seller_id'] == userid ? [<h1>Sales History</h1> ,productHistory] : <></>}
             <Reviews productID={productID}/>
         </body>
     )

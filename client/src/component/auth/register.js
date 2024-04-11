@@ -53,10 +53,13 @@ function Reg() {
       setErr('Password not the same')
     }
     else if(password.length > 30) {
-      setErr('Password length should less than 30')
+      setErr('Password length should less than 30!')
     }
     else if(username.length > 30) {
-      setErr('Password length should less than 30')
+      setErr('Password length should less than 30!')
+    }
+    else if(password.length < 8) {
+      setErr('Password length at least 8!')
     }
     else {
       setErr('');
