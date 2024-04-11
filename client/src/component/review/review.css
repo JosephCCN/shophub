@@ -15,3 +15,23 @@
     height: 10px;
     width: 10px;
 }
+
+textarea.review_input{
+    width: 400px;
+    height: 150px;
+    text-align: left;
+    vertical-align: top;
+    resize: none;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button.review_input_save{
+        background-color: rgb(246, 153, 53);
+        margin: 10px;
+        width: 140px;
+        height: 50px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+}
