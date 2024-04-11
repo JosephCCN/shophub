@@ -77,7 +77,7 @@ router.get('/pay', async(req, res) => {
             if(r2.rows.length == 0) continue;
             await db.query(`insert into noti (user_id, context, product_id) values (${r2.rows[0]['seller_id']}, 'Your item ${r2.rows[0]['product_name']} has been sold to ${userid}! Click here to check!', ${cur['product_id']})`)
             if(r2.rows[0]['quantity'] < cur['quantity']) {
-                not_enough.push(cur['product_id'])
+                not_enough.push(cur)
                 continue;
             }
             await db.query(`insert into history values (${order_id.rows[0]['nextval']}, ${userid}, ${r2.rows[0]['seller_id']}, ${cur['product_id']}, current_timestamp, ${cur['quantity']}, ${r2.rows[0]['price']})`);

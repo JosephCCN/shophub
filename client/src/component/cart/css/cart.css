@@ -137,7 +137,7 @@
 }
 
 .right_col {
-    width: 10%
+    width: 10%;
 }
 
 .product_table{
@@ -167,4 +167,23 @@
 
 td {
     border: 1px black;
+}
+
+.err{
+    color: red;
+    font-size: 20px;
+}
+
+.home_btn{
+    background-color: rgb(246, 153, 53);
+    color: black;
+    width: 5%;
+    margin-top: 8px;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
 }

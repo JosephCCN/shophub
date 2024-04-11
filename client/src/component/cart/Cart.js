@@ -9,6 +9,7 @@ import PageHeader from "../util/miss";
 import "./css/cart.css";
 import Username from "../util/user";
 import '../util/css/back.css'
+import './css/cart.css'
 
 function CartProduct(props) {
   const cur = props.cur;
@@ -143,8 +144,7 @@ function CartProduct(props) {
             <p><b>{product['product_name']}</b></p>
             <Username userid={product['seller_id']} prefix={['by']}/>
             <p><b>Unit Price: {product['price']}</b></p>
-            <p><b>Stock: {product['quantity']}</b></p>
-            {notEnough ? <font color='red'>There is NOT enough product for you</font>: <></>}
+            <p><b>Stock: {product['quantity']}</b>{notEnough ? <label className="err"> There is NOT enough product for you</label>: <></>}</p>
             {notEnough ? <br/>: <></>}
           </div>
           <div className="cart_select">
@@ -268,7 +268,7 @@ function Cart(){
                 <div className="total_price">
                   <p><b>Total: {totalPrice}</b></p>
                 </div>
-                <button className="cart_pay" onClick={payment}>Payment</button>
+                <button className="cart_pay" onClick={payment}>Pay</button>
               </td>
             </tr>
           </table>

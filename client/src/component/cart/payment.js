@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Navigate, Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
-import LoadProductPhoto, { LoadProduct } from "../util/product";
+import ListProduct from "../search-bar/list_product";
+import PageHeader from "../util/miss";
+import '../util/css/back.css'
 
 function Payment() {
     const { userid } = useParams();
     const [isLoading, setLoading] = useState(true);
     const [notEnough, setNotEnough] = useState('nth');
-    const [home, setHome] = useState(false);
+    const [back, setBack] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,10 +28,10 @@ function Payment() {
     }, [])
 
     useEffect(() => {
-        if(home) {
-            navigate('/home');
+        if(back) {
+            navigate(-1);
         }
-    }, [home])
+    }, [back])
 
     if(isLoading) return <p>You payment is on the way</p>
 
@@ -44,8 +46,8 @@ function Payment() {
         navigate('/home');
     }
 
-    const Home = () => {
-        setHome(true);
+    const Back = () => {
+        setBack(true);
     }
 
     if(notEnough == 'nth') {
@@ -59,21 +61,12 @@ function Payment() {
         )
     }
     else {
-        var list = []
-        for(var i=0;i<notEnough.length;i++) {
-            list.push(
-                <div>
-                    <LoadProductPhoto productid={notEnough[i]}/>
-                    <LoadProduct productid={notEnough[i]} entities={['product_name']} prefix={[]}/>
-                </div>
-        )
-        }
         return (
             <div>
-                <button onClick={Home}>Home</button>
+                <PageHeader/>
                 <h2>These products do not have enough stock</h2>
                 <h3>Other products are on the way to your home</h3>
-                {list}
+                <ListProduct products={notEnough}/>
             </div>
         )
     }
