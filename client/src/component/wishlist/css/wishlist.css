@@ -7,11 +7,6 @@
     padding-top: 20px;
 }
 
-.wishlist_content>table{
-    width: 100%;
-    /* border: 1px solid; */
-}
-
 
 .product_img{
     min-width: 150px;
@@ -41,18 +36,22 @@
     text-align: left;
     font-size: 20px;
     width: 1300px;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     margin: 0px;
     border-style: inset;
     border-width: medium;
 }
 
-.product td:first-child{
+.product>tr>:first-child{
     width: 150px;
 }
-.product td:nth-child(2){
-    width: 800px;
+
+.product>tr>:nth-child(2){
+    padding-top: 35px;
+    vertical-align: top;
+    width: 850px;
 }
+
 .wishlist button.wishlist_button{
     background-color: rgb(246, 153, 53);
     float: right;
