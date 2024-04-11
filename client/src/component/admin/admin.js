@@ -100,13 +100,8 @@ function Actual_admin() {
             {showAllUser ? <h2>Users</h2> : <h2>Products</h2>}
           </td>
         </tr>
-        <tr>
-          <td>
-            {showAllUser ? <FetchAllUser/> : <></>}
-          </td>
-        </tr>
       </table>
-      {showAllUser ? <></> : <FetchAllProduct/>}
+      {showAllUser ? <FetchAllUser/> : <FetchAllProduct/>}
     </div>
   )
 }

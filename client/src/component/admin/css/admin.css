@@ -18,6 +18,10 @@
     position: absolute;
 }
 
+.user_list>table{
+    font-size: 40px;
+}
+
 .table{
     margin-left: auto;
     margin-right: auto;
