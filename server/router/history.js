@@ -29,7 +29,7 @@ router.get('/order', async(req, res) => {
     }
 })
 
-router.get('/order_productid', async(req, res) => {
+router.get('/order_product', async(req, res) => {
     productid = req.query.productid;
     try{
         result = await db.query(`select * from history where product_id=${productid}`)

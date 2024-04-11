@@ -7,6 +7,7 @@ import {LoadProductPhoto, LoadProduct, LoadProductCategory} from "../util/produc
 import {Username} from "../util/user";
 import PageHeader from "../util/miss";
 import "./css/specific-product.css";
+import {ShowProductHistory} from '../history/history'
 
 
 function SpecificProduct() {
@@ -14,7 +15,7 @@ function SpecificProduct() {
     var [back, setBack] = useState(false);
     const navigate = useNavigate();
     const cookies = new Cookies();
-    var userid;
+    var userid = cookies.get('userid');
     
     const [isAdmin, setAdmin] = useState(false);
     const [isLoading, setisLoading] = useState(true);
@@ -29,10 +30,11 @@ function SpecificProduct() {
     const [productCat, setProductCat]= useState();
     const [description, setDescription] = useState();
     const [del, setDel] = useState(false);
+    const [productHistory, setProductHistory] = useState();
 
     useEffect(() => {
 
-        userid = cookies.get('userid');
+        
         if(!userid) {
             navigate('/login')
         }
@@ -58,6 +60,7 @@ function SpecificProduct() {
             setProductCat(<LoadProductCategory productid={productID}/>)
             setProductImg(<LoadProductPhoto productid={productID}/>)
             setSellerName(<Username userid={res.data[0]['seller_id']} prefix={['by']}/>)
+            setProductHistory(<ShowProductHistory productid={productID}/>)
 
             setProductInfo(res.data[0])
             setisLoading(false);
@@ -201,6 +204,7 @@ function SpecificProduct() {
                     <p>{msg}</p>
                 </div>
             </div>
+            {productInfo['seller_id'] == userid ? productHistory : <></>}
             <Reviews productID={productID}/>
         </body>
     )

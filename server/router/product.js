@@ -219,6 +219,7 @@ router.post('/delete_product', async(req, res) => {
         add_noti(`The product ${productname} has been deleted! Buy it earlier next time!`, productid)
         result = await db.query(`update product set is_deleted = true where product_id=${productid}`);
         result = await db.query(`delete from cart where product_id=${productid}`)
+        result = await db.query(`delete from wishlist where product_id=${productid}`)
         res.json({'success': 1});
     }
     catch(err) {

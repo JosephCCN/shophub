@@ -186,7 +186,7 @@ export function ShowProductHistory(prop){
 
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/order_product/productid=${productid}`)
+            const res = await axios.get(`http://localhost:3030/order_product?productid=${productid}`)
             const tmp = res.data
             var list = []
             const L = Object.keys(tmp).length;
