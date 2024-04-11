@@ -6,6 +6,7 @@ import  { LoadProductPhoto, LoadProduct } from "../util/product";
 import "./css/wishlist.css";
 import PageHeader from "../util/miss"
 import '../util/css/back.css'
+import Username from "../util/user";
 
 function FetchWishlistPageSource(prop){
     const cookies = new Cookies();
@@ -63,7 +64,10 @@ function FetchWishlistPageSource(prop){
     const cur_product = prop.cur_product;
     const cur_product_id = cur_product['product_id']
     list.push(<td><LoadProductPhoto className="product_img" productid={cur_product_id}/></td>) 
-    list.push(<td><LoadProduct className="wishlist_content" productid={cur_product_id} prefix={['Product Name: ', 'Price: ', 'Stock: ']} entities={['product_name', 'price', 'quantity']}/></td>)
+    var product_info = [<tr><td><LoadProduct productid={cur_product_id} prefix={['']} entities={['product_name']}/></td></tr>]
+    product_info.push(<tr><td><Username userid={cur_product['seller_id']} prefix={['by ']}/></td></tr>)
+    product_info.push(<tr><td><LoadProduct productid={cur_product_id} prefix={['Price: ', 'Stock: ']} entities={['price', 'quantity']}/></td></tr>)
+    list.push(<td><table className="wishlist_product_info">{product_info}</table></td>)
     list.push(<td><table><tr><td><button className="wishlist_button" onClick={() => handleRemove(cur_product_id)}>Remove from Wishlist</button></td></tr><tr><td><button className="wishlist_button" onClick={() => handleRemoveandAdd(cur_product_id)}>Remove and Add to Cart</button></td></tr></table></td>)
     const showList = [<table className="product"><tr>{list}</tr></table>, <p></p>]
     const show = showList[removed]
