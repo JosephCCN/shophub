@@ -87,11 +87,6 @@ function AdvanceBar(props) {
             <table>
                 <tr>
                     <td>
-                        <div className="home_searchbar">
-                            <input type="text" name="search" placeholder="type your interested product" onChange={(e) => setSearchKey(e.target.value)}/>
-                        </div>
-                    </td>
-                    <td>
                     <div className="advance_bar">
                         <table>
                             <tr>
@@ -104,7 +99,7 @@ function AdvanceBar(props) {
                             <tr>
                                 
                                 <td>Categories</td>
-                                <td><Multiselect
+                                <td><Multiselect className="multi"
                                         options={categories}
                                         name="particulars"
                                         displayValue='name'
@@ -115,13 +110,18 @@ function AdvanceBar(props) {
                                         selectionLimit={5}
                                         />
                                 </td>
-                                <td><button onClick={search}>Search</button></td>
                             </tr>
                             <tr>
                             </tr>
                         </table>
                         </div>
                     </td>
+                    <td>
+                        <div className="home_searchbar">
+                            <input type="text" name="search" placeholder="type your interested product" onChange={(e) => setSearchKey(e.target.value)}/>
+                        </div>
+                    </td>
+                    <td><button onClick={search} className="search_btn">Search</button></td>
                 </tr>
             </table>
             

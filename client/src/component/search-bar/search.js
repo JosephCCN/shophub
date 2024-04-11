@@ -101,6 +101,8 @@ export function AdvSearch() {
     }, [])
 
     if(!searched) return <p>Loading...</p>
+    
+    console.log('p', products)
 
     return (
         <body>
