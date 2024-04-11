@@ -5,7 +5,7 @@
     width: 400px;
 }
 
-.advance_bar button{
+.search_btn{
     color: rgb(233, 138, 35);
     border: none;
     border-radius: 5px;
@@ -17,8 +17,7 @@
 }
 
 .home_searchbar{
-    padding-left: 20%;
-    padding-top: px20; 
+    padding-left: 0%;
     display: flex;
 }
 
@@ -46,4 +45,8 @@
     background-color: black;
     text-align: center;
     cursor: pointer;
+}
+
+.multi{
+    height: 20px;
 }

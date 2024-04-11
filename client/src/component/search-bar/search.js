@@ -66,7 +66,7 @@ export function Search() {
 }
 
 export function AdvSearch() {
-    const [products, setProduct] = useState(0);
+    const [products, setProduct] = useState([]);
     const [searched, setSearched] = useState(false);
     const cookies = new Cookies;
     const navigate = useNavigate();
@@ -101,6 +101,8 @@ export function AdvSearch() {
     }, [])
 
     if(!searched) return <p>Loading...</p>
+
+    console.log('p', products)
 
     return (
         <body>

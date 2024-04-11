@@ -18,9 +18,14 @@ router.post('/add_cart', async(req, res) => {
     const userID = req.body.userID;
     const quantity = req.body.quantity;
     try{
-        const result = await db.query(`select * from cart where product_id=${productID} and user_id=${userID}`);
+        var result = await db.query(`select * from cart where product_id=${productID} and user_id=${userID}`);
         if(result.rows.length > 0) {
             res.json({'in_cart': 1});
+            return;
+        }
+        result = await db.query(`select quantity from product where product_id=${productID}`);
+        if(result.rows[0]['quantity'] == 0) {
+            res.json({'no_stock': 1});
             return;
         }
     }
