@@ -29,6 +29,16 @@ router.get('/order', async(req, res) => {
     }
 })
 
+router.get('/order_productid', async(req, res) => {
+    productid = req.query.productid;
+    try{
+        result = await db.query(`select * from history where product_id=${productid}`)
+        res.json(result.rows);
+    }
+    catch(err){
+        res.json({'err': err});
+    }
+})
 
 router.get('/bought', async(req, res) => {
     const userID = req.query.buyer_id;

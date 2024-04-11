@@ -75,6 +75,7 @@ router.get('/pay', async(req, res) => {
             const cur = result.rows[i];
             const r2 = await db.query(`select * from product where product_id=${cur['product_id']} and is_deleted='f'`);
             if(r2.rows.length == 0) continue;
+            await db.query(`insert into noti (user_id, context, product_id) values (${r2.rows[0]['seller_id']}, 'Your item ${r2.rows[0]['product_name']} has been sold to ${userid}! Click here to check!', ${cur['product_id']})`)
             if(r2.rows[0]['quantity'] < cur['quantity']) {
                 not_enough.push(cur['product_id'])
                 continue;

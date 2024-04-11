@@ -177,3 +177,41 @@ export function ShowSalesHistory(prop) {
     if(isLoading) return <p>Loading...</p>;
     else return SalesHistoryInfoSource(saleslist)
 }
+
+export function ShowProductHistory(prop){
+    const productid = prop.productid
+    const top = prop.top
+    const [isLoading, setLoading] = useState(true);
+    const [historylist, setHistoryList] = useState([]);
+
+    useEffect(() => {
+        const fetch = async() => {
+            const res = await axios.get(`http://localhost:3030/order_product/productid=${productid}`)
+            const tmp = res.data
+            var list = []
+            const L = Object.keys(tmp).length;
+            for(var i=0;i<L;i++){
+                var cur_history = tmp[i];
+                // console.log(cur_sales_list)
+                //fetch buyer username by buyer_id
+                const cur_buyer_id = cur_history['buyer_id']
+                //add to sales_list
+                cur_history['buyer_name'] = <Username userid={cur_buyer_id}/>
+                //fetch product_name by product_id
+                const res2 = await axios.get(`http://localhost:3030/product?productid=${productid}`)
+                //add to sales_list
+                cur_history['product_name'] = res2.data[0]['product_name']
+
+                //fetch product_image by product_id and add to sales_list
+                cur_history['product_img'] = <LoadProductPhoto productid={productid}/>;
+                list.push(cur_history)
+            }
+            setHistoryList(list);
+            setLoading(false)
+        }
+        fetch();
+    }, [])
+
+    if(isLoading) return <p>Loading...</p>;
+    else return SalesHistoryInfoSource(historylist)
+}
