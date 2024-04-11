@@ -6,6 +6,7 @@ import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown';
 import LoadProductPhoto from '../util/product'
 import PageHeader from '../util/miss';
+import '../util/css/back.css'
 
 function EditProduct(prop) {
     const cookies = new Cookies();
@@ -158,7 +159,7 @@ function EditProduct(prop) {
                 <br/>
                 <button type="submit" onClick={handleeditproduct}>Save</button>
             </div>
-            <button onClick={goBack}>Back</button>
+            <button onClick={goBack} className='back'>Back</button>
         </body>
     )
     
