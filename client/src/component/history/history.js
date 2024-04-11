@@ -25,7 +25,7 @@ function OrderHistoryInfoSource(infolist){
             var row = []
             row.push(<td>{cur_product['product_img']}</td>)
             var product_info = [<td><table className="first_col"><tr><th>{cur_product['seller_name']}</th></tr><tr><td>{cur_product['product_name']}</td></tr></table></td>]
-            product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_product['quantity']}</td></tr><tr><td>Price: {cur_product['price']}</td></tr></table></td>)
+            product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_product['quantity']}</td></tr><tr><td>Price: ${cur_product['price'] * cur_product['quantity']}</td></tr></table></td>)
             product_info.push(<td>Order Time:<br/>{cur_date.toLocaleDateString()}<br/>{cur_date.getHours()}:{cur_date.getMinutes()}:{cur_date.getSeconds()}</td>)
             product_info.push(cur_product['review'])
             row.push(product_info)
@@ -127,7 +127,7 @@ function SalesHistoryInfoSource(infolist){
         var row = []
         row.push(<td>{cur_sales_list['product_img']}</td>)
         var product_info = [<td><table className="first_col"><tr><th>{cur_sales_list['buyer_name']}</th></tr><tr><td>{cur_sales_list['product_name']}</td></tr></table></td>]
-        product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_sales_list['quantity']}</td></tr><tr><td>Price: {cur_sales_list['price']}</td></tr></table></td>)
+        product_info.push(<td><table className="second_col"><tr><td>Quantity: {cur_sales_list['quantity']}</td></tr><tr><td>Price: ${cur_sales_list['price'] * cur_sales_list['quantity']}</td></tr></table></td>)
         product_info.push(<td>Order Time:<br/>{cur_date.toLocaleDateString()}<br/>{cur_date.getHours()}:{cur_date.getMinutes()}:{cur_date.getSeconds()}</td>)
         row.push(product_info)
         tmp.push(<center><table className="historytable"><tr>{row}</tr></table></center>,<p></p>)
