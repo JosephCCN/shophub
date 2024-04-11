@@ -35,11 +35,11 @@ router.post('/review', async(req, res) => {
     const userID = req.body.user_id;
     var context = req.body.context;
     const rating = req.body.rating
-    console.log(productID, userID, context, rating);
+    // console.log(productID, userID, context, rating);
     try {
         const result = await db.query(`select * from review where product_id=${productID} and user_id=${userID}`);
         if(result.rows.length == 0) await db.query(`insert into review (product_id, user_id, context, rating) values (${productID}, ${userID}, '${context}', ${rating})`)
-        else await db.query(`update review set (product_id, user_id, context, rating) = (${productID}, ${userID}, "${context}", ${rating}) where product_id=${productID} and user_id=${userID}`);
+        else await db.query(`update review set (context, rating) = ('${context}', ${rating}) where product_id=${productID} and user_id=${userID}`);
     }
     catch(err) {
         res.json({'err':err});
