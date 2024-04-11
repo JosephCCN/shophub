@@ -63,11 +63,14 @@ function UserReview(props) {
 
     return (
         <div>
-            <h3>You Review</h3>
-            <Star max={5} active={active} edit={true} setActive={setActive}/><br/>
-            <textarea className="review_input" onChange={(e) => {setContext(e.target.value)}} value={context}/>
-            <br/>
-            <p>{msg}</p>
+            <h3>Your Review</h3>
+            <table className = "review_table">
+                <tr><td><table className = "review_row"><tr>
+                <td><Star max={5} active={active} edit={true} setActive={setActive}/></td></tr></table></td></tr>
+                <tr><td><textarea className="review_input" onChange={(e) => {setContext(e.target.value)}} value={context}/></td></tr>
+                </table>
+                <p></p>
+                <p>{msg}</p>
             <button className="review_input_save" onClick={save}>Save</button>
         </div>
     )
