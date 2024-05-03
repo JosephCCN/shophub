@@ -39,7 +39,7 @@ function SpecificProduct() {
             navigate('/login')
         }
 
-        axios.get(`http://localhost:3030/product?productid=${productID}`)
+        axios.get(`/product?productid=${productID}`)
         .then(res => {
             if(res.data.length == 0) {
                 navigate('/home');
@@ -84,10 +84,10 @@ function SpecificProduct() {
         if(!del) return;
         const del_product = async() => {
             try{
-                // const res1 = await axios.post('http://localhost:3030/delete_img',{
+                // const res1 = await axios.post('/delete_img',{
                     // 'productid': deleteproduct
                 // })
-                const res2 = await axios.post(`http://localhost:3030/delete_product`,{
+                const res2 = await axios.post(`/delete_product`,{
                     'productid': productID
                 })
                 navigate(-1);
@@ -107,7 +107,7 @@ function SpecificProduct() {
 
     const addToShoppingCart = () => {
         userid = cookies.get('userid');
-        axios.post('http://localhost:3030/add_cart', {
+        axios.post('/add_cart', {
             productID: productID,
             userID: userid,
             quantity: quantity
@@ -132,7 +132,7 @@ function SpecificProduct() {
 
     const addToWishlist = () => {
         userid = cookies.get('userid');
-        axios.post('http://localhost:3030/add_to_wishlist', {
+        axios.post('/add_to_wishlist', {
             productid: productID,
             userid: userid
         })

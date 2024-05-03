@@ -60,13 +60,13 @@ export function ShowOrderHistory(prop) {
 
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/orderid?userid=${userid}&top=${top}`)
+            const res = await axios.get(`/orderid?userid=${userid}&top=${top}`)
             const tmp = res.data
             var list = []
             const L = Object.keys(tmp).length;
             for(var i=0;i<L;i++){
                 const cur = tmp[i];
-                const result = await axios.get(`http://localhost:3030/order?orderid=${cur['order_id']}`)
+                const result = await axios.get(`/order?orderid=${cur['order_id']}`)
                 var cur_order_list = result.data;
                 const L2 = Object.keys(cur_order_list).length;
                 for(var j=0;j<L2;j++){
@@ -77,7 +77,7 @@ export function ShowOrderHistory(prop) {
                     
                     //fetch product_name by product_id
                     const cur_product_id = cur_order_list[j]['product_id']
-                    const res2 = await axios.get(`http://localhost:3030/product_all?productid=${cur_product_id}`)
+                    const res2 = await axios.get(`/product_all?productid=${cur_product_id}`)
                     //add to order_list
                     cur_order_list[j]['product_name'] = res2.data[0]['product_name']
 
@@ -90,7 +90,7 @@ export function ShowOrderHistory(prop) {
                     }
                     else{
                         //check if there is any review for the specific prodduct
-                        const res5 = await axios.get(`http://localhost:3030/review?productid=${cur_product_id}&userid=${userid}`)
+                        const res5 = await axios.get(`/review?productid=${cur_product_id}&userid=${userid}`)
                         //add review button to order_list
                         if(!res5.data[0]['exist']) cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)} className="review">Add Review</button></td>;
                         else cur_order_list[j]['review'] = <td><button onClick={() => gotoreview(`/product/${cur_product_id}`)} className="reivew">Edit Review</button></td>;
@@ -147,7 +147,7 @@ export function ShowSalesHistory(prop) {
 
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/seller_history?userid=${userid}&top=${top}`)
+            const res = await axios.get(`/seller_history?userid=${userid}&top=${top}`)
             const tmp = res.data
             var list = []
             const L = Object.keys(tmp).length;
@@ -160,7 +160,7 @@ export function ShowSalesHistory(prop) {
                 cur_sales_list['buyer_name'] = <Username userid={cur_buyer_id}/>
                 //fetch product_name by product_id
                 const cur_product_id = cur_sales_list['product_id']
-                const res2 = await axios.get(`http://localhost:3030/product?productid=${cur_product_id}`)
+                const res2 = await axios.get(`/product?productid=${cur_product_id}`)
                 //add to sales_list
                 cur_sales_list['product_name'] = res2.data[0]['product_name']
 
@@ -186,7 +186,7 @@ export function ShowProductHistory(prop){
 
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/order_product?productid=${productid}`)
+            const res = await axios.get(`/order_product?productid=${productid}`)
             const tmp = res.data
             var list = []
             const L = Object.keys(tmp).length;
@@ -198,7 +198,7 @@ export function ShowProductHistory(prop){
                 //add to sales_list
                 cur_history['buyer_name'] = <Username userid={cur_buyer_id}/>
                 //fetch product_name by product_id
-                const res2 = await axios.get(`http://localhost:3030/product?productid=${productid}`)
+                const res2 = await axios.get(`/product?productid=${productid}`)
                 //add to sales_list
                 cur_history['product_name'] = res2.data[0]['product_name']
 

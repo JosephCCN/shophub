@@ -27,7 +27,7 @@ export function LoadProductPhoto(prop){
     useEffect(() => {
         const fetch_image = async() => {
             try{
-                const res = await axios.get(`http://localhost:3030/product_img?id=${productid}`, {responseType: 'blob'})
+                const res = await axios.get(`/product_img?id=${productid}`, {responseType: 'blob'})
                 var imageUrl = URL.createObjectURL(res.data);
                 setImg(imageUrl);
                 setLoading(false);
@@ -62,7 +62,7 @@ export function LoadProduct(prop){
     useEffect(() => {
         const fetch_product = async() => {
             try{
-                const res = await axios.get(`http://localhost:3030/product?productid=${productid}`)
+                const res = await axios.get(`/product?productid=${productid}`)
                 const tmp = res.data[0]
                 setproduct(res.data[0]);
                 setLoading(false);
@@ -105,7 +105,7 @@ export function LoadProductCategory(prop){
     useEffect(() => {
         const fetch_product = async() => {
             try{
-                const res = await axios.get(`http://localhost:3030/category?productid=${productid}`)
+                const res = await axios.get(`/category?productid=${productid}`)
                 setcategory(res.data)
                 setLoading(false);
             }

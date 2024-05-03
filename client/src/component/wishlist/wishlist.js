@@ -21,7 +21,7 @@ function FetchWishlistPageSource(prop){
         if(!removefromlist) return;
         const remove_product = async() => {
             try{
-                const res = await axios.post('http://localhost:3030/remove_from_wishlist', {
+                const res = await axios.post('/remove_from_wishlist', {
                     userid: userid,
                     productid: removefromlist
                 })
@@ -44,7 +44,7 @@ function FetchWishlistPageSource(prop){
         if(!removeandaddtocart) return;
         const add_product = async() => {
             try{
-                const res = await axios.post('http://localhost:3030/add_cart', {
+                const res = await axios.post('/add_cart', {
                     quantity: 1,    
                     userID: userid,
                     productID: removeandaddtocart
@@ -103,7 +103,7 @@ function Wishlist(){
     useEffect(() => {
         const fetch_wishlist = async() => {
             try{
-                const res = await axios.get(`http://localhost:3030/wishlist?userid=${userid}`)
+                const res = await axios.get(`/wishlist?userid=${userid}`)
                 const wishlist = res.data
                 setWishlist(wishlist)
                 setisLoading(false)

@@ -27,7 +27,7 @@ function ShowProfile(prop) {
 
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/profile?userid=${userid}`)
+            const res = await axios.get(`/profile?userid=${userid}`)
             const L = res.data[0]['password'].length
             res.data[0]['password'] = Array(L+1).join('*')
             setuserinfolist(res.data)
@@ -56,7 +56,7 @@ function Profile() {
         if(cookies.get('admin')) {
             setAdmin(true);
         }
-        axios.get(`http://localhost:3030/admin?userid=${profile_userid}`)
+        axios.get(`/admin?userid=${profile_userid}`)
         .then(res => {
             if(res.data['err']) console.log(res.data['err'])
             setProfileAdmin(res.data);
@@ -90,7 +90,7 @@ function Profile() {
     if(isLoading) return <p>Loading...</p>
 
     const handleDeleteUser = () => {
-        axios.get(`http://localhost:3030/delete_user?userid=${profile_userid}`)
+        axios.get(`/delete_user?userid=${profile_userid}`)
         .then(res => {
             if(res.data['err']) {
                 console.log(res.data['err']);

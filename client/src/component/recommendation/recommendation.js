@@ -9,7 +9,7 @@ function Recommendation(props) {
     const [products, setProducts] = useState('nth');
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/recommendation?limit=${limit}&userid=${userid}`)
+        axios.get(`/recommendation?limit=${limit}&userid=${userid}`)
         .then(res => {
             setProducts(res.data);
         })

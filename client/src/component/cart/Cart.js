@@ -21,7 +21,7 @@ function CartProduct(props) {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    axios.get(`http://localhost:3030/product?productid=${cur['product_id']}`)
+    axios.get(`/product?productid=${cur['product_id']}`)
     .then(res => {
       setProduct(res.data[0]);
       setTotalPrice(Number((res.data[0]['price'] * cur['quantity']).toFixed(1)))
@@ -50,7 +50,7 @@ function CartProduct(props) {
     if(t > product['quantity']) t = product['quantity'];
     else if(t < 0) t = 0;
     const userid = cookies.get('userid');
-    axios.post('http://localhost:3030/edit_cart_quantity', {
+    axios.post('/edit_cart_quantity', {
       quantity: t,
       userID: userid,
       productID: cur['product_id']
@@ -67,7 +67,7 @@ function CartProduct(props) {
     if(cartQuantity + 1 <= product['quantity']) setCartQuantity(cartQuantity + 1);
     else return;
     const userid = cookies.get('userid');
-    axios.post('http://localhost:3030/edit_cart_quantity', {
+    axios.post('/edit_cart_quantity', {
       quantity: cartQuantity + 1,
       userID: userid,
       productID: cur['product_id']
@@ -83,7 +83,7 @@ function CartProduct(props) {
     if(cartQuantity - 1 > 0) setCartQuantity(cartQuantity - 1)
     else return
     const userid = cookies.get('userid');
-    axios.post('http://localhost:3030/edit_cart_quantity', {
+    axios.post('/edit_cart_quantity', {
       quantity: cartQuantity - 1,
       userID: userid,
       productID: cur['product_id']
@@ -97,7 +97,7 @@ function CartProduct(props) {
 
   const handleRemove = () => {
     const userid = cookies.get('userid');
-    axios.post('http://localhost:3030/delete_cart', {
+    axios.post('/delete_cart', {
       userID: userid,
       productID: cur['product_id']
     })
@@ -114,7 +114,7 @@ function CartProduct(props) {
 
   const handleRemoveandAddtoWishlist = () => {
     const userid = cookies.get('userid');
-    axios.post('http://localhost:3030/add_to_wishlist', {
+    axios.post('/add_to_wishlist', {
       userid: userid,
       productid: cur['product_id']
     })
@@ -192,7 +192,7 @@ function Cart(){
 
   useEffect(() => {
     const userid = cookies.get('userid');
-    axios.get(`http://localhost:3030/cart?id=${userid}`)
+    axios.get(`/cart?id=${userid}`)
     .then(res => {
       setCart(res.data);
     })
@@ -216,7 +216,7 @@ function Cart(){
 
   useEffect(() => {
     const userid = cookies.get('userid');
-    axios.get(`http://localhost:3030/cart_totalprice?userid=${userid}`)
+    axios.get(`/cart_totalprice?userid=${userid}`)
     .then(res => setTotalPrice(res.data[0]['sum']))
     .catch(err => console.log(err))
   }, [totalPriceChange])

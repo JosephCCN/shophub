@@ -30,7 +30,7 @@ function AdvanceBar(props) {
 
     useEffect(() => {
         const fetch_categories = async() =>{
-            const result = await axios.get(`http://localhost:3030/category_list`)
+            const result = await axios.get(`/category_list`)
             var tmp = result.data;
             var list = [];
             const L = Object.keys(tmp).length;

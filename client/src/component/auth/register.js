@@ -21,7 +21,7 @@ function Reg() {
   }
 
   const submit = (e) => {
-    axios.post('http://localhost:3030/register', {
+    axios.post('/register', {
         username: username,
         password: password
     })

@@ -38,7 +38,7 @@ export function Search() {
             navigate('/login');
         }
 
-        axios(`http://localhost:3030/search?key=${key}`)
+        axios(`/search?key=${key}`)
         .then((res) => {
             setProduct(res.data);
             setSearched(true);
@@ -83,7 +83,7 @@ export function AdvSearch() {
         const upper = cookies.get('upper')
         const key = cookies.get('key')
 
-        axios.post(`http://localhost:3030/adv_search`, {
+        axios.post(`/adv_search`, {
             categories: selectedOptions,
             lower: lower,
             upper: upper,

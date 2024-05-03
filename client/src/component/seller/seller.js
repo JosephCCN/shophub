@@ -24,10 +24,10 @@ function ProductInfoSource(prop){
         if(!deleteproduct) return;
         const del_product = async() => {
             try{
-                // const res1 = await axios.post('http://localhost:3030/delete_img',{
+                // const res1 = await axios.post('/delete_img',{
                     // 'productid': deleteproduct
                 // })
-                const res2 = await axios.post(`http://localhost:3030/delete_product`,{
+                const res2 = await axios.post(`/delete_product`,{
                     'productid': deleteproduct
                 })
                 setdeleted(1)
@@ -75,7 +75,7 @@ function ShowSellerProduct(props){
     
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/seller_product?id=${userid}&asc=1`) //fetch seller products product_id
+            const res = await axios.get(`/seller_product?id=${userid}&asc=1`) //fetch seller products product_id
             setlist(res.data)
             setLoading(false)
         }

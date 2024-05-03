@@ -13,7 +13,7 @@ function Payment() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/pay?userid=${userid}`)
+        axios.get(`/pay?userid=${userid}`)
         .then(res => {
             if(res.data['err']) {
                 console.log(res.data['err'])

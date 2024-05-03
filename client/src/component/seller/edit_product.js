@@ -24,12 +24,12 @@ function EditProduct(prop) {
     useEffect(() => {
         const fetch = async() => {
             //fetch product
-            const res = await axios.get(`http://localhost:3030/product?productid=${productid}`) //fetch product with productid
+            const res = await axios.get(`/product?productid=${productid}`) //fetch product with productid
             setimg_source(<LoadProductPhoto productid={productid}/>)
             setproduct(res.data);
 
             //fetch category_list
-            const result = await axios.get(`http://localhost:3030/category_list`)
+            const result = await axios.get(`/category_list`)
             var tmp = result.data;
             var list = [];
             const L = Object.keys(tmp).length;
@@ -68,7 +68,7 @@ function EditProduct(prop) {
             for(var i=0;i<L;i++){
                 category = category + selectedOptions[i]['name'] + ','
             }
-            const res1 = await axios.post('http://localhost:3030/delete_img',{
+            const res1 = await axios.post('/delete_img',{
                 'productid': productid
             })
             //edit entries in database
@@ -81,7 +81,7 @@ function EditProduct(prop) {
             dataform.append('category', category);
             dataform.append('productid', productid);
             dataform.append('image', image);
-            const res2 = await axios.post('http://localhost:3030/edit_product', dataform)
+            const res2 = await axios.post('/edit_product', dataform)
             //remove cookies
             cookies.remove('productid', {
             path: '/'

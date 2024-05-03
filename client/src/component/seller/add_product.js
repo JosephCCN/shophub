@@ -41,7 +41,7 @@ function AddProduct(props) {
                 category = category + selectedOptions[i]['name'] + ','
             }
             //fetch maximum productid
-            const res1 = await axios.get(`http://localhost:3030/maxproductid`)
+            const res1 = await axios.get(`/maxproductid`)
             const nextproductid = parseInt(res1.data[0]['last_value'], 10) + 1
 
             //add image
@@ -54,7 +54,7 @@ function AddProduct(props) {
             dataform.append('productid', nextproductid);
             dataform.append('category', category);
             dataform.append('image', image);
-            const res2 = await axios.post('http://localhost:3030/add_product', dataform)
+            const res2 = await axios.post('/add_product', dataform)
             //go back to seller page
             navigate('/seller');
         }
@@ -66,7 +66,7 @@ function AddProduct(props) {
     const [categorylist, setcategorylist] = useState(0);
     useEffect(() => {
         const fetch_categories = async() =>{
-            const result = await axios.get(`http://localhost:3030/category_list`)
+            const result = await axios.get(`/category_list`)
             var tmp = result.data;
             var list = [];
             const L = Object.keys(tmp).length;

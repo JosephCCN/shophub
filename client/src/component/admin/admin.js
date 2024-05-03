@@ -15,7 +15,7 @@ function FetchAllUser() {
 
   useEffect(() => {
     const fetch = async() => {
-      const result = await axios('http://localhost:3030/all_users');
+      const result = await axios('/all_users');
       setUsers(result.data);
       setLoading(false);
     }
@@ -49,7 +49,7 @@ function FetchAllProduct() {
 
   useEffect(() => {
     const fetch = async() => {
-      const result = await axios('http://localhost:3030/all_products');
+      const result = await axios('/all_products');
       setproducts(result.data);
       setLoading(false);
     }

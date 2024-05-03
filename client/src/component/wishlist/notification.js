@@ -39,7 +39,7 @@ export function ShowNotifcation(prop) {
 
     useEffect(() => {
         const fetch = async() => {
-            const res = await axios.get(`http://localhost:3030/user_notification?userid=${userid}`)
+            const res = await axios.get(`/user_notification?userid=${userid}`)
             var tmp = res.data;
             var list = []
             const L = Object.keys(tmp).length;

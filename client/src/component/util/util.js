@@ -36,13 +36,13 @@ export function Post(url) {
 }
 
 export function GetUserName(id) {
-    const {data, isLoading} = Get(`http://localhost:3030/username?id=${id}`);
+    const {data, isLoading} = Get(`/username?id=${id}`);
     if(isLoading) return 'loading...'
     else return data[0]['username']
 }
 
 export function GetProduct(id) { //fetch all product entities with product_id=id
-    const {data, isLoading} = Get(`http://localhost:3030/product?id=${id}`); 
+    const {data, isLoading} = Get(`/product?id=${id}`); 
     if(isLoading) return 'loading...';
     else return data[0];
 }

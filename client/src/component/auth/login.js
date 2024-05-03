@@ -14,7 +14,7 @@ function Login() {
   const cookies = new Cookies();
 
   const submit = (e) => { //send username and password to backend
-    axios.post('http://localhost:3030/login', {
+    axios.post('/login', {
       username: username,
       password: password
     })

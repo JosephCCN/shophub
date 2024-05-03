@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const db = require('../db')
 
-
+//return all the tag of category
 router.get('/category_list', async(req, res) =>{
     try{
         result = await db.query(`select * from category_list`);
@@ -13,7 +13,7 @@ router.get('/category_list', async(req, res) =>{
     }
 })
 
-
+//return the category of product with productID
 router.get('/category', async(req, res) => {
     const productid = req.query.productid
     try{

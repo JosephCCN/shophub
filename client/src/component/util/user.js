@@ -15,7 +15,7 @@ export function Username(prop){
     useEffect(() => {
         const fetch_username = async() => {
             try{
-                const res = await axios.get(`http://localhost:3030/user?userid=${userid}`);
+                const res = await axios.get(`/user?userid=${userid}`);
                 setusername(res.data[0]['username'])
                 setLoading(false);
             }
@@ -50,9 +50,9 @@ export function SellerName(prop){
     useEffect(() => {
         const fetch_product = async() => {
             try{
-                const res = await axios.get(`http://localhost:3030/product?productid=${productid}`);
+                const res = await axios.get(`/product?productid=${productid}`);
                 const seller_id = res.data[0]['seller_id']
-                const res2 = await axios.get(`http://localhost:3030/user?userid=${seller_id}`)
+                const res2 = await axios.get(`/user?userid=${seller_id}`)
                 setusername(res2.data[0]['username'])
                 setuserid(seller_id)
                 setLoading(false);

@@ -45,7 +45,7 @@ function UserReview(props) {
     }, [context, active])
 
     const save = () => {
-        axios.post('http://localhost:3030/review', {
+        axios.post('/review', {
             user_id: myReview['user_id'],
             product_id: myReview['product_id'],
             context: context,
@@ -85,7 +85,7 @@ function Reviews(props) {
     const [bought, setBought] = useState('nth');
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/product_review?product_id=${productID}`)
+        axios.get(`/product_review?product_id=${productID}`)
         .then(res => {
             if(res.data['err']) {
                 console.log(res.data['err']);
@@ -97,7 +97,7 @@ function Reviews(props) {
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/bought?product_id=${productID}&buyer_id=${userid}`)
+        axios.get(`/bought?product_id=${productID}&buyer_id=${userid}`)
         .then(res => {
             if(res.data['err']) {
                 console.log(res.data['err']);
