@@ -179,8 +179,9 @@ router.post('/add_product', upload.single('image'), async(req, res) => {
 
 router.post('/edit_product', upload.single('image'), async(req, res) => {
     productid = req.body.productid;
-    productname = req.body.productname.replace('\'', '\'\'');
-    productinfo = req.body.productinfo.replace('\'', '\'\'');
+    productname = req.body.productname.replace('\'', '\'\'') || '';
+    productinfo = req.body.productinfo.replace('\'', '\'\'') || '';
+    console.log(productinfo);
     price = req.body.price;
     quantity = req.body.quantity;
     category = req.body.category;
@@ -193,6 +194,7 @@ router.post('/edit_product', upload.single('image'), async(req, res) => {
         if(category[i] == ',') category_list.push(tmp), tmp = ''
         else tmp = tmp + category[i];
     }
+
 
     try{
         add_noti(`The product ${productname} has been edited! Click to check!`, productid)

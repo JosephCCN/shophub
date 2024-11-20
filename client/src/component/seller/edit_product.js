@@ -68,16 +68,16 @@ function EditProduct(prop) {
             for(var i=0;i<L;i++){
                 category = category + selectedOptions[i]['name'] + ','
             }
-            const res1 = await axios.post('/delete_img',{
-                'productid': productid
-            })
+            // const res1 = await axios.post('/delete_img',{
+            //     'productid': productid
+            // })
             //edit entries in database
             const dataform = new FormData();
             dataform.append('userid', userid);
-            dataform.append('productname', productname);
-            dataform.append('productinfo', productinfo);
-            dataform.append('price', price);
-            dataform.append('quantity', quantity);
+            dataform.append('productname', productname || product[0]['product_name']);
+            dataform.append('productinfo', productinfo || product[0]['info']);
+            dataform.append('price', price || product[0]['price']);
+            dataform.append('quantity', quantity || product[0]['quantity']);
             dataform.append('category', category);
             dataform.append('productid', productid);
             dataform.append('image', image);
